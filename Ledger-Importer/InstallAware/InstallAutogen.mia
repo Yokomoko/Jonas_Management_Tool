@@ -1,0 +1,68 @@
+Install Files
+Create Shortcut
+Install Assembly
+Install Assembly
+Install Assembly
+Install Assembly
+$
+{E5F6611F-17B5-4E62-8933-88D61CB6C57B}
+{878966B0-4D71-4E83-897F-1670142B00AC}
+{E8F93924-BD28-482F-B829-5842C7EB5BB5}
+{F40E8D36-D323-45BB-87B6-168C5B6F7A4B}
+{2B505216-DE30-4B67-99D4-BB13ED9C680E}
+{AA2D2463-517F-40BC-ACE2-6A9424902031}
+$
+{E5F6611F-17B5-4E62-8933-88D61CB6C57B}
+C:\Work\AdamC_Laptop\Jonas\Jonas Ledger Importer\Ledger Importer\bin\Debug\Jonas Sage Importer.exe
+FALSE
+$TARGETDIR$
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+{878966B0-4D71-4E83-897F-1670142B00AC}
+$TARGETDIR$\Jonas Sage Importer.exe
+Jonas Sage Importer
+$SHORTCUTFOLDER$
+Jonas Sage Importer
+
+
+
+
+0
+{E8F93924-BD28-482F-B829-5842C7EB5BB5}
+C:\Work\AdamC_Laptop\Jonas\Jonas Ledger Importer\Ledger Importer\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll
+FALSE
+$TARGETDIR$
+{F40E8D36-D323-45BB-87B6-168C5B6F7A4B}
+C:\Work\AdamC_Laptop\Jonas\Jonas Ledger Importer\Ledger Importer\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll
+FALSE
+$TARGETDIR$
+{2B505216-DE30-4B67-99D4-BB13ED9C680E}
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\Visual Studio Tools for Office\PIA\Office15\Office.dll
+TRUE
+
+{AA2D2463-517F-40BC-ACE2-6A9424902031}
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\Visual Studio Tools for Office\PIA\Office14\Microsoft.Office.Interop.Excel.dll
+TRUE
+
+$
+
+
+
+
+
+
+$
+
+
+
+
+
+
+$

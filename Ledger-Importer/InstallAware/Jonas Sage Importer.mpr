@@ -1,0 +1,93 @@
+Jonas Sage Importer.mia
+prereq.dfm
+prereq.dfm.miaf
+componentstree.dfm
+componentstree.dfm.miaf
+wizard.dfm
+wizard.dfm.miaf
+welcome.dfm
+welcome.dfm.miaf
+startmenu.dfm
+startmenu.dfm.miaf
+setuptype.dfm
+setuptype.dfm.miaf
+registrationwithserial.dfm
+registrationwithserial.dfm.miaf
+registration.dfm
+registration.dfm.miaf
+readme.dfm
+readme.dfm.miaf
+startinstallation.dfm
+startinstallation.dfm.miaf
+progressprereq.dfm
+progressprereq.dfm.miaf
+destination.dfm
+destination.dfm.miaf
+finish.dfm
+finish.dfm.miaf
+licensecheck.dfm
+licensecheck.dfm.miaf
+maintenance.dfm
+maintenance.dfm.miaf
+progress.dfm
+progress.dfm.miaf
+$
+$
+$
+$
+0
+6
+FALSE
+C:\SageImport\Jonas Ledger Management Tools Installer
+AdamC
+Jonas Sage Importer
+{eda50574-18b6-40c9-92d2-4de419b7d0c9}
+{eda50574-18b6-40c9-92d2-4de419b7d0c9}
+1.2.*
+English
+Jonas Ledger Management Tool
+Jonas Ledger Management Tool
+AdamC
+Management tools for Jonas Ledger Information.
+{5ec672d1-1c04-4b33-b5a5-3c08855eac7c}
+AdamC
+AdamC
+
+
+All Rights Reserved
+FALSE
+Jonas Ledger Management Tools
+TRUE
+FALSE
+
+
+
+
+UAC=highestAvailable
+$
+$
+
+
+
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+FALSE
+
+C:\Work\AdamC_Laptop\Jonas\Jonas Ledger Importer\Ledger Importer\InstallAware\InstallAutogen.mia
+C:\Work\AdamC_Laptop\Jonas\Jonas Ledger Importer\Ledger Importer\InstallAware\UninstallAutogen.mia
+C:\Work\AdamC_Laptop\Jonas\Jonas Ledger Importer\Ledger Importer\InstallAware\PostInstallAutogen.mia
+C:\Work\AdamC_Laptop\Jonas\Jonas Ledger Importer\Ledger Importer\InstallAware\FinishAutogen.mia
+C:\Program Files (x86)\InstallAware X4\runtimes\checknet452_x86x64.mia
+C:\Program Files (x86)\InstallAware X4\runtimes\setupnet452_x86x64.mia
+$
+FALSE
+
+FALSE
+FALSE
+FALSE
+FALSE

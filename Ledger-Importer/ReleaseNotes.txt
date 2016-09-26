@@ -1,0 +1,3 @@
+﻿1.2.5960.20461
+Removed dependencies on SQL CLR types - should now be embedded into the project. 
+Removed dependancies on Microsoft Report Viewer 2012 - Should now be entirely embedded.
