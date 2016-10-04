@@ -9,19 +9,17 @@ namespace BL_JonasSageImporter
     [Table("Log")]
     public partial class Log
     {
-        [Key]
-        [Column(Order = 0)]
         public DateTime LogDate { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         public string ExcelPath { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
+        [Required]
         [StringLength(50)]
         public string ImportType { get; set; }
 
         public long? NumberOfRowsImported { get; set; }
+
+        public long Id { get; set; }
     }
 }

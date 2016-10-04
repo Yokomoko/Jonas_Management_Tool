@@ -6,15 +6,13 @@ namespace BL_JonasSageImporter
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Configuration")]
-    public partial class Configuration
+    public partial class EntryType
     {
         [Key]
-        [StringLength(50)]
-        public string Label { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public short EntryTypeNo { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string ConfigSetting { get; set; }
+        [StringLength(20)]
+        public string EntryTypeDescription { get; set; }
     }
 }

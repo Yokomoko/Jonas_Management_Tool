@@ -55,12 +55,19 @@
     <Compile Include="AdminStatus.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="CostOfGoodsSold.cs" />
+    <Compile Include="EF_JonasLedgerManager.cs" />
+    <Compile Include="EntryType.cs" />
+    <Compile Include="GLType.cs" />
     <Compile Include="GP_Temp_InvoiceLedger.cs" />
+    <Compile Include="GP_Temp_OutstandingInvoices.cs" />
     <Compile Include="GP_Temp_PostedInvoices.cs" />
     <Compile Include="JonasGroup.cs" />
+    <Compile Include="JonasLedgerManagerEF.cs" />
     <Compile Include="JonasSageImporter.cs" />
     <Compile Include="JonasType.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="MaintenanceGLBridge.cs" />
     <Compile Include="MaintenanceType.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="OutstandingInvoice.cs" />
@@ -68,12 +75,17 @@
     <Compile Include="PostedInvoice.cs" />
     <Compile Include="PostedInvoicesExtended.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sage_Temp_InvoiceLedger.cs" />
     <Compile Include="SaleLedger.cs" />
     <Compile Include="SaleLedgerExtended.cs" />
+    <Compile Include="Status.cs" />
+    <Compile Include="Temp_OrderLedger.cs" />
     <Compile Include="TerminalType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

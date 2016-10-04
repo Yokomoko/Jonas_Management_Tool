@@ -52,6 +52,7 @@ namespace Jonas_Sage_Importer
             this.connectionSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gpExcelFileFind = new System.Windows.Forms.OpenFileDialog();
             this.uxImportSourceLbl = new System.Windows.Forms.Label();
@@ -70,7 +71,8 @@ namespace Jonas_Sage_Importer
             this.uxImportSourceCmbo = new Telerik.WinControls.UI.RadDropDownList();
             this.uxExcelWorksheetCmbo = new Telerik.WinControls.UI.RadDropDownList();
             this.office2010SilverTheme1 = new Telerik.WinControls.Themes.Office2010SilverTheme();
-            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelSheetViewerGv)).BeginInit();
@@ -142,7 +144,9 @@ namespace Jonas_Sage_Importer
             this.invoicesPostedToPAndLToolStripMenuItem,
             this.customerStatementToolStripMenuItem,
             this.salesBacklogToolStripMenuItem,
-            this.raisedInvoicesToolStripMenuItem});
+            this.raisedInvoicesToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.generateToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
             this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.reportsToolStripMenuItem.Text = "Reports";
@@ -231,6 +235,13 @@ namespace Jonas_Sage_Importer
             this.changeLogToolStripMenuItem.Name = "changeLogToolStripMenuItem";
             this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.changeLogToolStripMenuItem.Text = "Change Log";
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check For Updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -400,12 +411,17 @@ namespace Jonas_Sage_Importer
             this.uxExcelWorksheetCmbo.Size = new System.Drawing.Size(240, 20);
             this.uxExcelWorksheetCmbo.TabIndex = 68;
             // 
-            // checkForUpdatesToolStripMenuItem
+            // toolStripSeparator1
             // 
-            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check For Updates";
-            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(278, 6);
+            // 
+            // generateToolStripMenuItem
+            // 
+            this.generateToolStripMenuItem.Enabled = false;
+            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.generateToolStripMenuItem.Text = "Generate GBU Combined Targets";
             // 
             // Form1
             // 
@@ -494,6 +510,8 @@ namespace Jonas_Sage_Importer
         private ToolStripMenuItem salesBacklogToolStripMenuItem;
         private ToolStripMenuItem raisedInvoicesToolStripMenuItem;
         private ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem generateToolStripMenuItem;
     }
 }
 

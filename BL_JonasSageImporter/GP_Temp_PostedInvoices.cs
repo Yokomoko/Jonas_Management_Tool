@@ -8,42 +8,32 @@ namespace BL_JonasSageImporter
 
     public partial class GP_Temp_PostedInvoices
     {
-        [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long JournalEntry { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(30)]
         public string Series { get; set; }
 
-        [Key]
-        [Column(Order = 2, TypeName = "date")]
+        [Column(TypeName = "date")]
         public DateTime TrxDate { get; set; }
 
-        [Key]
-        [Column(Order = 3, TypeName = "date")]
+        [Column(TypeName = "date")]
         public DateTime OriginatingTrxDate { get; set; }
 
-        [Key]
-        [Column(Order = 4)]
+        [Required]
         [StringLength(30)]
         public string AccountNumber { get; set; }
 
         [StringLength(255)]
         public string AccountDescription { get; set; }
 
-        [Key]
-        [Column(Order = 5, TypeName = "money")]
+        [Column(TypeName = "money")]
         public decimal DebitAmount { get; set; }
 
-        [Key]
-        [Column(Order = 6, TypeName = "money")]
+        [Column(TypeName = "money")]
         public decimal CreditAmount { get; set; }
 
-        [Key]
-        [Column(Order = 7)]
+        [Required]
         [StringLength(50)]
         public string Reference { get; set; }
 
@@ -59,20 +49,20 @@ namespace BL_JonasSageImporter
         [StringLength(3)]
         public string Voided { get; set; }
 
-        [Key]
-        [Column(Order = 8)]
+        [Required]
         [StringLength(50)]
         public string OriginatingTrxSource { get; set; }
 
         [StringLength(50)]
         public string OriginatingTrxType { get; set; }
 
-        [Key]
-        [Column(Order = 9)]
+        [Required]
         [StringLength(50)]
         public string OriginatingType { get; set; }
 
         [StringLength(50)]
         public string UserWhoPosted { get; set; }
+
+        public long Id { get; set; }
     }
 }

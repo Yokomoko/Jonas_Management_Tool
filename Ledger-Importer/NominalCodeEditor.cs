@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows.Forms;
 using SageImporterLibrary;
+using BL_JonasSageImporter;
 
 namespace Jonas_Sage_Importer
 {
@@ -34,11 +36,18 @@ namespace Jonas_Sage_Importer
             InitializeComponent();
         }
 
-        private void NominalCodeEditor_Load(object sender, EventArgs e)
-        {
+        private void BindGrid() {
+            var test = new JonasLedgerManagerEF();
+            var query = from c in test.GLTypes select c;
+            var nominalCodes = query.ToList();
+            nominalCodesGridView.DataSource = nominalCodes;
 
-            dbConnections.GetNominalCodeAdapter().Fill(ds);
-            nominalCodesGridView.DataSource = ds.Tables[0];
+
+        }
+
+        private void NominalCodeEditor_Load(object sender, EventArgs e) {
+
+            BindGrid();
             
 
             nominalCodesGridView.Columns[1].Width = nominalCodesGridView.Width
@@ -78,13 +87,18 @@ namespace Jonas_Sage_Importer
             {
 
 
-                try
-                {
-                    DataRow newRow = ds.Tables[0].NewRow();
-                    newRow["NominalCode"] = Int32.Parse(nCode);
-                    newRow["Description"] = nDesc;
+                try {
+                    var glType = new GLType();
+                    glType.GLNo = nominalCode;
+                    glType.GLDescription = nominalDescription;
 
-                    ds.Tables[0].Rows.Add(newRow);
+                    using (var dbCtx = new JonasLedgerManagerEF()) {
+                        dbCtx.Entry(glType).State = System.Data.Entity.EntityState.Added;
+                        dbCtx.SaveChanges();
+                    }
+
+                    BindGrid();
+
                     nominalCodeTxtBox.Text = "";
                     nominalDescriptionTxtBox.Text = "";
 
@@ -124,10 +138,14 @@ namespace Jonas_Sage_Importer
                 @"Are you sure?",
                 MessageBoxButtons.YesNo);
 
-                if (dResult == DialogResult.Yes)
-                {
-                    dbConnections.GetNominalCodeAdapter().AcceptChangesDuringUpdate = true;
-                    nominalCodesGridView.Rows.RemoveAt(nominalCodesGridView.SelectedRows[0].Index);
+                if (dResult == DialogResult.Yes) {
+                    var rowToBeDeleted = (int) nominalCodesGridView.SelectedRows[0].Cells[0].Value;
+                    var context = new JonasLedgerManagerEF();
+                    var gltype = (from o in context.GLTypes where o.GLNo == rowToBeDeleted select o).First();
+                    context.GLTypes.Attach(gltype);
+                    context.GLTypes.Remove(gltype);
+                    context.SaveChanges();
+                    BindGrid();
                 }
             }
         }
@@ -155,9 +173,8 @@ namespace Jonas_Sage_Importer
             }
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            nominalCodesGridView.Refresh();
+        private void btnRefresh_Click(object sender, EventArgs e) {
+            BindGrid();
         }
 
     }

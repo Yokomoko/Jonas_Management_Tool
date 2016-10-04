@@ -6,15 +6,13 @@ namespace BL_JonasSageImporter
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Configuration")]
-    public partial class Configuration
+    [Table("Statuses")]
+    public partial class Status
     {
-        [Key]
-        [StringLength(50)]
-        public string Label { get; set; }
+        public int StatusId { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string ConfigSetting { get; set; }
+        public int? StatusName { get; set; }
+
+        public bool? StatusEnabled { get; set; }
     }
 }

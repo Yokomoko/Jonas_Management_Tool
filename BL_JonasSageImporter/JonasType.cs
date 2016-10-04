@@ -9,12 +9,11 @@ namespace BL_JonasSageImporter
     public partial class JonasType
     {
         [Key]
-        [Column("JonasType", Order = 0)]
+        [Column("JonasType")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public short JonasType1 { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(255)]
         public string JonasTypeDescription { get; set; }
 

@@ -6,39 +6,34 @@ namespace BL_JonasSageImporter
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class OutstandingInvoice
+    public partial class GP_Temp_OutstandingInvoices
     {
-        [Required]
-        [StringLength(50)]
         public string CustRef { get; set; }
 
-        [Required]
-        [StringLength(255)]
         public string CustName { get; set; }
 
-        [StringLength(255)]
         public string ClassID { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        public string TerritoryID { get; set; }
+
         public string DocumentNumber { get; set; }
 
-        [Required]
-        [StringLength(50)]
         public string Type { get; set; }
 
-        public DateTime? Date { get; set; }
+        [StringLength(50)]
+        public string Date { get; set; }
 
-        public DateTime? DueDate { get; set; }
-
-        [Column(TypeName = "money")]
-        public decimal OriginalTrxAmount { get; set; }
-
-        [Column(TypeName = "money")]
-        public decimal CurrentTrxAmount { get; set; }
+        [StringLength(50)]
+        public string DueDate { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal Days0 { get; set; }
+        public decimal? OriginalTrxAmount { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? CurrentTrxAmount { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? Days0 { get; set; }
 
         [Column(TypeName = "money")]
         public decimal? Days1 { get; set; }

@@ -8,40 +8,32 @@ namespace BL_JonasSageImporter
 
     public partial class GP_Temp_InvoiceLedger
     {
-        [Key]
-        [Column(Order = 0)]
+        [Required]
         [StringLength(50)]
         public string Type { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(50)]
         public string InvoiceNo { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
         public DateTime Date { get; set; }
 
-        [Key]
-        [Column(Order = 3)]
+        [Required]
         [StringLength(50)]
         public string CustRef { get; set; }
 
-        [Key]
-        [Column(Order = 4)]
+        [Required]
         [StringLength(255)]
         public string CustName { get; set; }
 
         [StringLength(50)]
         public string OrderNo { get; set; }
 
-        [Key]
-        [Column(Order = 5)]
+        [Required]
         [StringLength(255)]
         public string Address { get; set; }
 
-        [Key]
-        [Column(Order = 6, TypeName = "money")]
+        [Column(TypeName = "money")]
         public decimal Gross { get; set; }
 
         [StringLength(255)]
@@ -50,15 +42,15 @@ namespace BL_JonasSageImporter
         [StringLength(50)]
         public string SaleDocument { get; set; }
 
-        [Key]
-        [Column(Order = 7, TypeName = "money")]
+        [Column(TypeName = "money")]
         public decimal Net { get; set; }
 
-        [Key]
-        [Column(Order = 8, TypeName = "money")]
+        [Column(TypeName = "money")]
         public decimal VAT { get; set; }
 
         [Column(TypeName = "money")]
         public decimal? OTTA { get; set; }
+
+        public long Id { get; set; }
     }
 }

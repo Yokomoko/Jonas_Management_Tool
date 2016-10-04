@@ -6,15 +6,13 @@ namespace BL_JonasSageImporter
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Configuration")]
-    public partial class Configuration
+    [Table("MaintenanceGLBridge")]
+    public partial class MaintenanceGLBridge
     {
-        [Key]
-        [StringLength(50)]
-        public string Label { get; set; }
+        public short? MaintenanceType { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string ConfigSetting { get; set; }
+        public int? GLNumber { get; set; }
+
+        public long Id { get; set; }
     }
 }

@@ -177,6 +177,7 @@ namespace Jonas_Sage_Importer
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Visible = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnRefresh
@@ -217,7 +218,7 @@ namespace Jonas_Sage_Importer
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-             
+
         }
 
         #endregion
