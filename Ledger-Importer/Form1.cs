@@ -13,6 +13,7 @@ using Microsoft.Win32;
 using SageImporterLibrary;
 using Telerik.WinControls.UI;
 using AutoUpdaterDotNET;
+using Jonas_Sage_Importer.Generate_Excel_Reports;
 
 namespace Jonas_Sage_Importer {
     public partial class Form1 : Form {
@@ -478,6 +479,8 @@ namespace Jonas_Sage_Importer {
             AutoUpdater.Start("https://drive.google.com/uc?export=download&id=0B0omVYO3nyCiUW0yT1JtbDdlRHc");
         }
 
-
+        private void generateToolStripMenuItem_Click(object sender, EventArgs e) {
+            GenerateGBUCombinedTargets.GenerateReport();
+        }
     }
 }

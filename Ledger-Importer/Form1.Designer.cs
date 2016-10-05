@@ -197,10 +197,10 @@ namespace Jonas_Sage_Importer
             // 
             // generateToolStripMenuItem
             // 
-            this.generateToolStripMenuItem.Enabled = false;
             this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
             this.generateToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
             this.generateToolStripMenuItem.Text = "Generate GBU Combined Targets";
+            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
             // 
             // configurationToolStripMenuItem
             // 
