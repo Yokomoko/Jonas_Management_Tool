@@ -46,6 +46,8 @@ namespace Jonas_Sage_Importer
             this.customerStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salesBacklogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.raisedInvoicesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nominalCodeEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jonasGroupEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,8 +73,7 @@ namespace Jonas_Sage_Importer
             this.uxImportSourceCmbo = new Telerik.WinControls.UI.RadDropDownList();
             this.uxExcelWorksheetCmbo = new Telerik.WinControls.UI.RadDropDownList();
             this.office2010SilverTheme1 = new Telerik.WinControls.Themes.Office2010SilverTheme();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.costOfGoodsSoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelSheetViewerGv)).BeginInit();
@@ -145,6 +146,7 @@ namespace Jonas_Sage_Importer
             this.customerStatementToolStripMenuItem,
             this.salesBacklogToolStripMenuItem,
             this.raisedInvoicesToolStripMenuItem,
+            this.costOfGoodsSoldToolStripMenuItem,
             this.toolStripSeparator1,
             this.generateToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
@@ -187,6 +189,18 @@ namespace Jonas_Sage_Importer
             this.raisedInvoicesToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
             this.raisedInvoicesToolStripMenuItem.Text = "Raised Invoices";
             this.raisedInvoicesToolStripMenuItem.Click += new System.EventHandler(this.raisedInvoicesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(278, 6);
+            // 
+            // generateToolStripMenuItem
+            // 
+            this.generateToolStripMenuItem.Enabled = false;
+            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.generateToolStripMenuItem.Text = "Generate GBU Combined Targets";
             // 
             // configurationToolStripMenuItem
             // 
@@ -411,17 +425,12 @@ namespace Jonas_Sage_Importer
             this.uxExcelWorksheetCmbo.Size = new System.Drawing.Size(240, 20);
             this.uxExcelWorksheetCmbo.TabIndex = 68;
             // 
-            // toolStripSeparator1
+            // costOfGoodsSoldToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(278, 6);
-            // 
-            // generateToolStripMenuItem
-            // 
-            this.generateToolStripMenuItem.Enabled = false;
-            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
-            this.generateToolStripMenuItem.Text = "Generate GBU Combined Targets";
+            this.costOfGoodsSoldToolStripMenuItem.Name = "costOfGoodsSoldToolStripMenuItem";
+            this.costOfGoodsSoldToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.costOfGoodsSoldToolStripMenuItem.Text = "Cost of Goods Sold";
+            this.costOfGoodsSoldToolStripMenuItem.Click += new System.EventHandler(this.costOfGoodsSoldToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -512,6 +521,7 @@ namespace Jonas_Sage_Importer
         private ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem generateToolStripMenuItem;
+        private ToolStripMenuItem costOfGoodsSoldToolStripMenuItem;
     }
 }
 

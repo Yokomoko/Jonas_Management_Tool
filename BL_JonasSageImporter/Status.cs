@@ -14,5 +14,7 @@ namespace BL_JonasSageImporter
         public int? StatusName { get; set; }
 
         public bool? StatusEnabled { get; set; }
+
+        public short? SortOrder { get; set; }
     }
 }

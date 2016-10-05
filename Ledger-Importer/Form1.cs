@@ -124,12 +124,13 @@ namespace Jonas_Sage_Importer {
                             MessageBox.Show(@"The number of columns should be either 14,21,22 or 23");
                             return;
                     }
-
-
                     try {
                         StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
                         Jonas.ImportInvoices(gridProcedureName, Table, importSource.Text);
                         StatusStripLabel.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
+                        if (gridProcedureName == "CRM_ImportCogs") {
+                            return;
+                        }
                     }
                     catch (SqlException sqlException) {
                         StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
@@ -164,7 +165,38 @@ namespace Jonas_Sage_Importer {
                             @"Failed");
                         return;
                     }
+                }
+                if (uxImportTypeCmbo.SelectedIndex == 1) {
+                    gridProcedureName = "CRM_ImportCogs";
 
+                    try {
+                        StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
+                        Jonas.ImportInvoices(gridProcedureName, Table, importSource.Text);
+                        StatusStripLabel.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
+                        DbConnectionsCs.LogImport(uxExcelSheetTxt.Text, "OpenCRM " + uxImportTypeCmbo.Text, uxExcelSheetViewerGv.RowCount);
+                        return;
+
+                    }
+                    catch (SqlException sqlException) {
+                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+
+                        StringBuilder errorMessages = new StringBuilder();
+                        for (int i = 0; i < sqlException.Errors.Count; i++) {
+                            errorMessages.Append("Index #" + i + "\n" +
+                                "Message: " + sqlException.Errors[i].Message + "\n" +
+                                "LineNumber: " + sqlException.Errors[i].LineNumber + "\n" +
+                                "Source: " + sqlException.Errors[i].Source + "\n" +
+                                "Procedure: " + sqlException.Errors[i].Procedure + "\n");
+                        }
+                        MessageBox.Show($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
+                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
+                        return;
+                    }
+                    catch (Exception exception) {
+                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+                        MessageBox.Show($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
+                        return;
+                    }
                 }
             }
             #endregion
@@ -247,7 +279,9 @@ namespace Jonas_Sage_Importer {
         private void raisedInvoicesToolStripMenuItem_Click(object sender, EventArgs e) {
             CreateNewReportWindow(@"/Raised Invoices");
         }
-
+        private void costOfGoodsSoldToolStripMenuItem_Click(object sender, EventArgs e) {
+            CreateNewReportWindow(@"/Cost of Goods Sold");
+        }
 
         private void CreateNewReportWindow(string path) {
             bool stopTimer = false;
@@ -338,10 +372,6 @@ namespace Jonas_Sage_Importer {
         }
         public void UpdateStripText(string message) {
             StatusStripLabel.Text = message;
-        }
-
-        private void uxMainTb_SelectedIndexChanged(object sender, EventArgs e) {
-
         }
 
         private void LoadImportSourceCmbo() {
@@ -447,5 +477,7 @@ namespace Jonas_Sage_Importer {
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e) {
             AutoUpdater.Start("https://drive.google.com/uc?export=download&id=0B0omVYO3nyCiUW0yT1JtbDdlRHc");
         }
+
+
     }
 }

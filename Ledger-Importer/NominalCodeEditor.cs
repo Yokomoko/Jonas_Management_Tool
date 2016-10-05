@@ -37,8 +37,8 @@ namespace Jonas_Sage_Importer
         }
 
         private void BindGrid() {
-            var test = new JonasLedgerManagerEF();
-            var query = from c in test.GLTypes select c;
+            var context = new EF_JonasLedgerManager("EF_JonasLedgerManager_Live");
+            var query = from c in context.GLTypes select c;
             var nominalCodes = query.ToList();
             nominalCodesGridView.DataSource = nominalCodes;
 
@@ -92,7 +92,7 @@ namespace Jonas_Sage_Importer
                     glType.GLNo = nominalCode;
                     glType.GLDescription = nominalDescription;
 
-                    using (var dbCtx = new JonasLedgerManagerEF()) {
+                    using (var dbCtx = new EF_JonasLedgerManager("EF_JonasLedgerManager_Live")) {
                         dbCtx.Entry(glType).State = System.Data.Entity.EntityState.Added;
                         dbCtx.SaveChanges();
                     }
@@ -140,7 +140,7 @@ namespace Jonas_Sage_Importer
 
                 if (dResult == DialogResult.Yes) {
                     var rowToBeDeleted = (int) nominalCodesGridView.SelectedRows[0].Cells[0].Value;
-                    var context = new JonasLedgerManagerEF();
+                    var context = new EF_JonasLedgerManager("EF_JonasLedgerManager_Live");
                     var gltype = (from o in context.GLTypes where o.GLNo == rowToBeDeleted select o).First();
                     context.GLTypes.Attach(gltype);
                     context.GLTypes.Remove(gltype);

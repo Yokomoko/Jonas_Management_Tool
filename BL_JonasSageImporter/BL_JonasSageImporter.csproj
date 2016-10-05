@@ -63,12 +63,12 @@
     <Compile Include="GP_Temp_OutstandingInvoices.cs" />
     <Compile Include="GP_Temp_PostedInvoices.cs" />
     <Compile Include="JonasGroup.cs" />
-    <Compile Include="JonasLedgerManagerEF.cs" />
     <Compile Include="JonasSageImporter.cs" />
     <Compile Include="JonasType.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MaintenanceGLBridge.cs" />
     <Compile Include="MaintenanceType.cs" />
+    <Compile Include="Model1.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="OutstandingInvoice.cs" />
     <Compile Include="OutstandingInvoicesExtended.cs" />

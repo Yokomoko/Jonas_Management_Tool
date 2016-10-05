@@ -9,6 +9,10 @@ namespace BL_JonasSageImporter {
             : base("name=EF_JonasLedgerManager") {
         }
 
+        public EF_JonasLedgerManager(string connName)
+            : base(connName) {
+        }
+
         public virtual DbSet<AdminStatus> AdminStatuses { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
         public virtual DbSet<CostOfGoodsSold> CostOfGoodsSolds { get; set; }

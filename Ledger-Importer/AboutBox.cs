@@ -112,5 +112,9 @@ namespace Jonas_Sage_Importer
 
             return buildDate;
         }
+
+        private void textBoxDescription_TextChanged(object sender, EventArgs e) {
+
+        }
     }
 }

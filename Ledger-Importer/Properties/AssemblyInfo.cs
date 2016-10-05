@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Jonas Ledger Management Tool")]
 [assembly: AssemblyDescription("Jonas Jedger Management Tool")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jonas Software")]
+[assembly: AssemblyCompany("Lanko Solutions")]
 [assembly: AssemblyProduct("Jonas Ledger Management Tool")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

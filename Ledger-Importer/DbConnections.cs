@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Data;
+using System.Data.Entity.Core.EntityClient;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
-
+using BL_JonasSageImporter;
+using System.Data.Entity;
 namespace SageImporterLibrary
 
 {
@@ -107,9 +109,27 @@ namespace SageImporterLibrary
                 _dbNameTxt = dbName;
                 _usernameTxt = userName;
                 _passwordTxt = password;
+                
                 LogToText.WriteToLog(
                     $"Connection String Updated. dbLocation = {dbLocation} dbName = {dbName} userName = {userName} password = {password}");
                 MessageBox.Show(@"Connection String Updated Successfully", @"Success");
+
+                //Build EF Connection String
+                SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
+
+                sqlBuilder.DataSource = dbLocation;
+                sqlBuilder.InitialCatalog = dbName;
+                sqlBuilder.IntegratedSecurity = false;
+                sqlBuilder.UserID = userName;
+                sqlBuilder.Password = password;
+
+                string providerString = sqlBuilder.ToString();
+
+                EntityConnectionStringBuilder entityBuilder = new EntityConnectionStringBuilder();
+                entityBuilder.Provider = "System.Data.SqlClient";
+                entityBuilder.ProviderConnectionString = providerString;
+               
+
                 counter = true;
             }
         }

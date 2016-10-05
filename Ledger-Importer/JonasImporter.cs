@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using SageImporterLibrary;
 using Telerik.WinControls.UI;
 using System.Data.Sql;
+using BL_JonasSageImporter;
 
 namespace Jonas_Sage_Importer {
     class JonasImporterEnums {
@@ -40,7 +41,9 @@ namespace Jonas_Sage_Importer {
 
         public enum CrmImportTypes {
             [Description("Sales Order")]
-            Sales_Order = 0
+            Sales_Order = 0,
+            [Description("COGS Report")]
+            COGS_Report = 1
         }
 
         #endregion
@@ -131,6 +134,85 @@ namespace Jonas_Sage_Importer {
                             sqconn.Open();
                             sqcomm.ExecuteNonQuery();
                         }
+                    }
+                }
+            }
+            if (command == "CRM_ImportCogs") {
+                var ef = new EF_JonasLedgerManager("EF_JonasLedgerManager_Live");
+                ef.Database.ExecuteSqlCommand("Delete [CostOfGoodsSold]");
+                foreach (DataRow row in tbl.Rows) {
+                    try {
+                        #region Case To Alter Statuses to Int Values
+                        switch (row[2].ToString().ToUpper()) {
+                            case "CREATED":
+                                row[2] = 1.ToString();
+                                break;
+                            case "APPROVED":
+                                row[2] = 2.ToString();
+                                break;
+                            case "SENT":
+                                row[2] = 3.ToString();
+                                break;
+                            case "ESIGNED":
+                                row[2] = 4.ToString();
+                                break;
+                            case "CANCELLED":
+                                row[2] = 5.ToString();
+                                break;
+                            case "PENDING CANCELLED":
+                                row[2] = 6.ToString();
+                                break;
+                            case "PENDING INVOICE":
+                                row[2] = 7.ToString();
+                                break;
+                            case "COMPLETED":
+                                row[2] = 8.ToString();
+                                break;
+                            case "INSTALLED":
+                                row[2] = 9.ToString();
+                                break;
+                            case "SAGE":
+                                row[2] = 10.ToString();
+                                break;
+                            case "STUCK":
+                                row[2] = 11.ToString();
+                                break;
+                            case "INVOICED":
+                                row[2] = 12.ToString();
+                                break;
+                            case "RECURRING":
+                                row[2] = 13.ToString();
+                                break;
+                            default:
+                                row[2] = "-1";
+                                break;
+                        }
+                        #endregion
+
+                        var cog = new CostOfGoodsSold {
+                            CogsCompanyName = row[0].ToString(),
+                            CogsSiteName = row[1].ToString(),
+                            CogsStatus = int.Parse(row[2].ToString()),
+                            CogsGPCode = row[3].ToString(),
+                            CogsDueDate = DateTime.Parse(row[4].ToString()),
+                            CogsGPCategory = row[5].ToString(),
+                            CogsDescription = row[6].ToString(),
+                            CogsSalesOrderId = int.Parse(row[7].ToString()),
+                            CogsItemQuantity = decimal.Parse(row[8].ToString()),
+                            CogsItemListPrice = decimal.Parse(row[9].ToString()),
+                            CogsItemBuyPrice = decimal.Parse(row[10].ToString())
+                        };
+                        ef.CostOfGoodsSolds.Add(cog);
+                        ef.SaveChanges();
+                        string commitSuccess = $"{ImpName}: Successfully committed new data to the {DbNameTxt()} database";
+                        LogToText.WriteToLog(commitSuccess);
+                    }
+                    catch (Exception ex) {
+                        MessageBox.Show($"Error Importing COGS",
+                            $"Error importing Cogs {Environment.NewLine} {Environment.NewLine} {ex.Message}");
+                        string commitFailure = $"{ImpName}: Error committing data to the database: \n{ex.Message}";
+                        LogToText.WriteToLog(commitFailure);
+                        return;
                     }
                 }
             }
@@ -254,10 +336,13 @@ namespace Jonas_Sage_Importer {
                         output = 2;
                         break;
                     case "pending cancelled":
+                    case "pending cancel":
+                    case "pending cancellation":
                     case "3":
                         output = 3;
                         break;
                     case "pending invoice":
+                    case "pending invoiced":
                     case "4":
                         output = 4;
                         break;
@@ -265,6 +350,7 @@ namespace Jonas_Sage_Importer {
                     case "5":
                         output = 5;
                         break;
+                    case "pending approved":
                     case "pending approval":
                     case "6":
                         output = 6;

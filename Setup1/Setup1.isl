@@ -4412,7 +4412,7 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Jonas Sage Importer.Primary output</td><td/></row>
-		<row><td>ProductCode</td><td>{F2A8AC3C-FDFD-41D3-9D4C-1406CC9020BD}</td><td/></row>
+		<row><td>ProductCode</td><td>{8768698E-1FDB-4EF6-8D03-29FE87122F54}</td><td/></row>
 		<row><td>ProductName</td><td>Jonas Ledger Management Tool</td><td/></row>
 		<row><td>ProductVersion</td><td>2.00.000</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
@@ -4427,10 +4427,10 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
 		<row><td>SHOWLAUNCHPROGRAM</td><td>-1</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION40CLIENT;DOTNETVERSION35SP1;ISACTIONPROP1;ISACTIONPROP2</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION40CLIENT;DOTNETVERSION35SP1;ISACTIONPROP1;ISACTIONPROP2;ISACTIONPROP3;ISACTIONPROP4;ISACTIONPROP5</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
-		<row><td>UpgradeCode</td><td>{10E84EBD-A3D5-44DF-B9ED-72B985584C38}</td><td/></row>
+		<row><td>UpgradeCode</td><td>{84060982-8F4D-41EA-9F45-00E567985346}</td><td/></row>
 		<row><td>_IsMaintenance</td><td>Change</td><td/></row>
 		<row><td>_IsSetupTypeMin</td><td>Typical</td><td/></row>
 	</table>
@@ -4703,7 +4703,10 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S72">ISDisplayName</col>
 		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
 		<row><td>{10E84EBD-A3D5-44DF-B9ED-72B985584C38}</td><td></td><td>2.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP2</td><td>NewUpgradeEntry2</td></row>
+		<row><td>{10E84EBD-A3D5-44DF-B9ED-72B985584C38}</td><td></td><td>3.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP3</td><td>NewUpgradeEntry3</td></row>
 		<row><td>{27D71FCF-38C4-477B-8D1C-D2181E6D2CDC}</td><td></td><td>2.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP1</td><td>NewUpgradeEntry1</td></row>
+		<row><td>{84060982-8F4D-41EA-9F45-00E567985346}</td><td></td><td>2.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP5</td><td>NewUpgradeEntry5</td></row>
+		<row><td>{8768698E-1FDB-4EF6-8D03-29FE87122F54}</td><td></td><td>2.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP4</td><td>NewUpgradeEntry4</td></row>
 	</table>
 
 	<table name="Verb">
