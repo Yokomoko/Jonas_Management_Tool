@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Jonas_Sage_Importer;
 using Microsoft.Office.Interop.Excel;
 using Telerik.WinControls.UI;
 using Application = Microsoft.Office.Interop.Excel.Application;
@@ -45,10 +46,10 @@ namespace SageImporterLibrary {
                 strm = excelFileFind.OpenFile();
             }
             catch (IOException ioex) {
-                MessageBox.Show($"File is being used elsewhere. Please close the file and try again. \n {ioex.Message}");
+                 UtilityMethods.ShowMessageBox($"File is being used elsewhere. Please close the file and try again. \n {ioex.Message}");
             }
             catch (Exception ex) {
-                MessageBox.Show($"Error opening file: \n {ex.Message}");
+                 UtilityMethods.ShowMessageBox($"Error opening file: \n {ex.Message}");
             }
 
 
@@ -56,7 +57,7 @@ namespace SageImporterLibrary {
             Type officeType = Type.GetTypeFromProgID("Excel.Application");
 
             if (officeType == null) {
-                MessageBox.Show(@"Excel is not installed. Please install Excel and try again.");
+                 UtilityMethods.ShowMessageBox(@"Excel is not installed. Please install Excel and try again.");
             }
             else {
                 Application oXL = null;
@@ -66,7 +67,7 @@ namespace SageImporterLibrary {
                         oXL = new Application { Visible = false };
                     }
                     catch (Exception ex) {
-                        MessageBox.Show($"Unable to open Excel document. \n \n + {ex.Message}", @"Error");
+                         UtilityMethods.ShowMessageBox($"Unable to open Excel document. \n \n + {ex.Message}", @"Error");
                         if (oXL == null) {
                             oXL.Quit();
                             return null;
@@ -87,12 +88,12 @@ namespace SageImporterLibrary {
 
                 }
                 catch (ApplicationException noExcel) {
-                    MessageBox.Show($"Unable to open Excel document. Excel may not be installed." +
+                     UtilityMethods.ShowMessageBox($"Unable to open Excel document. Excel may not be installed." +
                                     $"Please install Microsoft Excel Viewer or Microsoft Office and try again. \n \n {noExcel.Message}");
                     return null;
                 }
                 catch (Exception ex) {
-                    MessageBox.Show($"Error loading Excel document. \n \n {ex.Message}");
+                     UtilityMethods.ShowMessageBox($"Error loading Excel document. \n \n {ex.Message}");
                 }
 
                 // GetData(excelSheetName.Text, directoryBox);
@@ -129,13 +130,13 @@ namespace SageImporterLibrary {
                 return dTable;
             }
             catch (InvalidOperationException ioexception) {
-                MessageBox.Show(
+                 UtilityMethods.ShowMessageBox(
                     $"64-Bit OLEDB Provider for ODBC Not Installed."
                     + @"Please go to the Resources folder in your install directory (Default C:\Program Files (x86)\Eposgroup\Jonas Ledger Management Tool\Resources) and run Ace.exe" + $"\n \n {ioexception.Message}");
-                if (MessageBox.Show(
+                if ( UtilityMethods.ShowMessageBox(
        $"64-Bit OLEDB Provider for ODBC Not Installed.\n\n"
        + @"Do you want to install this now?", @"64-Bit OLEDB Provider for ODBC pnot installed", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                    MessageBox.Show(@"This application will now be minimised.");
+                     UtilityMethods.ShowMessageBox(@"This application will now be minimised.");
                     Process.Start($@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Resources\Ace.exe");
                 }
                 else {
@@ -148,7 +149,7 @@ namespace SageImporterLibrary {
             }
 
             catch (Exception ex) {
-                MessageBox.Show($"Something went wrong. \n \n {ex.Message} \n \n {ex.InnerException}");
+                 UtilityMethods.ShowMessageBox($"Something went wrong. \n \n {ex.Message} \n \n {ex.InnerException}");
                 return daTab;
             }
             return daTab;
@@ -158,7 +159,7 @@ namespace SageImporterLibrary {
         private static DataTable RemoveExcessColumns(DataTable dTable) {
             int originalSize = dTable.Columns.Count;
             if (originalSize == 41) {
-                MessageBox.Show($"The application has detected {originalSize} in this spreadsheet.\n8 Columns will automatically be trimmed from the beginning and 16 from the end in order to comply with import standards.");
+                 UtilityMethods.ShowMessageBox($"The application has detected {originalSize} in this spreadsheet.\n8 Columns will automatically be trimmed from the beginning and 16 from the end in order to comply with import standards.");
                 for (var i = 0; i < 8; i++) {
                     dTable.Columns.RemoveAt(0);
                 }

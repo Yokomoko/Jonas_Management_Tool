@@ -37,7 +37,7 @@ namespace Jonas_Sage_Importer
 
             if (dTable.Rows.Count == 0)
             {
-                MessageBox.Show(@"Please select an Excel sheet first so that there is information in the table.");
+                 UtilityMethods.ShowMessageBox(@"Please select an Excel sheet first so that there is information in the table.");
                 return;
             }
 
@@ -52,7 +52,7 @@ namespace Jonas_Sage_Importer
             switch (comboBox.SelectedIndex)
             {
                 case -1:
-                    MessageBox.Show(@"Please select an Import Type");
+                     UtilityMethods.ShowMessageBox(@"Please select an Import Type");
                     return;
                 case 0:
                     gridProcedureName = "GP_Grid_ImportInvoices";
@@ -76,7 +76,7 @@ namespace Jonas_Sage_Importer
             catch (Exception exception)
             {
                 Form1._form1.UpdateStripText($"Failed to Import {comboBox.Text} from Application.");
-                MessageBox.Show($"Failed to import {comboBox.Text} from Application.\n\n{exception.Message}", @"Failed");
+                 UtilityMethods.ShowMessageBox($"Failed to import {comboBox.Text} from Application.\n\n{exception.Message}", @"Failed");
                 return;
             }
             try
@@ -88,7 +88,7 @@ namespace Jonas_Sage_Importer
             catch (Exception exception)
             {
                 Form1._form1.UpdateStripText($"Failed to Import {comboBox.Text} from Temporary Table.");
-                MessageBox.Show(
+                 UtilityMethods.ShowMessageBox(
                     $"Failed to import {comboBox.Text} from Temporary Table.\n\n{exception.Message}",
                     @"Failed");
             }
@@ -99,10 +99,11 @@ namespace Jonas_Sage_Importer
             if (removeNewer)
             {
                 DialogResult dialogResult =
-                    MessageBox.Show(
+                     UtilityMethods.ShowMessageBox(
                         $"Are you sure you would like to delete {comboBox.SelectedText} newer than {removeNewerDt} (inclusive)?\n\nYou will not be able to recover this information.", 
                         @"Confirm Delete?", 
-                        MessageBoxButtons.YesNo);
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
                 if (dialogResult != DialogResult.Yes)
                 {
                 }
@@ -164,7 +165,7 @@ namespace Jonas_Sage_Importer
             {
                 string commitFailure = $"{ImpName}: Error committing data to the database: \n{ex.Message}";
                 LogToText.WriteToLog(commitFailure);
-                MessageBox.Show(commitFailure, @"Failed");
+                 UtilityMethods.ShowMessageBox(commitFailure, @"Failed");
             }
         }
 

@@ -10,5 +10,11 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=ADAM-PC;Initial Catalog=Purchase_SaleLedger;Integrated Security=True</Value>
     </Setting>
+    <Setting Name="FirstRun" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EFString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Purchase_SaleLedgerEntities_Live</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

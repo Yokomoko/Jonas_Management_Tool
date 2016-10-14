@@ -4,16 +4,20 @@ using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 using Microsoft.Win32;
 using SageImporterLibrary;
 using Telerik.WinControls.UI;
 using AutoUpdaterDotNET;
 using Jonas_Sage_Importer.Generate_Excel_Reports;
+using Jonas_Sage_Importer.Properties;
 
 namespace Jonas_Sage_Importer {
     public partial class Form1 : Form {
@@ -38,8 +42,19 @@ namespace Jonas_Sage_Importer {
             uxRemoveNewerRecordsDt.Value = DateTime.Today;
             uxImportSourceCmbo.SelectedIndex = 1;
             StatusStripLabel.Text = @"OK";
-            TopMost = true;
+            //TopMost = true;
             uxRemoveNewerRecordsDt.Enabled = uxRemoveNewerRecordsChk.Checked;
+            if (CheckForUpdates(true)) {
+                CloseApplication();
+            }
+            //Check if first time this has been run
+            if (Settings.Default.FirstRun) {
+                //     UtilityMethods.ShowMessageBox("New stuff here");
+                PopReleaseNotes();
+                Settings.Default.FirstRun = false;
+                Settings.Default.Save();
+            }
+
         }
 
 
@@ -51,7 +66,7 @@ namespace Jonas_Sage_Importer {
             #region GreatPlains
             if (importSource.SelectedIndex == 0) {
                 if (uxExcelSheetViewerGv.Rows.Count == 0) {
-                    MessageBox.Show(@"Please select an Excel sheet first so that there is information in the table.");
+                    UtilityMethods.ShowMessageBox(@"Please select an Excel sheet first so that there is information in the table.", "");
                     return;
                 }
 
@@ -63,7 +78,8 @@ namespace Jonas_Sage_Importer {
 
                 switch (uxImportTypeCmbo.SelectedIndex) {
                     case -1:
-                        MessageBox.Show(@"Please select an Import Type");
+
+                        UtilityMethods.ShowMessageBox(@"Please select an Import Type", "");
                         return;
                     case 0: //Sage
                         gridProcedureName = "GP_Grid_ImportInvoices";
@@ -85,7 +101,7 @@ namespace Jonas_Sage_Importer {
                 }
                 catch (Exception exception) {
                     StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
-                    MessageBox.Show($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message}", @"Failed");
+                    UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message}", @"Failed");
                     return;
                 }
                 try {
@@ -95,7 +111,7 @@ namespace Jonas_Sage_Importer {
                 }
                 catch (Exception exception) {
                     StatusStripLabel.Text = $"Failed to Import {uxImportTypeCmbo.Text} from Temporary Table.";
-                    MessageBox.Show(
+                    UtilityMethods.ShowMessageBox(
                         $"Failed to import {uxImportTypeCmbo.Text} from Temporary Table.\n\n{exception.Message}",
                         @"Failed");
                     return;
@@ -122,7 +138,7 @@ namespace Jonas_Sage_Importer {
                             tempProcedureName = "CRM_Temp_ImportOrders_Adv3";
                             break;
                         default:
-                            MessageBox.Show(@"The number of columns should be either 14,21,22 or 23");
+                            UtilityMethods.ShowMessageBox(@"The number of columns should be either 14,21,22 or 23");
                             return;
                     }
                     try {
@@ -144,13 +160,13 @@ namespace Jonas_Sage_Importer {
                                 "Source: " + sqlException.Errors[i].Source + "\n" +
                                 "Procedure: " + sqlException.Errors[i].Procedure + "\n");
                         }
-                        MessageBox.Show($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
                         LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
                         return;
                     }
                     catch (Exception exception) {
                         StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
-                        MessageBox.Show($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
                         return;
                     }
 
@@ -161,7 +177,7 @@ namespace Jonas_Sage_Importer {
                     }
                     catch (Exception exception) {
                         StatusStripLabel.Text = $"Failed to Import {uxImportTypeCmbo.Text} from Temporary Table.";
-                        MessageBox.Show(
+                        UtilityMethods.ShowMessageBox(
                             $"Failed to import {uxImportTypeCmbo.Text} from Temporary Table.\n\n{exception.Message}",
                             @"Failed");
                         return;
@@ -189,13 +205,13 @@ namespace Jonas_Sage_Importer {
                                 "Source: " + sqlException.Errors[i].Source + "\n" +
                                 "Procedure: " + sqlException.Errors[i].Procedure + "\n");
                         }
-                        MessageBox.Show($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
                         LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
                         return;
                     }
                     catch (Exception exception) {
                         StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
-                        MessageBox.Show($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
                         return;
                     }
                 }
@@ -208,7 +224,7 @@ namespace Jonas_Sage_Importer {
         private void uxImportBtn_Click(object sender, EventArgs e) {
 
             if (uxExcelSheetTxt.Text == "") {
-                MessageBox.Show(@"Please select an Excel sheet.", @"Error");
+                UtilityMethods.ShowMessageBox(@"Please select an Excel sheet.", @"Error");
                 return;
             }
             ImportFromGridView(uxImportSourceCmbo);
@@ -217,6 +233,10 @@ namespace Jonas_Sage_Importer {
 
 
         private void ExitToolStripMenuItemClick(object sender, EventArgs e) {
+            CloseApplication();
+        }
+
+        private void CloseApplication() {
             Application.ExitThread();
             Application.Exit();
         }
@@ -306,18 +326,18 @@ namespace Jonas_Sage_Importer {
                         }
                     }
                     catch (FileNotFoundException fex) {
-                        MessageBox.Show(
-                            $"Pre-requisite files are not found. Please ensure Report Viewer 2012 is installed\n\n{fex.Message}");
+                        UtilityMethods.ShowMessageBox(
+                            $"Pre-requisite files are not found. Please ensure Report Viewer 2012 is installed\n\n{fex.Message}", "");
                     }
                     catch (Exception ex) {
-                        MessageBox.Show($"Error loading reports.\n\n{ex.Message}");
+                        UtilityMethods.ShowMessageBox($"Error loading reports.\n\n{ex.Message}", "");
                     }
                 }
                 else {
-                    if (MessageBox.Show(
+                    if (UtilityMethods.ShowMessageBox(
                             $"Microsoft Report Viewer is not installed.\n\n"
                            + @"Do you want to install this now?", @"Report Viewer is not installed", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                        MessageBox.Show(@"This application will now be minimised.");
+                        UtilityMethods.ShowMessageBox(@"This application will now be minimised.");
                         WindowState = FormWindowState.Minimized;
                         Process.Start($@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Resources\ReportViewer2012.msi");
                     }
@@ -328,12 +348,12 @@ namespace Jonas_Sage_Importer {
                 }
             }
             else {
-                if (MessageBox.Show(
+                if (UtilityMethods.ShowMessageBox(
                     $"Microsoft CLR Types are not installed.\n\n" + @"Do you want to install this now?",
                     @"Microsoft CLR Types are not installed",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes) {
-                    MessageBox.Show(@"This application will now be minimised");
+                    UtilityMethods.ShowMessageBox(@"This application will now be minimised");
                     WindowState = FormWindowState.Minimized;
                     Process.Start(
                         $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Resources\SQLSysClrTypes2012.msi");
@@ -421,24 +441,34 @@ namespace Jonas_Sage_Importer {
             }
         }
 
+
         private void uxImportSourceCmbo_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e) {
             LoadImportTypeCmbo(uxImportSourceCmbo.SelectedIndex);
             if (uxImportSourceCmbo.SelectedIndex == 0) {
                 uxRemoveNewerRecordsChk.Visible = true;
                 uxRemoveNewerRecordsDt.Visible = true;
                 uxInclusiveLbl.Visible = true;
+                //uxEndofWeekChk.Visible = false;
+            }
+            else if (uxImportSourceCmbo.SelectedIndex == 1) {
+                uxRemoveNewerRecordsChk.Visible = false;
+                uxRemoveNewerRecordsDt.Visible = false;
+                uxInclusiveLbl.Visible = false;
+                //uxEndofWeekChk.Visible = true;
+
             }
             else {
                 uxRemoveNewerRecordsChk.Checked = false;
                 uxRemoveNewerRecordsChk.Visible = false;
                 uxRemoveNewerRecordsDt.Visible = false;
                 uxInclusiveLbl.Visible = false;
+                //uxEndofWeekChk.Visible = false;
             }
         }
 
         private void uxExcelBrowseBtn_Click(object sender, EventArgs e) {
             if (uxImportTypeCmbo.SelectedIndex == -1) {
-                MessageBox.Show(@"Please select an import type first.");
+                UtilityMethods.ShowMessageBox(@"Please select an import type first.");
             }
             else {
                 if (ExcelImport.ExcelDialogBox(gpExcelFileFind).ShowDialog() != DialogResult.OK) {
@@ -476,11 +506,112 @@ namespace Jonas_Sage_Importer {
         }
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e) {
-            AutoUpdater.Start("https://drive.google.com/uc?export=download&id=0B0omVYO3nyCiUW0yT1JtbDdlRHc");
+            if (CheckForUpdates(false)) {
+                CloseApplication();
+            }
+        }
+
+        private static void DeleteUpdateFile() {
+            System.GC.Collect();
+            System.GC.WaitForPendingFinalizers();
+            File.Delete("UpdateFile.xml");
+        }
+
+        private bool CheckForUpdates(bool suppressUpToDateMsgBox) {
+            try {
+                using (var client = new WebClient()) {
+                    DeleteUpdateFile();
+                    client.DownloadFile("https://drive.google.com/uc?export=download&id=0B0omVYO3nyCiUW0yT1JtbDdlRHc", "UpdateFile.xml");
+                }
+                var fs = new FileStream("UpdateFile.xml", FileMode.Open, FileAccess.Read);
+                var doc = new XmlDataDocument();
+                doc.Load(fs);
+                XmlNode node1 = doc.DocumentElement.SelectSingleNode("/item/version");
+                XmlNode node2 = doc.DocumentElement.SelectSingleNode("/item/url");
+
+                if (node1 != null) {
+                    var updateVersion = new Version(node1.InnerText.ToString());
+                    var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                    var versionComparionResult = updateVersion.CompareTo(currentVersion);
+
+                    if (versionComparionResult > 0) {
+                        var dialogResult = UtilityMethods.ShowMessageBox(
+                            $"A newer version is available. Would you like to go to download this now?\n \n Current Version: {currentVersion} \n Latest version: {updateVersion} \n \n Download Link:\n {node2.InnerText}",
+                            "New version available", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialogResult == DialogResult.Yes) {
+                            System.Diagnostics.Process.Start(node2.InnerText.ToString());
+                            UtilityMethods.ShowMessageBox(
+                                "The application will now exit. Please download and install the latest version");
+                            fs.Dispose();
+                            DeleteUpdateFile();
+                            return true;
+                        }
+                    }
+                    else {
+                        if (!suppressUpToDateMsgBox) {
+                            UtilityMethods.ShowMessageBox("You're already on the latest version.");
+                        }
+                        fs.Dispose();
+                        DeleteUpdateFile();
+                        return false;
+                    }
+                    DeleteUpdateFile();
+                    return false;
+                }
+                DeleteUpdateFile();
+                return false;
+            }
+            catch (UnauthorizedAccessException) {
+                DeleteUpdateFile();
+                return false;
+            }
+            catch (IOException) {
+                DeleteUpdateFile();
+                return false;
+            }
+            catch (Exception) {
+                DeleteUpdateFile();
+                return false;
+            }
         }
 
         private void generateToolStripMenuItem_Click(object sender, EventArgs e) {
             GenerateGBUCombinedTargets.GenerateReport();
         }
+
+        private void changeLogToolStripMenuItem_Click(object sender, EventArgs e) {
+            PopReleaseNotes();
+        }
+
+        public static Form GetOpenedForm<T>() where T : Form {
+            foreach (Form openForm in Application.OpenForms) {
+                if (openForm.GetType() == typeof(T)) {
+                    return openForm;
+                }
+            }
+            return null;
+        }
+
+        private void PopReleaseNotes() {
+            var rnForm = (ReleaseNotes)GetOpenedForm<ReleaseNotes>();
+            if (rnForm == null) {
+                var rn = new ReleaseNotes();
+                //rn.Location = new Point(Screen.PrimaryScreen.Bounds.X, //should be (0,0)
+                //    Screen.PrimaryScreen.Bounds.Y);
+                rn.TopMost = true;
+                //rn.StartPosition = FormStartPosition.Manual;
+                rn.Owner = _form1;
+                rn.StartPosition = FormStartPosition.CenterParent;
+                rn.ShowDialog();
+            }
+            else {
+                rnForm.Select();
+            }
+        }
+
+        private void radButton1_Click(object sender, EventArgs e) {
+            UtilityMethods.ShowMessageBox("test", "test");
+        }
     }
 }
+

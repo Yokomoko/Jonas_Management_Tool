@@ -46,6 +46,7 @@ namespace Jonas_Sage_Importer
             this.customerStatementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salesBacklogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.raisedInvoicesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.costOfGoodsSoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,7 +74,7 @@ namespace Jonas_Sage_Importer
             this.uxImportSourceCmbo = new Telerik.WinControls.UI.RadDropDownList();
             this.uxExcelWorksheetCmbo = new Telerik.WinControls.UI.RadDropDownList();
             this.office2010SilverTheme1 = new Telerik.WinControls.Themes.Office2010SilverTheme();
-            this.costOfGoodsSoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uxEndofWeekChk = new System.Windows.Forms.CheckBox();
             this.StatusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelSheetViewerGv)).BeginInit();
@@ -91,6 +92,7 @@ namespace Jonas_Sage_Importer
             // 
             // StatusStrip1
             // 
+            this.StatusStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusStripLabel});
             this.StatusStrip1.Location = new System.Drawing.Point(0, 463);
@@ -111,6 +113,7 @@ namespace Jonas_Sage_Importer
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.reportsToolStripMenuItem,
@@ -118,7 +121,7 @@ namespace Jonas_Sage_Importer
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(661, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(661, 49);
             this.menuStrip1.TabIndex = 29;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MenuStrip1ItemClicked);
@@ -128,13 +131,13 @@ namespace Jonas_Sage_Importer
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(179, 46);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
@@ -150,14 +153,14 @@ namespace Jonas_Sage_Importer
             this.toolStripSeparator1,
             this.generateToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(132, 45);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // customerLedgerByGroupToolStripMenuItem
             // 
             this.customerLedgerByGroupToolStripMenuItem.Enabled = false;
             this.customerLedgerByGroupToolStripMenuItem.Name = "customerLedgerByGroupToolStripMenuItem";
-            this.customerLedgerByGroupToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.customerLedgerByGroupToolStripMenuItem.Size = new System.Drawing.Size(654, 46);
             this.customerLedgerByGroupToolStripMenuItem.Text = "Sales Backlog and Raised Invoices (Old)";
             this.customerLedgerByGroupToolStripMenuItem.ToolTipText = "Please use Sales Backlog or Raised Invoices";
             this.customerLedgerByGroupToolStripMenuItem.Click += new System.EventHandler(this.customerLedgerByGroupToolStripMenuItem_Click);
@@ -165,40 +168,47 @@ namespace Jonas_Sage_Importer
             // invoicesPostedToPAndLToolStripMenuItem
             // 
             this.invoicesPostedToPAndLToolStripMenuItem.Name = "invoicesPostedToPAndLToolStripMenuItem";
-            this.invoicesPostedToPAndLToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.invoicesPostedToPAndLToolStripMenuItem.Size = new System.Drawing.Size(654, 46);
             this.invoicesPostedToPAndLToolStripMenuItem.Text = "Invoices Posted to P and L";
             this.invoicesPostedToPAndLToolStripMenuItem.Click += new System.EventHandler(this.invoicesPostedToPAndLToolStripMenuItem_Click);
             // 
             // customerStatementToolStripMenuItem
             // 
             this.customerStatementToolStripMenuItem.Name = "customerStatementToolStripMenuItem";
-            this.customerStatementToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.customerStatementToolStripMenuItem.Size = new System.Drawing.Size(654, 46);
             this.customerStatementToolStripMenuItem.Text = "Customer Statement";
             this.customerStatementToolStripMenuItem.Click += new System.EventHandler(this.customerStatementToolStripMenuItem_Click);
             // 
             // salesBacklogToolStripMenuItem
             // 
             this.salesBacklogToolStripMenuItem.Name = "salesBacklogToolStripMenuItem";
-            this.salesBacklogToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.salesBacklogToolStripMenuItem.Size = new System.Drawing.Size(654, 46);
             this.salesBacklogToolStripMenuItem.Text = "Sales Backlog";
             this.salesBacklogToolStripMenuItem.Click += new System.EventHandler(this.salesBacklogToolStripMenuItem_Click);
             // 
             // raisedInvoicesToolStripMenuItem
             // 
             this.raisedInvoicesToolStripMenuItem.Name = "raisedInvoicesToolStripMenuItem";
-            this.raisedInvoicesToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.raisedInvoicesToolStripMenuItem.Size = new System.Drawing.Size(654, 46);
             this.raisedInvoicesToolStripMenuItem.Text = "Raised Invoices";
             this.raisedInvoicesToolStripMenuItem.Click += new System.EventHandler(this.raisedInvoicesToolStripMenuItem_Click);
+            // 
+            // costOfGoodsSoldToolStripMenuItem
+            // 
+            this.costOfGoodsSoldToolStripMenuItem.Name = "costOfGoodsSoldToolStripMenuItem";
+            this.costOfGoodsSoldToolStripMenuItem.Size = new System.Drawing.Size(654, 46);
+            this.costOfGoodsSoldToolStripMenuItem.Text = "Cost of Goods Sold";
+            this.costOfGoodsSoldToolStripMenuItem.Click += new System.EventHandler(this.costOfGoodsSoldToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(278, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(651, 6);
             // 
             // generateToolStripMenuItem
             // 
             this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(654, 46);
             this.generateToolStripMenuItem.Text = "Generate GBU Combined Targets";
             this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
             // 
@@ -209,13 +219,13 @@ namespace Jonas_Sage_Importer
             this.jonasGroupEditorToolStripMenuItem,
             this.connectionSettingsToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(212, 45);
             this.configurationToolStripMenuItem.Text = "Configuration";
             // 
             // nominalCodeEditorToolStripMenuItem
             // 
             this.nominalCodeEditorToolStripMenuItem.Name = "nominalCodeEditorToolStripMenuItem";
-            this.nominalCodeEditorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.nominalCodeEditorToolStripMenuItem.Size = new System.Drawing.Size(410, 46);
             this.nominalCodeEditorToolStripMenuItem.Text = "Nominal Code Editor";
             this.nominalCodeEditorToolStripMenuItem.Click += new System.EventHandler(this.NominalCodeEditorToolStripMenuItemClick);
             // 
@@ -223,13 +233,13 @@ namespace Jonas_Sage_Importer
             // 
             this.jonasGroupEditorToolStripMenuItem.Enabled = false;
             this.jonasGroupEditorToolStripMenuItem.Name = "jonasGroupEditorToolStripMenuItem";
-            this.jonasGroupEditorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.jonasGroupEditorToolStripMenuItem.Size = new System.Drawing.Size(410, 46);
             this.jonasGroupEditorToolStripMenuItem.Text = "Jonas Group Editor";
             // 
             // connectionSettingsToolStripMenuItem
             // 
             this.connectionSettingsToolStripMenuItem.Name = "connectionSettingsToolStripMenuItem";
-            this.connectionSettingsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.connectionSettingsToolStripMenuItem.Size = new System.Drawing.Size(410, 46);
             this.connectionSettingsToolStripMenuItem.Text = "Connection Settings";
             this.connectionSettingsToolStripMenuItem.Click += new System.EventHandler(this.ConnectionSettingsToolStripMenuItemClick);
             // 
@@ -240,27 +250,27 @@ namespace Jonas_Sage_Importer
             this.checkForUpdatesToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 45);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // changeLogToolStripMenuItem
             // 
-            this.changeLogToolStripMenuItem.Enabled = false;
             this.changeLogToolStripMenuItem.Name = "changeLogToolStripMenuItem";
-            this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.changeLogToolStripMenuItem.Text = "Change Log";
+            this.changeLogToolStripMenuItem.Size = new System.Drawing.Size(384, 46);
+            this.changeLogToolStripMenuItem.Text = "Release Notes";
+            this.changeLogToolStripMenuItem.Click += new System.EventHandler(this.changeLogToolStripMenuItem_Click);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(384, 46);
             this.checkForUpdatesToolStripMenuItem.Text = "Check For Updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(384, 46);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
             // 
@@ -274,7 +284,7 @@ namespace Jonas_Sage_Importer
             this.uxImportSourceLbl.AutoSize = true;
             this.uxImportSourceLbl.Location = new System.Drawing.Point(57, 38);
             this.uxImportSourceLbl.Name = "uxImportSourceLbl";
-            this.uxImportSourceLbl.Size = new System.Drawing.Size(73, 13);
+            this.uxImportSourceLbl.Size = new System.Drawing.Size(84, 15);
             this.uxImportSourceLbl.TabIndex = 57;
             this.uxImportSourceLbl.Text = "Import Source";
             // 
@@ -284,7 +294,7 @@ namespace Jonas_Sage_Importer
             this.uxInclusiveLbl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.uxInclusiveLbl.Location = new System.Drawing.Point(379, 156);
             this.uxInclusiveLbl.Name = "uxInclusiveLbl";
-            this.uxInclusiveLbl.Size = new System.Drawing.Size(137, 13);
+            this.uxInclusiveLbl.Size = new System.Drawing.Size(154, 15);
             this.uxInclusiveLbl.TabIndex = 56;
             this.uxInclusiveLbl.Text = "Note: This date is inclusive.";
             // 
@@ -293,7 +303,7 @@ namespace Jonas_Sage_Importer
             this.uxImportTypeLbl.AutoSize = true;
             this.uxImportTypeLbl.Location = new System.Drawing.Point(67, 67);
             this.uxImportTypeLbl.Name = "uxImportTypeLbl";
-            this.uxImportTypeLbl.Size = new System.Drawing.Size(63, 13);
+            this.uxImportTypeLbl.Size = new System.Drawing.Size(71, 15);
             this.uxImportTypeLbl.TabIndex = 52;
             this.uxImportTypeLbl.Text = "Import Type";
             // 
@@ -302,7 +312,7 @@ namespace Jonas_Sage_Importer
             this.uxExcelSheetLbl.AutoSize = true;
             this.uxExcelSheetLbl.Location = new System.Drawing.Point(66, 98);
             this.uxExcelSheetLbl.Name = "uxExcelSheetLbl";
-            this.uxExcelSheetLbl.Size = new System.Drawing.Size(64, 13);
+            this.uxExcelSheetLbl.Size = new System.Drawing.Size(72, 15);
             this.uxExcelSheetLbl.TabIndex = 48;
             this.uxExcelSheetLbl.Text = "Excel Sheet";
             // 
@@ -311,7 +321,7 @@ namespace Jonas_Sage_Importer
             this.uxWorksheetLbl.AutoSize = true;
             this.uxWorksheetLbl.Location = new System.Drawing.Point(71, 128);
             this.uxWorksheetLbl.Name = "uxWorksheetLbl";
-            this.uxWorksheetLbl.Size = new System.Drawing.Size(59, 13);
+            this.uxWorksheetLbl.Size = new System.Drawing.Size(65, 15);
             this.uxWorksheetLbl.TabIndex = 49;
             this.uxWorksheetLbl.Text = "Worksheet";
             // 
@@ -347,7 +357,7 @@ namespace Jonas_Sage_Importer
             // 
             this.uxRemoveNewerRecordsDt.Location = new System.Drawing.Point(134, 152);
             this.uxRemoveNewerRecordsDt.Name = "uxRemoveNewerRecordsDt";
-            this.uxRemoveNewerRecordsDt.Size = new System.Drawing.Size(240, 20);
+            this.uxRemoveNewerRecordsDt.Size = new System.Drawing.Size(240, 42);
             this.uxRemoveNewerRecordsDt.TabIndex = 60;
             this.uxRemoveNewerRecordsDt.TabStop = false;
             this.uxRemoveNewerRecordsDt.Text = "29 June 2016";
@@ -357,7 +367,7 @@ namespace Jonas_Sage_Importer
             // 
             this.uxRemoveNewerRecordsChk.Location = new System.Drawing.Point(6, 153);
             this.uxRemoveNewerRecordsChk.Name = "uxRemoveNewerRecordsChk";
-            this.uxRemoveNewerRecordsChk.Size = new System.Drawing.Size(124, 18);
+            this.uxRemoveNewerRecordsChk.Size = new System.Drawing.Size(285, 42);
             this.uxRemoveNewerRecordsChk.TabIndex = 61;
             this.uxRemoveNewerRecordsChk.Text = "Remove Newer Than";
             this.uxRemoveNewerRecordsChk.ToggleStateChanged += new Telerik.WinControls.UI.StateChangedEventHandler(this.uxRemoveNewerRecordsChk_ToggleStateChanged);
@@ -369,7 +379,7 @@ namespace Jonas_Sage_Importer
             this.uxExcelSheetTxt.Location = new System.Drawing.Point(134, 94);
             this.uxExcelSheetTxt.Name = "uxExcelSheetTxt";
             this.uxExcelSheetTxt.ReadOnly = true;
-            this.uxExcelSheetTxt.Size = new System.Drawing.Size(240, 20);
+            this.uxExcelSheetTxt.Size = new System.Drawing.Size(240, 42);
             this.uxExcelSheetTxt.TabIndex = 62;
             // 
             // uxWorksheetUpdateBtn
@@ -404,7 +414,7 @@ namespace Jonas_Sage_Importer
             this.uxImportTypeCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
             this.uxImportTypeCmbo.Location = new System.Drawing.Point(134, 66);
             this.uxImportTypeCmbo.Name = "uxImportTypeCmbo";
-            this.uxImportTypeCmbo.Size = new System.Drawing.Size(240, 20);
+            this.uxImportTypeCmbo.Size = new System.Drawing.Size(240, 42);
             this.uxImportTypeCmbo.TabIndex = 66;
             // 
             // uxImportSourceCmbo
@@ -413,7 +423,7 @@ namespace Jonas_Sage_Importer
             this.uxImportSourceCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
             this.uxImportSourceCmbo.Location = new System.Drawing.Point(134, 37);
             this.uxImportSourceCmbo.Name = "uxImportSourceCmbo";
-            this.uxImportSourceCmbo.Size = new System.Drawing.Size(240, 20);
+            this.uxImportSourceCmbo.Size = new System.Drawing.Size(240, 42);
             this.uxImportSourceCmbo.TabIndex = 67;
             this.uxImportSourceCmbo.SelectedIndexChanged += new Telerik.WinControls.UI.Data.PositionChangedEventHandler(this.uxImportSourceCmbo_SelectedIndexChanged);
             // 
@@ -422,15 +432,19 @@ namespace Jonas_Sage_Importer
             this.uxExcelWorksheetCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
             this.uxExcelWorksheetCmbo.Location = new System.Drawing.Point(134, 123);
             this.uxExcelWorksheetCmbo.Name = "uxExcelWorksheetCmbo";
-            this.uxExcelWorksheetCmbo.Size = new System.Drawing.Size(240, 20);
+            this.uxExcelWorksheetCmbo.Size = new System.Drawing.Size(240, 42);
             this.uxExcelWorksheetCmbo.TabIndex = 68;
             // 
-            // costOfGoodsSoldToolStripMenuItem
+            // uxEndofWeekChk
             // 
-            this.costOfGoodsSoldToolStripMenuItem.Name = "costOfGoodsSoldToolStripMenuItem";
-            this.costOfGoodsSoldToolStripMenuItem.Size = new System.Drawing.Size(281, 22);
-            this.costOfGoodsSoldToolStripMenuItem.Text = "Cost of Goods Sold";
-            this.costOfGoodsSoldToolStripMenuItem.Click += new System.EventHandler(this.costOfGoodsSoldToolStripMenuItem_Click);
+            this.uxEndofWeekChk.AutoSize = true;
+            this.uxEndofWeekChk.Location = new System.Drawing.Point(115, 429);
+            this.uxEndofWeekChk.Name = "uxEndofWeekChk";
+            this.uxEndofWeekChk.Size = new System.Drawing.Size(200, 33);
+            this.uxEndofWeekChk.TabIndex = 69;
+            this.uxEndofWeekChk.Text = "Create End of Week Session";
+            this.uxEndofWeekChk.UseVisualStyleBackColor = true;
+            this.uxEndofWeekChk.Visible = false;
             // 
             // Form1
             // 
@@ -438,6 +452,7 @@ namespace Jonas_Sage_Importer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Azure;
             this.ClientSize = new System.Drawing.Size(661, 485);
+            this.Controls.Add(this.uxEndofWeekChk);
             this.Controls.Add(this.uxExcelWorksheetCmbo);
             this.Controls.Add(this.uxImportSourceCmbo);
             this.Controls.Add(this.uxImportTypeCmbo);
@@ -522,6 +537,7 @@ namespace Jonas_Sage_Importer
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem generateToolStripMenuItem;
         private ToolStripMenuItem costOfGoodsSoldToolStripMenuItem;
+        private CheckBox uxEndofWeekChk;
     }
 }
 

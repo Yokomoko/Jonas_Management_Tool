@@ -78,7 +78,7 @@ namespace Jonas_Sage_Importer
             {
                 string commitFailure = $"{ImpName}: Error committing data to the database: \n{ex.Message}";
                 LogToText.WriteToLog(commitFailure);
-                MessageBox.Show(commitFailure, "Failed");
+                 UtilityMethods.ShowMessageBox(commitFailure, "Failed");
             }
         }
 
@@ -86,8 +86,8 @@ namespace Jonas_Sage_Importer
         {
 
             //if (!successCounter) return;
-            DialogResult dialogResult = MessageBox.Show(
-                "Would you like to remove all previously entered sales orders?", "Sales Orders", MessageBoxButtons.YesNo);
+            DialogResult dialogResult =  UtilityMethods.ShowMessageBox(
+                "Would you like to remove all previously entered sales orders?", "Sales Orders", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult != DialogResult.Yes)
             {
                 LogToText.WriteToLog($"{ImpName}: Previously entered sales orders were not deleted from the database.");
@@ -115,7 +115,7 @@ namespace Jonas_Sage_Importer
             {
                 string deleteFailure = $"{ImpName}: Error deleting previous orders from database: \n {ex.Message}";
                 LogToText.WriteToLog(deleteFailure);
-                MessageBox.Show(deleteFailure, "Failed");
+                 UtilityMethods.ShowMessageBox(deleteFailure, "Failed");
             }
         }
     }

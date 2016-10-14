@@ -12,19 +12,24 @@ namespace BL_JonasSageImporter
     using System;
     using System.Collections.Generic;
     
-    public partial class CostOfGoodsSold
+    public partial class vw_GenerateCogsReport
     {
-        public int ID { get; set; }
+        public int CogsId { get; set; }
         public string CogsCompanyName { get; set; }
         public string CogsSiteName { get; set; }
         public int CogsStatus { get; set; }
+        public string CogsStatusName { get; set; }
         public string CogsGPCode { get; set; }
         public Nullable<System.DateTime> CogsDueDate { get; set; }
+        public Nullable<short> CogsGPCategoryType { get; set; }
         public string CogsGPCategory { get; set; }
         public string CogsDescription { get; set; }
         public long CogsSalesOrderId { get; set; }
         public decimal CogsItemQuantity { get; set; }
         public decimal CogsItemListPrice { get; set; }
         public decimal CogsItemBuyPrice { get; set; }
+        public Nullable<decimal> CogsCogsValue { get; set; }
+        public Nullable<decimal> CogsGrossSalesAtList { get; set; }
+        public Nullable<decimal> CogsProfitValue { get; set; }
     }
 }

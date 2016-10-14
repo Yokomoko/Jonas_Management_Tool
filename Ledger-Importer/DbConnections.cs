@@ -7,6 +7,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using BL_JonasSageImporter;
 using System.Data.Entity;
+using Jonas_Sage_Importer;
+using Jonas_Sage_Importer.Properties;
+
 namespace SageImporterLibrary
 
 {
@@ -27,6 +30,7 @@ namespace SageImporterLibrary
 
         private static string _reportServerUrl = @"http://192.168.15.48/reportserver";
 
+        private static string _efConnection = "Purchase_SaleLedgerEntities_Live";
         public static string DbLocationTxt()
         {
             return _dbLocationTxt;
@@ -91,15 +95,15 @@ namespace SageImporterLibrary
             catch (SqlException ex)
             {
                 LogToText.WriteToLog($"Connection Failed with the connection string - '{testConString}'");
-                //MessageBox.Show($"Connection Failed \n {ex.Message}");
-                MessageBox.Show(new Form { TopMost = true }, $"Connection Failed \n {ex.Message}");
+                // UtilityMethods.ShowMessageBox($"Connection Failed \n {ex.Message}");
+                 UtilityMethods.ShowMessageBox($"Connection Failed \n {ex.Message}");
                 connLabel.Text = @"Failed..";
                 connLabel.ForeColor = Color.Red;
                 connLabel.TextAlign = ContentAlignment.MiddleCenter;
             }
         }
 
-        public static void UpdateConnection(string dbLocation, string dbName, string userName, string password)
+        public static void UpdateConnection(string dbLocation, string dbName, string userName, string password, string EFConnString)
         {
             bool counter = false;
 
@@ -109,10 +113,13 @@ namespace SageImporterLibrary
                 _dbNameTxt = dbName;
                 _usernameTxt = userName;
                 _passwordTxt = password;
-                
+                //EF Connection String
+                Settings.Default.EFString = EFConnString;
+                Settings.Default.Save();
+
                 LogToText.WriteToLog(
                     $"Connection String Updated. dbLocation = {dbLocation} dbName = {dbName} userName = {userName} password = {password}");
-                MessageBox.Show(@"Connection String Updated Successfully", @"Success");
+                 UtilityMethods.ShowMessageBox(@"Connection String Updated Successfully", @"Success");
 
                 //Build EF Connection String
                 SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();

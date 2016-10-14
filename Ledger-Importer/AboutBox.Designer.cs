@@ -39,6 +39,7 @@ namespace Jonas_Sage_Importer
             this.labelCompanyName = new System.Windows.Forms.Label();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -153,6 +154,10 @@ namespace Jonas_Sage_Importer
             this.okButton.TabIndex = 24;
             this.okButton.Text = "&OK";
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
             // AboutBox
             // 
             this.AcceptButton = this.okButton;
@@ -187,5 +192,6 @@ namespace Jonas_Sage_Importer
         private Label labelCompanyName;
         private TextBox textBoxDescription;
         private Button okButton;
+        private BackgroundWorker backgroundWorker1;
     }
 }

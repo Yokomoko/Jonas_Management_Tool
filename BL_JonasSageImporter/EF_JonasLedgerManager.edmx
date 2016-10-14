@@ -1,0 +1,1895 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Purchase_SaleLedgerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdminStatuses">
+          <Key>
+            <PropertyRef Name="AdminStatusId" />
+          </Key>
+          <Property Name="AdminStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminStatusName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="Label" />
+          </Key>
+          <Property Name="Label" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ConfigSetting" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostOfGoodsSold">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CogsCompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CogsSiteName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CogsStatus" Type="int" Nullable="false" />
+          <Property Name="CogsGPCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CogsDueDate" Type="datetime" />
+          <Property Name="CogsGPCategory" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CogsDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CogsSalesOrderId" Type="bigint" Nullable="false" />
+          <Property Name="CogsItemQuantity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CogsItemListPrice" Type="money" Nullable="false" />
+          <Property Name="CogsItemBuyPrice" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntryTypes">
+          <Key>
+            <PropertyRef Name="EntryTypeNo" />
+          </Key>
+          <Property Name="EntryTypeNo" Type="smallint" Nullable="false" />
+          <Property Name="EntryTypeDescription" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="GLTypes">
+          <Key>
+            <PropertyRef Name="GLNo" />
+          </Key>
+          <Property Name="GLNo" Type="int" Nullable="false" />
+          <Property Name="GLDescription" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="GP_Temp_InvoiceLedger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="InvoiceNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CustRef" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="OrderNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Gross" Type="money" Nullable="false" />
+          <Property Name="UserDefined" Type="nvarchar" MaxLength="255" />
+          <Property Name="SaleDocument" Type="nvarchar" MaxLength="50" />
+          <Property Name="Net" Type="money" Nullable="false" />
+          <Property Name="VAT" Type="money" Nullable="false" />
+          <Property Name="OTTA" Type="money" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GP_Temp_OutstandingInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="CustRef" Type="nvarchar(max)" />
+          <Property Name="CustName" Type="nvarchar(max)" />
+          <Property Name="ClassID" Type="nvarchar(max)" />
+          <Property Name="TerritoryID" Type="nvarchar(max)" />
+          <Property Name="DocumentNumber" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" />
+          <Property Name="DueDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginalTrxAmount" Type="money" />
+          <Property Name="CurrentTrxAmount" Type="money" />
+          <Property Name="Days0" Type="money" />
+          <Property Name="Days1" Type="money" />
+          <Property Name="Days2" Type="money" />
+          <Property Name="Days3" Type="money" />
+          <Property Name="Days4" Type="money" />
+          <Property Name="Days5" Type="money" />
+          <Property Name="Days6" Type="money" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GP_Temp_PostedInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="JournalEntry" Type="bigint" Nullable="false" />
+          <Property Name="Series" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="TrxDate" Type="date" Nullable="false" />
+          <Property Name="OriginatingTrxDate" Type="date" Nullable="false" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="AccountDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="DebitAmount" Type="money" Nullable="false" />
+          <Property Name="CreditAmount" Type="money" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OriginatingMasterID" Type="varchar" MaxLength="30" />
+          <Property Name="OriginatingMasterName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginatingDocumentNo" Type="varchar" MaxLength="30" />
+          <Property Name="Voided" Type="nvarchar" MaxLength="3" />
+          <Property Name="OriginatingTrxSource" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OriginatingTrxType" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginatingType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserWhoPosted" Type="nvarchar" MaxLength="50" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JonasGroups">
+          <Key>
+            <PropertyRef Name="GroupNo" />
+          </Key>
+          <Property Name="GroupNo" Type="smallint" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="JonasTypes">
+          <Key>
+            <PropertyRef Name="JonasType" />
+          </Key>
+          <Property Name="JonasType" Type="smallint" Nullable="false" />
+          <Property Name="JonasTypeDescription" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="JonasGroup" Type="smallint" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="LogDate" Type="datetime" Nullable="false" />
+          <Property Name="ExcelPath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImportType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumberOfRowsImported" Type="bigint" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaintenanceGLBridge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="MaintenanceType" Type="smallint" />
+          <Property Name="GLNumber" Type="int" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaintenanceTypes">
+          <Key>
+            <PropertyRef Name="MaintenanceType" />
+          </Key>
+          <Property Name="MaintenanceType" Type="smallint" Nullable="false" />
+          <Property Name="LongReference" Type="nvarchar" MaxLength="20" />
+          <Property Name="MaintTypeDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="ReportingDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="JonasGroup" Type="smallint" />
+        </EntityType>
+        <EntityType Name="Numbers">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="Number" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OutstandingInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="CustRef" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ClassID" Type="nvarchar" MaxLength="255" />
+          <Property Name="DocumentNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="OriginalTrxAmount" Type="money" Nullable="false" />
+          <Property Name="CurrentTrxAmount" Type="money" Nullable="false" />
+          <Property Name="Days0" Type="money" Nullable="false" />
+          <Property Name="Days1" Type="money" />
+          <Property Name="Days2" Type="money" />
+          <Property Name="Days3" Type="money" />
+          <Property Name="Days4" Type="money" />
+          <Property Name="Days5" Type="money" />
+          <Property Name="Days6" Type="money" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostedInvoices">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JournalEntry" Type="bigint" Nullable="false" />
+          <Property Name="Series" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="TrxDate" Type="date" Nullable="false" />
+          <Property Name="OriginatingTrxDate" Type="date" Nullable="false" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="DebitAmount" Type="money" Nullable="false" />
+          <Property Name="CreditAmount" Type="money" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OriginatingMasterID" Type="varchar" MaxLength="30" />
+          <Property Name="OriginatingMasterName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginatingDocumentNo" Type="varchar" MaxLength="30" />
+          <Property Name="Voided" Type="bit" Nullable="false" />
+          <Property Name="OriginatingTrxSource" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OriginatingTrxType" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginatingType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserWhoPosted" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Sage_Temp_InvoiceLedger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Date" Type="datetime" />
+          <Property Name="CustRef" Type="varchar" MaxLength="30" />
+          <Property Name="GL" Type="int" />
+          <Property Name="UniqueID" Type="nvarchar" MaxLength="255" />
+          <Property Name="ItemDescription" Type="nvarchar(max)" />
+          <Property Name="Qty" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="Net" Type="money" />
+          <Property Name="Tax" Type="money" />
+          <Property Name="Gross" Type="money" />
+          <Property Name="Profit" Type="money" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="1" />
+          <Property Name="DeliveryAddress" Type="nvarchar(max)" />
+          <Property Name="CustOrderNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="InvoiceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SaleLedger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="CustRef" Type="varchar" MaxLength="30" />
+          <Property Name="DueDate" Type="date" />
+          <Property Name="GL" Type="int" />
+          <Property Name="UniqueID" Type="nvarchar" MaxLength="255" />
+          <Property Name="ItemDescription" Type="nvarchar(max)" />
+          <Property Name="Qty" Type="numeric" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Net" Type="money" Nullable="false" />
+          <Property Name="Tax" Type="money" Nullable="false" />
+          <Property Name="Gross" Type="money" Nullable="false" />
+          <Property Name="Profit" Type="money" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="3" />
+          <Property Name="DeliveryAddress" Type="nvarchar(max)" />
+          <Property Name="CustOrderNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="InvoiceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cost" Type="money" />
+          <Property Name="ImportType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Category" Type="nvarchar" MaxLength="255" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="255" />
+          <Property Name="MiniPack" Type="smallint" />
+          <Property Name="SiteSurveyDate" Type="varchar" MaxLength="255" />
+          <Property Name="BacklogComments" Type="varchar(max)" />
+          <Property Name="Deposit" Type="varchar" MaxLength="255" />
+          <Property Name="AssignedTo" Type="varchar" MaxLength="255" />
+          <Property Name="MegJobNo" Type="varchar" MaxLength="255" />
+          <Property Name="DirectDebit" Type="smallint" />
+          <Property Name="Spare1" Type="varchar" MaxLength="255" />
+          <Property Name="Spare2" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Purchase_SaleLedger.dbo.SaleLedgerHistorical' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="SaleLedgerHistorical">
+          <Property Name="a" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustRef" Type="nvarchar" MaxLength="30" />
+          <Property Name="CustName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IncludeInReport" Type="bit" />
+          <Property Name="GL" Type="int" />
+          <Property Name="EntryType" Type="smallint" />
+          <Property Name="d" Type="smallint" />
+          <Property Name="Date" Type="date" />
+          <Property Name="InventoryNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="InventoryDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="JonasType" Type="smallint" />
+          <Property Name="MaintenanceTypeNo" Type="smallint" />
+          <Property Name="Value1" Type="money" />
+          <Property Name="i" Type="nvarchar" MaxLength="10" />
+          <Property Name="Value2" Type="money" />
+          <Property Name="Value3" Type="money" />
+        </EntityType>-->
+        <EntityType Name="SalesBacklogHistory">
+          <Key>
+            <PropertyRef Name="SbhID" />
+          </Key>
+          <Property Name="SbhID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SbhDate" Type="date" Nullable="false" />
+          <Property Name="SbhBacklogGrossTotal" Type="money" Nullable="false" />
+          <Property Name="SbhBacklogNetTotal" Type="money" Nullable="false" />
+          <Property Name="SbhInstalledGrossTotal" Type="money" Nullable="false" />
+          <Property Name="SbhMonthlyBacklogNotInstalledGross" Type="money" Nullable="false" />
+          <Property Name="SbhMonthlyBacklogNotInstalledNet" Type="money" Nullable="false" />
+          <Property Name="SbhMonthlyRunningInstalledTotalGross" Type="money" Nullable="false" />
+          <Property Name="SbhMonthlyRunningInstalledTotalNet" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Statuses">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="varchar" MaxLength="50" />
+          <Property Name="StatusEnabled" Type="bit" />
+          <Property Name="StatusSortOrder" Type="smallint" />
+        </EntityType>
+        <EntityType Name="Temp_OrderLedger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Date" Type="datetime" />
+          <Property Name="CustName" Type="varchar" MaxLength="100" />
+          <Property Name="CustRef" Type="varchar" MaxLength="30" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="GL" Type="int" />
+          <Property Name="UniqueID" Type="bigint" />
+          <Property Name="ItemDescription" Type="nvarchar(max)" />
+          <Property Name="Qty" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="Net" Type="money" />
+          <Property Name="Tax" Type="money" />
+          <Property Name="Gross" Type="money" />
+          <Property Name="Profit" Type="money" />
+          <Property Name="DeliveryAddress" Type="nvarchar(max)" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="3" />
+          <Property Name="CustOrderNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="Category" Type="nvarchar" MaxLength="255" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="255" />
+          <Property Name="MiniPack" Type="smallint" />
+          <Property Name="SiteSurveyDate" Type="varchar" MaxLength="255" />
+          <Property Name="BacklogComments" Type="varchar(max)" />
+          <Property Name="Deposit" Type="varchar" MaxLength="255" />
+          <Property Name="AssignedTo" Type="varchar" MaxLength="255" />
+          <Property Name="MegJobNo" Type="varchar" MaxLength="255" />
+          <Property Name="DirectDebit" Type="smallint" />
+          <Property Name="Spare1" Type="varchar" MaxLength="255" />
+          <Property Name="Spare2" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TerminalTypes">
+          <Key>
+            <PropertyRef Name="TerminalTypeId" />
+          </Key>
+          <Property Name="TerminalTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TerminalTypeName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Purchase_SaleLedger.dbo.OutstandingInvoicesExtended' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OutstandingInvoicesExtended">
+          <Key>
+            <PropertyRef Name="CustRef" />
+            <PropertyRef Name="CustName" />
+            <PropertyRef Name="DocumentNumber" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="OriginalTrxAmount" />
+            <PropertyRef Name="CurrentTrxAmount" />
+            <PropertyRef Name="Current" />
+          </Key>
+          <Property Name="CustRef" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ClassID" Type="nvarchar" MaxLength="255" />
+          <Property Name="DocumentNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="OriginalTrxAmount" Type="money" Nullable="false" />
+          <Property Name="CurrentTrxAmount" Type="money" Nullable="false" />
+          <Property Name="Current" Type="money" Nullable="false" />
+          <Property Name="Days31_60" Type="money" />
+          <Property Name="Days61_90" Type="money" />
+          <Property Name="Days91_180" Type="money" />
+          <Property Name="Days181_270" Type="money" />
+          <Property Name="Days271_364" Type="money" />
+          <Property Name="Days365_Plus" Type="money" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Purchase_SaleLedger.dbo.PostedInvoicesExtended' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PostedInvoicesExtended">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="JournalEntry" />
+            <PropertyRef Name="Series" />
+            <PropertyRef Name="TrxDate" />
+            <PropertyRef Name="OriginatingTrxDate" />
+            <PropertyRef Name="LongReference" />
+            <PropertyRef Name="DebitAmount" />
+            <PropertyRef Name="CreditAmount" />
+            <PropertyRef Name="Reference" />
+            <PropertyRef Name="Voided" />
+            <PropertyRef Name="OriginatingTrxSource" />
+            <PropertyRef Name="OriginatingType" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="JournalEntry" Type="bigint" Nullable="false" />
+          <Property Name="Series" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="TrxDate" Type="date" Nullable="false" />
+          <Property Name="OriginatingTrxDate" Type="date" Nullable="false" />
+          <Property Name="JonasGroup" Type="smallint" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="255" />
+          <Property Name="LongReference" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="MaintTypeDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="ReportingDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="DebitAmount" Type="money" Nullable="false" />
+          <Property Name="CreditAmount" Type="money" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OriginatingMasterID" Type="varchar" MaxLength="30" />
+          <Property Name="OriginatingMasterName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginatingDocumentNo" Type="varchar" MaxLength="30" />
+          <Property Name="Voided" Type="bit" Nullable="false" />
+          <Property Name="OriginatingTrxSource" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OriginatingTrxType" Type="nvarchar" MaxLength="50" />
+          <Property Name="OriginatingType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserWhoPosted" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Purchase_SaleLedger.dbo.SaleLedgerExtended' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SaleLedgerExtended">
+          <Key>
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="EntryType" />
+            <PropertyRef Name="QtyValue" />
+            <PropertyRef Name="NetValue" />
+            <PropertyRef Name="TaxValue" />
+            <PropertyRef Name="GrossValue" />
+            <PropertyRef Name="ProfitValue" />
+            <PropertyRef Name="TerminalTypeName" />
+            <PropertyRef Name="AdminStatusName" />
+          </Key>
+          <Property Name="UniqueID" Type="nvarchar" MaxLength="255" />
+          <Property Name="CustRef" Type="varchar" MaxLength="30" />
+          <Property Name="CustName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="255" />
+          <Property Name="GL" Type="int" />
+          <Property Name="GLDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="DueDate" Type="date" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Day" Type="int" />
+          <Property Name="InvoiceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ItemDescription" Type="nvarchar(max)" />
+          <Property Name="JonasGroup" Type="smallint" />
+          <Property Name="JonasGroupName" Type="nvarchar" MaxLength="255" />
+          <Property Name="MaintenanceType" Type="smallint" />
+          <Property Name="MaintTypeDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="ReportingDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="EntryType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="QtyValue" Type="numeric" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="NetValue" Type="money" Nullable="false" />
+          <Property Name="TaxValue" Type="money" Nullable="false" />
+          <Property Name="GrossValue" Type="money" Nullable="false" />
+          <Property Name="ProfitValue" Type="money" Nullable="false" />
+          <Property Name="CustOrderNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="ImportType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Category" Type="nvarchar" MaxLength="255" />
+          <Property Name="UniqueID2" Type="float" />
+          <Property Name="MiniPack" Type="smallint" />
+          <Property Name="SiteSurveyDate" Type="varchar" MaxLength="255" />
+          <Property Name="BacklogComments" Type="varchar(max)" />
+          <Property Name="Deposit" Type="varchar" MaxLength="255" />
+          <Property Name="AssignedTo" Type="varchar" MaxLength="255" />
+          <Property Name="MegJobNo" Type="varchar" MaxLength="255" />
+          <Property Name="DirectDebit" Type="smallint" />
+          <Property Name="Spare1" Type="varchar" MaxLength="255" />
+          <Property Name="TerminalTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Spare2" Type="varchar" MaxLength="255" />
+          <Property Name="AdminStatusName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Purchase_SaleLedger.dbo.SaleLedgerHistoricalExtended' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="SaleLedgerHistoricalExtended">
+          <Property Name="a" Type="nvarchar" MaxLength="10" />
+          <Property Name="CustRef" Type="nvarchar" MaxLength="30" />
+          <Property Name="CustName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IncludeInReport" Type="bit" />
+          <Property Name="GL" Type="int" />
+          <Property Name="GLDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="EntryType" Type="smallint" />
+          <Property Name="EntryTypeDescription" Type="nvarchar" MaxLength="20" />
+          <Property Name="d" Type="smallint" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Day" Type="int" />
+          <Property Name="InventoryNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="InventoryDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="JonasType" Type="smallint" />
+          <Property Name="JonasTypeDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="MaintenanceTypeNo" Type="smallint" />
+          <Property Name="MaintTypeDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="Value1" Type="money" />
+          <Property Name="i" Type="nvarchar" MaxLength="10" />
+          <Property Name="Value2" Type="money" />
+          <Property Name="Value3" Type="money" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_GenerateCogsReport">
+          <Key>
+            <PropertyRef Name="CogsId" />
+            <PropertyRef Name="CogsCompanyName" />
+            <PropertyRef Name="CogsSiteName" />
+            <PropertyRef Name="CogsStatus" />
+            <PropertyRef Name="CogsGPCode" />
+            <PropertyRef Name="CogsGPCategory" />
+            <PropertyRef Name="CogsDescription" />
+            <PropertyRef Name="CogsSalesOrderId" />
+            <PropertyRef Name="CogsItemQuantity" />
+            <PropertyRef Name="CogsItemListPrice" />
+            <PropertyRef Name="CogsItemBuyPrice" />
+          </Key>
+          <Property Name="CogsId" Type="int" Nullable="false" />
+          <Property Name="CogsCompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CogsSiteName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CogsStatus" Type="int" Nullable="false" />
+          <Property Name="CogsStatusName" Type="varchar" MaxLength="50" />
+          <Property Name="CogsGPCode" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CogsDueDate" Type="datetime" />
+          <Property Name="CogsGPCategoryType" Type="smallint" />
+          <Property Name="CogsGPCategory" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CogsDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CogsSalesOrderId" Type="bigint" Nullable="false" />
+          <Property Name="CogsItemQuantity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CogsItemListPrice" Type="money" Nullable="false" />
+          <Property Name="CogsItemBuyPrice" Type="money" Nullable="false" />
+          <Property Name="CogsCogsValue" Type="decimal" Precision="38" Scale="4" />
+          <Property Name="CogsGrossSalesAtList" Type="decimal" Precision="38" Scale="4" />
+          <Property Name="CogsProfitValue" Type="decimal" Precision="38" Scale="4" />
+        </EntityType>
+        <Function Name="CRM_Grid_ImportOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="CRM_Grid_ImportOrders_Adv" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="CustName" Type="varchar" Mode="In" />
+          <Parameter Name="SiteName" Type="nvarchar" Mode="In" />
+          <Parameter Name="CustRef" Type="varchar" Mode="In" />
+          <Parameter Name="DueDate" Type="date" Mode="In" />
+          <Parameter Name="Category" Type="nvarchar" Mode="In" />
+          <Parameter Name="ItemDescription" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Qty" Type="numeric" Mode="In" />
+          <Parameter Name="Net" Type="money" Mode="In" />
+          <Parameter Name="Tax" Type="money" Mode="In" />
+          <Parameter Name="Gross" Type="money" Mode="In" />
+          <Parameter Name="Profit" Type="money" Mode="In" />
+          <Parameter Name="Currency" Type="nvarchar" Mode="In" />
+          <Parameter Name="CustOrderNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="MiniPack" Type="smallint" Mode="In" />
+          <Parameter Name="SiteSurveyDate" Type="varchar" Mode="In" />
+          <Parameter Name="BacklogComments" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Deposit" Type="varchar" Mode="In" />
+          <Parameter Name="AssignedTo" Type="varchar" Mode="In" />
+          <Parameter Name="MegJobNo" Type="varchar" Mode="In" />
+          <Parameter Name="DirectDebit" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="CRM_Grid_ImportOrders_Adv2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="CustName" Type="varchar" Mode="In" />
+          <Parameter Name="SiteName" Type="nvarchar" Mode="In" />
+          <Parameter Name="CustRef" Type="varchar" Mode="In" />
+          <Parameter Name="DueDate" Type="date" Mode="In" />
+          <Parameter Name="Category" Type="nvarchar" Mode="In" />
+          <Parameter Name="ItemDescription" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Qty" Type="numeric" Mode="In" />
+          <Parameter Name="Net" Type="money" Mode="In" />
+          <Parameter Name="Tax" Type="money" Mode="In" />
+          <Parameter Name="Gross" Type="money" Mode="In" />
+          <Parameter Name="Profit" Type="money" Mode="In" />
+          <Parameter Name="Currency" Type="nvarchar" Mode="In" />
+          <Parameter Name="CustOrderNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="MiniPack" Type="smallint" Mode="In" />
+          <Parameter Name="SiteSurveyDate" Type="varchar" Mode="In" />
+          <Parameter Name="BacklogComments" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Deposit" Type="varchar" Mode="In" />
+          <Parameter Name="AssignedTo" Type="varchar" Mode="In" />
+          <Parameter Name="MegJobNo" Type="varchar" Mode="In" />
+          <Parameter Name="DirectDebit" Type="smallint" Mode="In" />
+          <Parameter Name="Spare1" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CRM_Grid_ImportOrders_Adv3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="CustName" Type="varchar" Mode="In" />
+          <Parameter Name="SiteName" Type="nvarchar" Mode="In" />
+          <Parameter Name="CustRef" Type="varchar" Mode="In" />
+          <Parameter Name="DueDate" Type="date" Mode="In" />
+          <Parameter Name="Category" Type="nvarchar" Mode="In" />
+          <Parameter Name="ItemDescription" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Qty" Type="numeric" Mode="In" />
+          <Parameter Name="Net" Type="money" Mode="In" />
+          <Parameter Name="Tax" Type="money" Mode="In" />
+          <Parameter Name="Gross" Type="money" Mode="In" />
+          <Parameter Name="Profit" Type="money" Mode="In" />
+          <Parameter Name="Currency" Type="nvarchar" Mode="In" />
+          <Parameter Name="CustOrderNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="MiniPack" Type="smallint" Mode="In" />
+          <Parameter Name="SiteSurveyDate" Type="varchar" Mode="In" />
+          <Parameter Name="BacklogComments" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Deposit" Type="varchar" Mode="In" />
+          <Parameter Name="AssignedTo" Type="varchar" Mode="In" />
+          <Parameter Name="MegJobNo" Type="varchar" Mode="In" />
+          <Parameter Name="DirectDebit" Type="smallint" Mode="In" />
+          <Parameter Name="Spare1" Type="varchar" Mode="In" />
+          <Parameter Name="Spare2" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CRM_Temp_ImportOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="CRM_Temp_ImportOrders_Adv" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="CRM_Temp_ImportOrders_Adv2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="CRM_Temp_ImportOrders_Adv3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GP_Grid_ImportInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GP_Grid_ImportOutstandingInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GP_Grid_ImportPostedInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GP_Temp_ImportInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GP_Temp_ImportOutstandingInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GP_Temp_ImportPostedInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sage_DeletePreviousOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sage_Grid_ImportInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sage_Grid_ImportOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sage_Temp_ImportInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Purchase_SaleLedgerModelStoreContainer">
+          <EntitySet Name="AdminStatuses" EntityType="Self.AdminStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Configuration" EntityType="Self.Configuration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostOfGoodsSold" EntityType="Self.CostOfGoodsSold" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EntryTypes" EntityType="Self.EntryTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GLTypes" EntityType="Self.GLTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GP_Temp_InvoiceLedger" EntityType="Self.GP_Temp_InvoiceLedger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GP_Temp_OutstandingInvoices" EntityType="Self.GP_Temp_OutstandingInvoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GP_Temp_PostedInvoices" EntityType="Self.GP_Temp_PostedInvoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JonasGroups" EntityType="Self.JonasGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JonasTypes" EntityType="Self.JonasTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaintenanceGLBridge" EntityType="Self.MaintenanceGLBridge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaintenanceTypes" EntityType="Self.MaintenanceTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Numbers" EntityType="Self.Numbers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OutstandingInvoices" EntityType="Self.OutstandingInvoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostedInvoices" EntityType="Self.PostedInvoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sage_Temp_InvoiceLedger" EntityType="Self.Sage_Temp_InvoiceLedger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SaleLedger" EntityType="Self.SaleLedger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesBacklogHistory" EntityType="Self.SalesBacklogHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Temp_OrderLedger" EntityType="Self.Temp_OrderLedger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TerminalTypes" EntityType="Self.TerminalTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OutstandingInvoicesExtended" EntityType="Self.OutstandingInvoicesExtended" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OutstandingInvoicesExtended].[CustRef] AS [CustRef], 
+    [OutstandingInvoicesExtended].[CustName] AS [CustName], 
+    [OutstandingInvoicesExtended].[ClassID] AS [ClassID], 
+    [OutstandingInvoicesExtended].[DocumentNumber] AS [DocumentNumber], 
+    [OutstandingInvoicesExtended].[Type] AS [Type], 
+    [OutstandingInvoicesExtended].[Date] AS [Date], 
+    [OutstandingInvoicesExtended].[DueDate] AS [DueDate], 
+    [OutstandingInvoicesExtended].[OriginalTrxAmount] AS [OriginalTrxAmount], 
+    [OutstandingInvoicesExtended].[CurrentTrxAmount] AS [CurrentTrxAmount], 
+    [OutstandingInvoicesExtended].[Current] AS [Current], 
+    [OutstandingInvoicesExtended].[Days31_60] AS [Days31_60], 
+    [OutstandingInvoicesExtended].[Days61_90] AS [Days61_90], 
+    [OutstandingInvoicesExtended].[Days91_180] AS [Days91_180], 
+    [OutstandingInvoicesExtended].[Days181_270] AS [Days181_270], 
+    [OutstandingInvoicesExtended].[Days271_364] AS [Days271_364], 
+    [OutstandingInvoicesExtended].[Days365_Plus] AS [Days365_Plus]
+    FROM [dbo].[OutstandingInvoicesExtended] AS [OutstandingInvoicesExtended]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PostedInvoicesExtended" EntityType="Self.PostedInvoicesExtended" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PostedInvoicesExtended].[ID] AS [ID], 
+    [PostedInvoicesExtended].[JournalEntry] AS [JournalEntry], 
+    [PostedInvoicesExtended].[Series] AS [Series], 
+    [PostedInvoicesExtended].[TrxDate] AS [TrxDate], 
+    [PostedInvoicesExtended].[OriginatingTrxDate] AS [OriginatingTrxDate], 
+    [PostedInvoicesExtended].[JonasGroup] AS [JonasGroup], 
+    [PostedInvoicesExtended].[GroupName] AS [GroupName], 
+    [PostedInvoicesExtended].[LongReference] AS [LongReference], 
+    [PostedInvoicesExtended].[MaintTypeDescription] AS [MaintTypeDescription], 
+    [PostedInvoicesExtended].[ReportingDescription] AS [ReportingDescription], 
+    [PostedInvoicesExtended].[DebitAmount] AS [DebitAmount], 
+    [PostedInvoicesExtended].[CreditAmount] AS [CreditAmount], 
+    [PostedInvoicesExtended].[Reference] AS [Reference], 
+    [PostedInvoicesExtended].[OriginatingMasterID] AS [OriginatingMasterID], 
+    [PostedInvoicesExtended].[OriginatingMasterName] AS [OriginatingMasterName], 
+    [PostedInvoicesExtended].[OriginatingDocumentNo] AS [OriginatingDocumentNo], 
+    [PostedInvoicesExtended].[Voided] AS [Voided], 
+    [PostedInvoicesExtended].[OriginatingTrxSource] AS [OriginatingTrxSource], 
+    [PostedInvoicesExtended].[OriginatingTrxType] AS [OriginatingTrxType], 
+    [PostedInvoicesExtended].[OriginatingType] AS [OriginatingType], 
+    [PostedInvoicesExtended].[UserWhoPosted] AS [UserWhoPosted]
+    FROM [dbo].[PostedInvoicesExtended] AS [PostedInvoicesExtended]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SaleLedgerExtended" EntityType="Self.SaleLedgerExtended" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SaleLedgerExtended].[UniqueID] AS [UniqueID], 
+    [SaleLedgerExtended].[CustRef] AS [CustRef], 
+    [SaleLedgerExtended].[CustName] AS [CustName], 
+    [SaleLedgerExtended].[SiteName] AS [SiteName], 
+    [SaleLedgerExtended].[GL] AS [GL], 
+    [SaleLedgerExtended].[GLDescription] AS [GLDescription], 
+    [SaleLedgerExtended].[Date] AS [Date], 
+    [SaleLedgerExtended].[DueDate] AS [DueDate], 
+    [SaleLedgerExtended].[Year] AS [Year], 
+    [SaleLedgerExtended].[Month] AS [Month], 
+    [SaleLedgerExtended].[Day] AS [Day], 
+    [SaleLedgerExtended].[InvoiceNo] AS [InvoiceNo], 
+    [SaleLedgerExtended].[ItemDescription] AS [ItemDescription], 
+    [SaleLedgerExtended].[JonasGroup] AS [JonasGroup], 
+    [SaleLedgerExtended].[JonasGroupName] AS [JonasGroupName], 
+    [SaleLedgerExtended].[MaintenanceType] AS [MaintenanceType], 
+    [SaleLedgerExtended].[MaintTypeDescription] AS [MaintTypeDescription], 
+    [SaleLedgerExtended].[ReportingDescription] AS [ReportingDescription], 
+    [SaleLedgerExtended].[EntryType] AS [EntryType], 
+    [SaleLedgerExtended].[QtyValue] AS [QtyValue], 
+    [SaleLedgerExtended].[NetValue] AS [NetValue], 
+    [SaleLedgerExtended].[TaxValue] AS [TaxValue], 
+    [SaleLedgerExtended].[GrossValue] AS [GrossValue], 
+    [SaleLedgerExtended].[ProfitValue] AS [ProfitValue], 
+    [SaleLedgerExtended].[CustOrderNo] AS [CustOrderNo], 
+    [SaleLedgerExtended].[ImportType] AS [ImportType], 
+    [SaleLedgerExtended].[Category] AS [Category], 
+    [SaleLedgerExtended].[UniqueID2] AS [UniqueID2], 
+    [SaleLedgerExtended].[MiniPack] AS [MiniPack], 
+    [SaleLedgerExtended].[SiteSurveyDate] AS [SiteSurveyDate], 
+    [SaleLedgerExtended].[BacklogComments] AS [BacklogComments], 
+    [SaleLedgerExtended].[Deposit] AS [Deposit], 
+    [SaleLedgerExtended].[AssignedTo] AS [AssignedTo], 
+    [SaleLedgerExtended].[MegJobNo] AS [MegJobNo], 
+    [SaleLedgerExtended].[DirectDebit] AS [DirectDebit], 
+    [SaleLedgerExtended].[Spare1] AS [Spare1], 
+    [SaleLedgerExtended].[TerminalTypeName] AS [TerminalTypeName], 
+    [SaleLedgerExtended].[Spare2] AS [Spare2], 
+    [SaleLedgerExtended].[AdminStatusName] AS [AdminStatusName]
+    FROM [dbo].[SaleLedgerExtended] AS [SaleLedgerExtended]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_GenerateCogsReport" EntityType="Self.vw_GenerateCogsReport" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_GenerateCogsReport].[CogsId] AS [CogsId], 
+    [vw_GenerateCogsReport].[CogsCompanyName] AS [CogsCompanyName], 
+    [vw_GenerateCogsReport].[CogsSiteName] AS [CogsSiteName], 
+    [vw_GenerateCogsReport].[CogsStatus] AS [CogsStatus], 
+    [vw_GenerateCogsReport].[CogsStatusName] AS [CogsStatusName], 
+    [vw_GenerateCogsReport].[CogsGPCode] AS [CogsGPCode], 
+    [vw_GenerateCogsReport].[CogsDueDate] AS [CogsDueDate], 
+    [vw_GenerateCogsReport].[CogsGPCategoryType] AS [CogsGPCategoryType], 
+    [vw_GenerateCogsReport].[CogsGPCategory] AS [CogsGPCategory], 
+    [vw_GenerateCogsReport].[CogsDescription] AS [CogsDescription], 
+    [vw_GenerateCogsReport].[CogsSalesOrderId] AS [CogsSalesOrderId], 
+    [vw_GenerateCogsReport].[CogsItemQuantity] AS [CogsItemQuantity], 
+    [vw_GenerateCogsReport].[CogsItemListPrice] AS [CogsItemListPrice], 
+    [vw_GenerateCogsReport].[CogsItemBuyPrice] AS [CogsItemBuyPrice], 
+    [vw_GenerateCogsReport].[CogsCogsValue] AS [CogsCogsValue], 
+    [vw_GenerateCogsReport].[CogsGrossSalesAtList] AS [CogsGrossSalesAtList], 
+    [vw_GenerateCogsReport].[CogsProfitValue] AS [CogsProfitValue]
+    FROM [dbo].[vw_GenerateCogsReport] AS [vw_GenerateCogsReport]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Purchase_SaleLedgerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AdminStatus">
+          <Key>
+            <PropertyRef Name="AdminStatusId" />
+          </Key>
+          <Property Name="AdminStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="Label" />
+          </Key>
+          <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConfigSetting" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostOfGoodsSold">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CogsCompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CogsSiteName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CogsStatus" Type="Int32" Nullable="false" />
+          <Property Name="CogsGPCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CogsDueDate" Type="DateTime" Precision="3" />
+          <Property Name="CogsGPCategory" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CogsDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CogsSalesOrderId" Type="Int64" Nullable="false" />
+          <Property Name="CogsItemQuantity" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CogsItemListPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CogsItemBuyPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntryType">
+          <Key>
+            <PropertyRef Name="EntryTypeNo" />
+          </Key>
+          <Property Name="EntryTypeNo" Type="Int16" Nullable="false" />
+          <Property Name="EntryTypeDescription" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="GLType">
+          <Key>
+            <PropertyRef Name="GLNo" />
+          </Key>
+          <Property Name="GLNo" Type="Int32" Nullable="false" />
+          <Property Name="GLDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="GP_Temp_InvoiceLedger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustRef" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gross" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="UserDefined" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SaleDocument" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Net" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="VAT" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="OTTA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="GP_Temp_OutstandingInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="CustRef" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClassID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TerritoryID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginalTrxAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CurrentTrxAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days0" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days3" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days4" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days5" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days6" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="GP_Temp_PostedInvoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="JournalEntry" Type="Int64" Nullable="false" />
+          <Property Name="Series" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TrxDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OriginatingTrxDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AccountNumber" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AccountDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DebitAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CreditAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OriginatingMasterID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="OriginatingMasterName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginatingDocumentNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Voided" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="OriginatingTrxSource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OriginatingTrxType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginatingType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserWhoPosted" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="JonasGroup">
+          <Key>
+            <PropertyRef Name="GroupNo" />
+          </Key>
+          <Property Name="GroupNo" Type="Int16" Nullable="false" />
+          <Property Name="GroupName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="JonasType">
+          <Key>
+            <PropertyRef Name="JonasType1" />
+          </Key>
+          <Property Name="JonasType1" Type="Int16" Nullable="false" />
+          <Property Name="JonasTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="JonasGroup" Type="Int16" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="LogDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExcelPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ImportType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumberOfRowsImported" Type="Int64" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="MaintenanceGLBridge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="MaintenanceType" Type="Int16" />
+          <Property Name="GLNumber" Type="Int32" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="MaintenanceType">
+          <Key>
+            <PropertyRef Name="MaintenanceType1" />
+          </Key>
+          <Property Name="MaintenanceType1" Type="Int16" Nullable="false" />
+          <Property Name="LongReference" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="MaintTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ReportingDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="JonasGroup" Type="Int16" />
+        </EntityType>
+        <EntityType Name="Number">
+          <Key>
+            <PropertyRef Name="Number1" />
+          </Key>
+          <Property Name="Number1" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="OutstandingInvoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="CustRef" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClassID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="OriginalTrxAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CurrentTrxAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Days0" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Days1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days3" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days4" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days5" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days6" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="PostedInvoice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JournalEntry" Type="Int64" Nullable="false" />
+          <Property Name="Series" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TrxDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OriginatingTrxDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AccountNumber" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DebitAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CreditAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OriginatingMasterID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="OriginatingMasterName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginatingDocumentNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Voided" Type="Boolean" Nullable="false" />
+          <Property Name="OriginatingTrxSource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OriginatingTrxType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginatingType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserWhoPosted" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Sage_Temp_InvoiceLedger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="CustRef" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="GL" Type="Int32" />
+          <Property Name="UniqueID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ItemDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Net" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Tax" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Gross" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Profit" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Currency" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustOrderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="SaleLedger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CustRef" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DueDate" Type="DateTime" Precision="0" />
+          <Property Name="GL" Type="Int32" />
+          <Property Name="UniqueID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ItemDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Net" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Tax" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Gross" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Profit" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustOrderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ImportType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SiteName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MiniPack" Type="Int16" />
+          <Property Name="SiteSurveyDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BacklogComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Deposit" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MegJobNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DirectDebit" Type="Int16" />
+          <Property Name="Spare1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Spare2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="SalesBacklogHistory">
+          <Key>
+            <PropertyRef Name="SbhID" />
+          </Key>
+          <Property Name="SbhID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SbhDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SbhBacklogGrossTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="SbhBacklogNetTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="SbhInstalledGrossTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="SbhMonthlyBacklogNotInstalledGross" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="SbhMonthlyBacklogNotInstalledNet" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="SbhMonthlyRunningInstalledTotalGross" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="SbhMonthlyRunningInstalledTotalNet" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StatusEnabled" Type="Boolean" />
+          <Property Name="StatusSortOrder" Type="Int16" />
+        </EntityType>
+        <EntityType Name="Temp_OrderLedger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="CustName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CustRef" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="GL" Type="Int32" />
+          <Property Name="UniqueID" Type="Int64" />
+          <Property Name="ItemDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Net" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Tax" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Gross" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Profit" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DeliveryAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="CustOrderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SiteName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MiniPack" Type="Int16" />
+          <Property Name="SiteSurveyDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BacklogComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Deposit" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MegJobNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DirectDebit" Type="Int16" />
+          <Property Name="Spare1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Spare2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="TerminalType">
+          <Key>
+            <PropertyRef Name="TerminalTypeId" />
+          </Key>
+          <Property Name="TerminalTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TerminalTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OutstandingInvoicesExtended">
+          <Key>
+            <PropertyRef Name="CustRef" />
+            <PropertyRef Name="CustName" />
+            <PropertyRef Name="DocumentNumber" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="OriginalTrxAmount" />
+            <PropertyRef Name="CurrentTrxAmount" />
+            <PropertyRef Name="Current" />
+          </Key>
+          <Property Name="CustRef" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClassID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="OriginalTrxAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CurrentTrxAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Current" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Days31_60" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days61_90" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days91_180" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days181_270" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days271_364" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Days365_Plus" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="PostedInvoicesExtended">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="JournalEntry" />
+            <PropertyRef Name="Series" />
+            <PropertyRef Name="TrxDate" />
+            <PropertyRef Name="OriginatingTrxDate" />
+            <PropertyRef Name="LongReference" />
+            <PropertyRef Name="DebitAmount" />
+            <PropertyRef Name="CreditAmount" />
+            <PropertyRef Name="Reference" />
+            <PropertyRef Name="Voided" />
+            <PropertyRef Name="OriginatingTrxSource" />
+            <PropertyRef Name="OriginatingType" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="JournalEntry" Type="Int64" Nullable="false" />
+          <Property Name="Series" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TrxDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OriginatingTrxDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="JonasGroup" Type="Int16" />
+          <Property Name="GroupName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LongReference" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaintTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ReportingDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DebitAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CreditAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OriginatingMasterID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="OriginatingMasterName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginatingDocumentNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Voided" Type="Boolean" Nullable="false" />
+          <Property Name="OriginatingTrxSource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OriginatingTrxType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OriginatingType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserWhoPosted" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SaleLedgerExtended">
+          <Key>
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="EntryType" />
+            <PropertyRef Name="QtyValue" />
+            <PropertyRef Name="NetValue" />
+            <PropertyRef Name="TaxValue" />
+            <PropertyRef Name="GrossValue" />
+            <PropertyRef Name="ProfitValue" />
+            <PropertyRef Name="TerminalTypeName" />
+            <PropertyRef Name="AdminStatusName" />
+          </Key>
+          <Property Name="UniqueID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CustRef" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CustName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SiteName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="GL" Type="Int32" />
+          <Property Name="GLDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DueDate" Type="DateTime" Precision="0" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JonasGroup" Type="Int16" />
+          <Property Name="JonasGroupName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MaintenanceType" Type="Int16" />
+          <Property Name="MaintTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ReportingDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EntryType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QtyValue" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="NetValue" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TaxValue" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="GrossValue" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="ProfitValue" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CustOrderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ImportType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UniqueID2" Type="Double" />
+          <Property Name="MiniPack" Type="Int16" />
+          <Property Name="SiteSurveyDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BacklogComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Deposit" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedTo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MegJobNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DirectDebit" Type="Int16" />
+          <Property Name="Spare1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TerminalTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Spare2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AdminStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_GenerateCogsReport">
+          <Key>
+            <PropertyRef Name="CogsId" />
+            <PropertyRef Name="CogsCompanyName" />
+            <PropertyRef Name="CogsSiteName" />
+            <PropertyRef Name="CogsStatus" />
+            <PropertyRef Name="CogsGPCode" />
+            <PropertyRef Name="CogsGPCategory" />
+            <PropertyRef Name="CogsDescription" />
+            <PropertyRef Name="CogsSalesOrderId" />
+            <PropertyRef Name="CogsItemQuantity" />
+            <PropertyRef Name="CogsItemListPrice" />
+            <PropertyRef Name="CogsItemBuyPrice" />
+          </Key>
+          <Property Name="CogsId" Type="Int32" Nullable="false" />
+          <Property Name="CogsCompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CogsSiteName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CogsStatus" Type="Int32" Nullable="false" />
+          <Property Name="CogsStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CogsGPCode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CogsDueDate" Type="DateTime" Precision="3" />
+          <Property Name="CogsGPCategoryType" Type="Int16" />
+          <Property Name="CogsGPCategory" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CogsDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CogsSalesOrderId" Type="Int64" Nullable="false" />
+          <Property Name="CogsItemQuantity" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CogsItemListPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CogsItemBuyPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CogsCogsValue" Type="Decimal" Precision="38" Scale="4" />
+          <Property Name="CogsGrossSalesAtList" Type="Decimal" Precision="38" Scale="4" />
+          <Property Name="CogsProfitValue" Type="Decimal" Precision="38" Scale="4" />
+        </EntityType>
+        <EntityContainer Name="Purchase_SaleLedgerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdminStatuses" EntityType="Self.AdminStatus" />
+          <EntitySet Name="Configurations" EntityType="Self.Configuration" />
+          <EntitySet Name="CostOfGoodsSolds" EntityType="Self.CostOfGoodsSold" />
+          <EntitySet Name="EntryTypes" EntityType="Self.EntryType" />
+          <EntitySet Name="GLTypes" EntityType="Self.GLType" />
+          <EntitySet Name="GP_Temp_InvoiceLedger" EntityType="Self.GP_Temp_InvoiceLedger" />
+          <EntitySet Name="GP_Temp_OutstandingInvoices" EntityType="Self.GP_Temp_OutstandingInvoices" />
+          <EntitySet Name="GP_Temp_PostedInvoices" EntityType="Self.GP_Temp_PostedInvoices" />
+          <EntitySet Name="JonasGroups" EntityType="Self.JonasGroup" />
+          <EntitySet Name="JonasTypes" EntityType="Self.JonasType" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="MaintenanceGLBridges" EntityType="Self.MaintenanceGLBridge" />
+          <EntitySet Name="MaintenanceTypes" EntityType="Self.MaintenanceType" />
+          <EntitySet Name="Numbers" EntityType="Self.Number" />
+          <EntitySet Name="OutstandingInvoices" EntityType="Self.OutstandingInvoice" />
+          <EntitySet Name="PostedInvoices" EntityType="Self.PostedInvoice" />
+          <EntitySet Name="Sage_Temp_InvoiceLedger" EntityType="Self.Sage_Temp_InvoiceLedger" />
+          <EntitySet Name="SaleLedgers" EntityType="Self.SaleLedger" />
+          <EntitySet Name="SalesBacklogHistories" EntityType="Self.SalesBacklogHistory" />
+          <EntitySet Name="Statuses" EntityType="Self.Status" />
+          <EntitySet Name="Temp_OrderLedger" EntityType="Self.Temp_OrderLedger" />
+          <EntitySet Name="TerminalTypes" EntityType="Self.TerminalType" />
+          <EntitySet Name="OutstandingInvoicesExtendeds" EntityType="Self.OutstandingInvoicesExtended" />
+          <EntitySet Name="PostedInvoicesExtendeds" EntityType="Self.PostedInvoicesExtended" />
+          <EntitySet Name="SaleLedgerExtendeds" EntityType="Self.SaleLedgerExtended" />
+          <EntitySet Name="vw_GenerateCogsReport" EntityType="Self.vw_GenerateCogsReport" />
+          <FunctionImport Name="CRM_Grid_ImportOrders" />
+          <FunctionImport Name="CRM_Grid_ImportOrders_Adv">
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="CustName" Mode="In" Type="String" />
+            <Parameter Name="SiteName" Mode="In" Type="String" />
+            <Parameter Name="CustRef" Mode="In" Type="String" />
+            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="ItemDescription" Mode="In" Type="String" />
+            <Parameter Name="Qty" Mode="In" Type="Decimal" />
+            <Parameter Name="Net" Mode="In" Type="Decimal" />
+            <Parameter Name="Tax" Mode="In" Type="Decimal" />
+            <Parameter Name="Gross" Mode="In" Type="Decimal" />
+            <Parameter Name="Profit" Mode="In" Type="Decimal" />
+            <Parameter Name="Currency" Mode="In" Type="String" />
+            <Parameter Name="CustOrderNo" Mode="In" Type="String" />
+            <Parameter Name="MiniPack" Mode="In" Type="Int16" />
+            <Parameter Name="SiteSurveyDate" Mode="In" Type="String" />
+            <Parameter Name="BacklogComments" Mode="In" Type="String" />
+            <Parameter Name="Deposit" Mode="In" Type="String" />
+            <Parameter Name="AssignedTo" Mode="In" Type="String" />
+            <Parameter Name="MegJobNo" Mode="In" Type="String" />
+            <Parameter Name="DirectDebit" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="CRM_Grid_ImportOrders_Adv2">
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="CustName" Mode="In" Type="String" />
+            <Parameter Name="SiteName" Mode="In" Type="String" />
+            <Parameter Name="CustRef" Mode="In" Type="String" />
+            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="ItemDescription" Mode="In" Type="String" />
+            <Parameter Name="Qty" Mode="In" Type="Decimal" />
+            <Parameter Name="Net" Mode="In" Type="Decimal" />
+            <Parameter Name="Tax" Mode="In" Type="Decimal" />
+            <Parameter Name="Gross" Mode="In" Type="Decimal" />
+            <Parameter Name="Profit" Mode="In" Type="Decimal" />
+            <Parameter Name="Currency" Mode="In" Type="String" />
+            <Parameter Name="CustOrderNo" Mode="In" Type="String" />
+            <Parameter Name="MiniPack" Mode="In" Type="Int16" />
+            <Parameter Name="SiteSurveyDate" Mode="In" Type="String" />
+            <Parameter Name="BacklogComments" Mode="In" Type="String" />
+            <Parameter Name="Deposit" Mode="In" Type="String" />
+            <Parameter Name="AssignedTo" Mode="In" Type="String" />
+            <Parameter Name="MegJobNo" Mode="In" Type="String" />
+            <Parameter Name="DirectDebit" Mode="In" Type="Int16" />
+            <Parameter Name="Spare1" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CRM_Grid_ImportOrders_Adv3">
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="CustName" Mode="In" Type="String" />
+            <Parameter Name="SiteName" Mode="In" Type="String" />
+            <Parameter Name="CustRef" Mode="In" Type="String" />
+            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="ItemDescription" Mode="In" Type="String" />
+            <Parameter Name="Qty" Mode="In" Type="Decimal" />
+            <Parameter Name="Net" Mode="In" Type="Decimal" />
+            <Parameter Name="Tax" Mode="In" Type="Decimal" />
+            <Parameter Name="Gross" Mode="In" Type="Decimal" />
+            <Parameter Name="Profit" Mode="In" Type="Decimal" />
+            <Parameter Name="Currency" Mode="In" Type="String" />
+            <Parameter Name="CustOrderNo" Mode="In" Type="String" />
+            <Parameter Name="MiniPack" Mode="In" Type="Int16" />
+            <Parameter Name="SiteSurveyDate" Mode="In" Type="String" />
+            <Parameter Name="BacklogComments" Mode="In" Type="String" />
+            <Parameter Name="Deposit" Mode="In" Type="String" />
+            <Parameter Name="AssignedTo" Mode="In" Type="String" />
+            <Parameter Name="MegJobNo" Mode="In" Type="String" />
+            <Parameter Name="DirectDebit" Mode="In" Type="Int16" />
+            <Parameter Name="Spare1" Mode="In" Type="String" />
+            <Parameter Name="Spare2" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CRM_Temp_ImportOrders" />
+          <FunctionImport Name="CRM_Temp_ImportOrders_Adv" />
+          <FunctionImport Name="CRM_Temp_ImportOrders_Adv2" />
+          <FunctionImport Name="CRM_Temp_ImportOrders_Adv3" />
+          <FunctionImport Name="GP_Grid_ImportInvoices" />
+          <FunctionImport Name="GP_Grid_ImportOutstandingInvoices" />
+          <FunctionImport Name="GP_Grid_ImportPostedInvoices" />
+          <FunctionImport Name="GP_Temp_ImportInvoices" />
+          <FunctionImport Name="GP_Temp_ImportOutstandingInvoices" />
+          <FunctionImport Name="GP_Temp_ImportPostedInvoices" />
+          <FunctionImport Name="Sage_DeletePreviousOrders" />
+          <FunctionImport Name="Sage_Grid_ImportInvoices" />
+          <FunctionImport Name="Sage_Grid_ImportOrders" />
+          <FunctionImport Name="Sage_Temp_ImportInvoices" ReturnType="Collection(Purchase_SaleLedgerModel.Sage_Temp_ImportInvoices_Result)" />
+        </EntityContainer>
+        <ComplexType Name="Sage_Temp_ImportInvoices_Result">
+          <Property Type="DateTime" Name="Date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CustRef" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="GL" Nullable="true" />
+          <Property Type="String" Name="UniqueID" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ItemDescription" Nullable="true" />
+          <Property Type="Decimal" Name="Qty" Nullable="true" Precision="16" Scale="6" />
+          <Property Type="Decimal" Name="Net" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="Tax" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="Gross" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="Profit" Nullable="true" Precision="19" />
+          <Property Type="String" Name="Type" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Currency" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="DeliveryAddress" Nullable="true" />
+          <Property Type="String" Name="CustOrderNo" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="InvoiceNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CustName" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="Id" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Purchase_SaleLedgerModelStoreContainer" CdmEntityContainer="Purchase_SaleLedgerEntities">
+          <EntitySetMapping Name="AdminStatuses">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.AdminStatus">
+              <MappingFragment StoreEntitySet="AdminStatuses">
+                <ScalarProperty Name="AdminStatusId" ColumnName="AdminStatusId" />
+                <ScalarProperty Name="AdminStatusName" ColumnName="AdminStatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configurations">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.Configuration">
+              <MappingFragment StoreEntitySet="Configuration">
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="ConfigSetting" ColumnName="ConfigSetting" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostOfGoodsSolds">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.CostOfGoodsSold">
+              <MappingFragment StoreEntitySet="CostOfGoodsSold">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CogsCompanyName" ColumnName="CogsCompanyName" />
+                <ScalarProperty Name="CogsSiteName" ColumnName="CogsSiteName" />
+                <ScalarProperty Name="CogsStatus" ColumnName="CogsStatus" />
+                <ScalarProperty Name="CogsGPCode" ColumnName="CogsGPCode" />
+                <ScalarProperty Name="CogsDueDate" ColumnName="CogsDueDate" />
+                <ScalarProperty Name="CogsGPCategory" ColumnName="CogsGPCategory" />
+                <ScalarProperty Name="CogsDescription" ColumnName="CogsDescription" />
+                <ScalarProperty Name="CogsSalesOrderId" ColumnName="CogsSalesOrderId" />
+                <ScalarProperty Name="CogsItemQuantity" ColumnName="CogsItemQuantity" />
+                <ScalarProperty Name="CogsItemListPrice" ColumnName="CogsItemListPrice" />
+                <ScalarProperty Name="CogsItemBuyPrice" ColumnName="CogsItemBuyPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntryTypes">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.EntryType">
+              <MappingFragment StoreEntitySet="EntryTypes">
+                <ScalarProperty Name="EntryTypeNo" ColumnName="EntryTypeNo" />
+                <ScalarProperty Name="EntryTypeDescription" ColumnName="EntryTypeDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GLTypes">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.GLType">
+              <MappingFragment StoreEntitySet="GLTypes">
+                <ScalarProperty Name="GLNo" ColumnName="GLNo" />
+                <ScalarProperty Name="GLDescription" ColumnName="GLDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GP_Temp_InvoiceLedger">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.GP_Temp_InvoiceLedger">
+              <MappingFragment StoreEntitySet="GP_Temp_InvoiceLedger">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Gross" ColumnName="Gross" />
+                <ScalarProperty Name="UserDefined" ColumnName="UserDefined" />
+                <ScalarProperty Name="SaleDocument" ColumnName="SaleDocument" />
+                <ScalarProperty Name="Net" ColumnName="Net" />
+                <ScalarProperty Name="VAT" ColumnName="VAT" />
+                <ScalarProperty Name="OTTA" ColumnName="OTTA" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GP_Temp_OutstandingInvoices">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.GP_Temp_OutstandingInvoices">
+              <MappingFragment StoreEntitySet="GP_Temp_OutstandingInvoices">
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="TerritoryID" ColumnName="TerritoryID" />
+                <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="OriginalTrxAmount" ColumnName="OriginalTrxAmount" />
+                <ScalarProperty Name="CurrentTrxAmount" ColumnName="CurrentTrxAmount" />
+                <ScalarProperty Name="Days0" ColumnName="Days0" />
+                <ScalarProperty Name="Days1" ColumnName="Days1" />
+                <ScalarProperty Name="Days2" ColumnName="Days2" />
+                <ScalarProperty Name="Days3" ColumnName="Days3" />
+                <ScalarProperty Name="Days4" ColumnName="Days4" />
+                <ScalarProperty Name="Days5" ColumnName="Days5" />
+                <ScalarProperty Name="Days6" ColumnName="Days6" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GP_Temp_PostedInvoices">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.GP_Temp_PostedInvoices">
+              <MappingFragment StoreEntitySet="GP_Temp_PostedInvoices">
+                <ScalarProperty Name="JournalEntry" ColumnName="JournalEntry" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="TrxDate" ColumnName="TrxDate" />
+                <ScalarProperty Name="OriginatingTrxDate" ColumnName="OriginatingTrxDate" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="AccountDescription" ColumnName="AccountDescription" />
+                <ScalarProperty Name="DebitAmount" ColumnName="DebitAmount" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="OriginatingMasterID" ColumnName="OriginatingMasterID" />
+                <ScalarProperty Name="OriginatingMasterName" ColumnName="OriginatingMasterName" />
+                <ScalarProperty Name="OriginatingDocumentNo" ColumnName="OriginatingDocumentNo" />
+                <ScalarProperty Name="Voided" ColumnName="Voided" />
+                <ScalarProperty Name="OriginatingTrxSource" ColumnName="OriginatingTrxSource" />
+                <ScalarProperty Name="OriginatingTrxType" ColumnName="OriginatingTrxType" />
+                <ScalarProperty Name="OriginatingType" ColumnName="OriginatingType" />
+                <ScalarProperty Name="UserWhoPosted" ColumnName="UserWhoPosted" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JonasGroups">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.JonasGroup">
+              <MappingFragment StoreEntitySet="JonasGroups">
+                <ScalarProperty Name="GroupNo" ColumnName="GroupNo" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JonasTypes">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.JonasType">
+              <MappingFragment StoreEntitySet="JonasTypes">
+                <ScalarProperty Name="JonasType1" ColumnName="JonasType" />
+                <ScalarProperty Name="JonasTypeDescription" ColumnName="JonasTypeDescription" />
+                <ScalarProperty Name="JonasGroup" ColumnName="JonasGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+                <ScalarProperty Name="ExcelPath" ColumnName="ExcelPath" />
+                <ScalarProperty Name="ImportType" ColumnName="ImportType" />
+                <ScalarProperty Name="NumberOfRowsImported" ColumnName="NumberOfRowsImported" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaintenanceGLBridges">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.MaintenanceGLBridge">
+              <MappingFragment StoreEntitySet="MaintenanceGLBridge">
+                <ScalarProperty Name="MaintenanceType" ColumnName="MaintenanceType" />
+                <ScalarProperty Name="GLNumber" ColumnName="GLNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaintenanceTypes">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.MaintenanceType">
+              <MappingFragment StoreEntitySet="MaintenanceTypes">
+                <ScalarProperty Name="MaintenanceType1" ColumnName="MaintenanceType" />
+                <ScalarProperty Name="LongReference" ColumnName="LongReference" />
+                <ScalarProperty Name="MaintTypeDescription" ColumnName="MaintTypeDescription" />
+                <ScalarProperty Name="ReportingDescription" ColumnName="ReportingDescription" />
+                <ScalarProperty Name="JonasGroup" ColumnName="JonasGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Numbers">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.Number">
+              <MappingFragment StoreEntitySet="Numbers">
+                <ScalarProperty Name="Number1" ColumnName="Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OutstandingInvoices">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.OutstandingInvoice">
+              <MappingFragment StoreEntitySet="OutstandingInvoices">
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="OriginalTrxAmount" ColumnName="OriginalTrxAmount" />
+                <ScalarProperty Name="CurrentTrxAmount" ColumnName="CurrentTrxAmount" />
+                <ScalarProperty Name="Days0" ColumnName="Days0" />
+                <ScalarProperty Name="Days1" ColumnName="Days1" />
+                <ScalarProperty Name="Days2" ColumnName="Days2" />
+                <ScalarProperty Name="Days3" ColumnName="Days3" />
+                <ScalarProperty Name="Days4" ColumnName="Days4" />
+                <ScalarProperty Name="Days5" ColumnName="Days5" />
+                <ScalarProperty Name="Days6" ColumnName="Days6" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostedInvoices">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.PostedInvoice">
+              <MappingFragment StoreEntitySet="PostedInvoices">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="JournalEntry" ColumnName="JournalEntry" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="TrxDate" ColumnName="TrxDate" />
+                <ScalarProperty Name="OriginatingTrxDate" ColumnName="OriginatingTrxDate" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="DebitAmount" ColumnName="DebitAmount" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="OriginatingMasterID" ColumnName="OriginatingMasterID" />
+                <ScalarProperty Name="OriginatingMasterName" ColumnName="OriginatingMasterName" />
+                <ScalarProperty Name="OriginatingDocumentNo" ColumnName="OriginatingDocumentNo" />
+                <ScalarProperty Name="Voided" ColumnName="Voided" />
+                <ScalarProperty Name="OriginatingTrxSource" ColumnName="OriginatingTrxSource" />
+                <ScalarProperty Name="OriginatingTrxType" ColumnName="OriginatingTrxType" />
+                <ScalarProperty Name="OriginatingType" ColumnName="OriginatingType" />
+                <ScalarProperty Name="UserWhoPosted" ColumnName="UserWhoPosted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sage_Temp_InvoiceLedger">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.Sage_Temp_InvoiceLedger">
+              <MappingFragment StoreEntitySet="Sage_Temp_InvoiceLedger">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="GL" ColumnName="GL" />
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Net" ColumnName="Net" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Gross" ColumnName="Gross" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="CustOrderNo" ColumnName="CustOrderNo" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleLedgers">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.SaleLedger">
+              <MappingFragment StoreEntitySet="SaleLedger">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="GL" ColumnName="GL" />
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Net" ColumnName="Net" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Gross" ColumnName="Gross" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="CustOrderNo" ColumnName="CustOrderNo" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="ImportType" ColumnName="ImportType" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="MiniPack" ColumnName="MiniPack" />
+                <ScalarProperty Name="SiteSurveyDate" ColumnName="SiteSurveyDate" />
+                <ScalarProperty Name="BacklogComments" ColumnName="BacklogComments" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="MegJobNo" ColumnName="MegJobNo" />
+                <ScalarProperty Name="DirectDebit" ColumnName="DirectDebit" />
+                <ScalarProperty Name="Spare1" ColumnName="Spare1" />
+                <ScalarProperty Name="Spare2" ColumnName="Spare2" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesBacklogHistories">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.SalesBacklogHistory">
+              <MappingFragment StoreEntitySet="SalesBacklogHistory">
+                <ScalarProperty Name="SbhID" ColumnName="SbhID" />
+                <ScalarProperty Name="SbhDate" ColumnName="SbhDate" />
+                <ScalarProperty Name="SbhBacklogGrossTotal" ColumnName="SbhBacklogGrossTotal" />
+                <ScalarProperty Name="SbhBacklogNetTotal" ColumnName="SbhBacklogNetTotal" />
+                <ScalarProperty Name="SbhInstalledGrossTotal" ColumnName="SbhInstalledGrossTotal" />
+                <ScalarProperty Name="SbhMonthlyBacklogNotInstalledGross" ColumnName="SbhMonthlyBacklogNotInstalledGross" />
+                <ScalarProperty Name="SbhMonthlyBacklogNotInstalledNet" ColumnName="SbhMonthlyBacklogNotInstalledNet" />
+                <ScalarProperty Name="SbhMonthlyRunningInstalledTotalGross" ColumnName="SbhMonthlyRunningInstalledTotalGross" />
+                <ScalarProperty Name="SbhMonthlyRunningInstalledTotalNet" ColumnName="SbhMonthlyRunningInstalledTotalNet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statuses">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.Status">
+              <MappingFragment StoreEntitySet="Statuses">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusEnabled" ColumnName="StatusEnabled" />
+                <ScalarProperty Name="StatusSortOrder" ColumnName="StatusSortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Temp_OrderLedger">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.Temp_OrderLedger">
+              <MappingFragment StoreEntitySet="Temp_OrderLedger">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="GL" ColumnName="GL" />
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Net" ColumnName="Net" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Gross" ColumnName="Gross" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="CustOrderNo" ColumnName="CustOrderNo" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="MiniPack" ColumnName="MiniPack" />
+                <ScalarProperty Name="SiteSurveyDate" ColumnName="SiteSurveyDate" />
+                <ScalarProperty Name="BacklogComments" ColumnName="BacklogComments" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="MegJobNo" ColumnName="MegJobNo" />
+                <ScalarProperty Name="DirectDebit" ColumnName="DirectDebit" />
+                <ScalarProperty Name="Spare1" ColumnName="Spare1" />
+                <ScalarProperty Name="Spare2" ColumnName="Spare2" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TerminalTypes">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.TerminalType">
+              <MappingFragment StoreEntitySet="TerminalTypes">
+                <ScalarProperty Name="TerminalTypeId" ColumnName="TerminalTypeId" />
+                <ScalarProperty Name="TerminalTypeName" ColumnName="TerminalTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OutstandingInvoicesExtendeds">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.OutstandingInvoicesExtended">
+              <MappingFragment StoreEntitySet="OutstandingInvoicesExtended">
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="OriginalTrxAmount" ColumnName="OriginalTrxAmount" />
+                <ScalarProperty Name="CurrentTrxAmount" ColumnName="CurrentTrxAmount" />
+                <ScalarProperty Name="Current" ColumnName="Current" />
+                <ScalarProperty Name="Days31_60" ColumnName="Days31_60" />
+                <ScalarProperty Name="Days61_90" ColumnName="Days61_90" />
+                <ScalarProperty Name="Days91_180" ColumnName="Days91_180" />
+                <ScalarProperty Name="Days181_270" ColumnName="Days181_270" />
+                <ScalarProperty Name="Days271_364" ColumnName="Days271_364" />
+                <ScalarProperty Name="Days365_Plus" ColumnName="Days365_Plus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostedInvoicesExtendeds">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.PostedInvoicesExtended">
+              <MappingFragment StoreEntitySet="PostedInvoicesExtended">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="JournalEntry" ColumnName="JournalEntry" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="TrxDate" ColumnName="TrxDate" />
+                <ScalarProperty Name="OriginatingTrxDate" ColumnName="OriginatingTrxDate" />
+                <ScalarProperty Name="JonasGroup" ColumnName="JonasGroup" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="LongReference" ColumnName="LongReference" />
+                <ScalarProperty Name="MaintTypeDescription" ColumnName="MaintTypeDescription" />
+                <ScalarProperty Name="ReportingDescription" ColumnName="ReportingDescription" />
+                <ScalarProperty Name="DebitAmount" ColumnName="DebitAmount" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="OriginatingMasterID" ColumnName="OriginatingMasterID" />
+                <ScalarProperty Name="OriginatingMasterName" ColumnName="OriginatingMasterName" />
+                <ScalarProperty Name="OriginatingDocumentNo" ColumnName="OriginatingDocumentNo" />
+                <ScalarProperty Name="Voided" ColumnName="Voided" />
+                <ScalarProperty Name="OriginatingTrxSource" ColumnName="OriginatingTrxSource" />
+                <ScalarProperty Name="OriginatingTrxType" ColumnName="OriginatingTrxType" />
+                <ScalarProperty Name="OriginatingType" ColumnName="OriginatingType" />
+                <ScalarProperty Name="UserWhoPosted" ColumnName="UserWhoPosted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleLedgerExtendeds">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.SaleLedgerExtended">
+              <MappingFragment StoreEntitySet="SaleLedgerExtended">
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="GL" ColumnName="GL" />
+                <ScalarProperty Name="GLDescription" ColumnName="GLDescription" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="JonasGroup" ColumnName="JonasGroup" />
+                <ScalarProperty Name="JonasGroupName" ColumnName="JonasGroupName" />
+                <ScalarProperty Name="MaintenanceType" ColumnName="MaintenanceType" />
+                <ScalarProperty Name="MaintTypeDescription" ColumnName="MaintTypeDescription" />
+                <ScalarProperty Name="ReportingDescription" ColumnName="ReportingDescription" />
+                <ScalarProperty Name="EntryType" ColumnName="EntryType" />
+                <ScalarProperty Name="QtyValue" ColumnName="QtyValue" />
+                <ScalarProperty Name="NetValue" ColumnName="NetValue" />
+                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
+                <ScalarProperty Name="GrossValue" ColumnName="GrossValue" />
+                <ScalarProperty Name="ProfitValue" ColumnName="ProfitValue" />
+                <ScalarProperty Name="CustOrderNo" ColumnName="CustOrderNo" />
+                <ScalarProperty Name="ImportType" ColumnName="ImportType" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="UniqueID2" ColumnName="UniqueID2" />
+                <ScalarProperty Name="MiniPack" ColumnName="MiniPack" />
+                <ScalarProperty Name="SiteSurveyDate" ColumnName="SiteSurveyDate" />
+                <ScalarProperty Name="BacklogComments" ColumnName="BacklogComments" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="MegJobNo" ColumnName="MegJobNo" />
+                <ScalarProperty Name="DirectDebit" ColumnName="DirectDebit" />
+                <ScalarProperty Name="Spare1" ColumnName="Spare1" />
+                <ScalarProperty Name="TerminalTypeName" ColumnName="TerminalTypeName" />
+                <ScalarProperty Name="Spare2" ColumnName="Spare2" />
+                <ScalarProperty Name="AdminStatusName" ColumnName="AdminStatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_GenerateCogsReport">
+            <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.vw_GenerateCogsReport">
+              <MappingFragment StoreEntitySet="vw_GenerateCogsReport">
+                <ScalarProperty Name="CogsId" ColumnName="CogsId" />
+                <ScalarProperty Name="CogsCompanyName" ColumnName="CogsCompanyName" />
+                <ScalarProperty Name="CogsSiteName" ColumnName="CogsSiteName" />
+                <ScalarProperty Name="CogsStatus" ColumnName="CogsStatus" />
+                <ScalarProperty Name="CogsStatusName" ColumnName="CogsStatusName" />
+                <ScalarProperty Name="CogsGPCode" ColumnName="CogsGPCode" />
+                <ScalarProperty Name="CogsDueDate" ColumnName="CogsDueDate" />
+                <ScalarProperty Name="CogsGPCategoryType" ColumnName="CogsGPCategoryType" />
+                <ScalarProperty Name="CogsGPCategory" ColumnName="CogsGPCategory" />
+                <ScalarProperty Name="CogsDescription" ColumnName="CogsDescription" />
+                <ScalarProperty Name="CogsSalesOrderId" ColumnName="CogsSalesOrderId" />
+                <ScalarProperty Name="CogsItemQuantity" ColumnName="CogsItemQuantity" />
+                <ScalarProperty Name="CogsItemListPrice" ColumnName="CogsItemListPrice" />
+                <ScalarProperty Name="CogsItemBuyPrice" ColumnName="CogsItemBuyPrice" />
+                <ScalarProperty Name="CogsCogsValue" ColumnName="CogsCogsValue" />
+                <ScalarProperty Name="CogsGrossSalesAtList" ColumnName="CogsGrossSalesAtList" />
+                <ScalarProperty Name="CogsProfitValue" ColumnName="CogsProfitValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CRM_Grid_ImportOrders" FunctionName="Purchase_SaleLedgerModel.Store.CRM_Grid_ImportOrders" />
+          <FunctionImportMapping FunctionImportName="CRM_Grid_ImportOrders_Adv" FunctionName="Purchase_SaleLedgerModel.Store.CRM_Grid_ImportOrders_Adv" />
+          <FunctionImportMapping FunctionImportName="CRM_Grid_ImportOrders_Adv2" FunctionName="Purchase_SaleLedgerModel.Store.CRM_Grid_ImportOrders_Adv2" />
+          <FunctionImportMapping FunctionImportName="CRM_Grid_ImportOrders_Adv3" FunctionName="Purchase_SaleLedgerModel.Store.CRM_Grid_ImportOrders_Adv3" />
+          <FunctionImportMapping FunctionImportName="CRM_Temp_ImportOrders" FunctionName="Purchase_SaleLedgerModel.Store.CRM_Temp_ImportOrders" />
+          <FunctionImportMapping FunctionImportName="CRM_Temp_ImportOrders_Adv" FunctionName="Purchase_SaleLedgerModel.Store.CRM_Temp_ImportOrders_Adv" />
+          <FunctionImportMapping FunctionImportName="CRM_Temp_ImportOrders_Adv2" FunctionName="Purchase_SaleLedgerModel.Store.CRM_Temp_ImportOrders_Adv2" />
+          <FunctionImportMapping FunctionImportName="CRM_Temp_ImportOrders_Adv3" FunctionName="Purchase_SaleLedgerModel.Store.CRM_Temp_ImportOrders_Adv3" />
+          <FunctionImportMapping FunctionImportName="GP_Grid_ImportInvoices" FunctionName="Purchase_SaleLedgerModel.Store.GP_Grid_ImportInvoices" />
+          <FunctionImportMapping FunctionImportName="GP_Grid_ImportOutstandingInvoices" FunctionName="Purchase_SaleLedgerModel.Store.GP_Grid_ImportOutstandingInvoices" />
+          <FunctionImportMapping FunctionImportName="GP_Grid_ImportPostedInvoices" FunctionName="Purchase_SaleLedgerModel.Store.GP_Grid_ImportPostedInvoices" />
+          <FunctionImportMapping FunctionImportName="GP_Temp_ImportInvoices" FunctionName="Purchase_SaleLedgerModel.Store.GP_Temp_ImportInvoices" />
+          <FunctionImportMapping FunctionImportName="GP_Temp_ImportOutstandingInvoices" FunctionName="Purchase_SaleLedgerModel.Store.GP_Temp_ImportOutstandingInvoices" />
+          <FunctionImportMapping FunctionImportName="GP_Temp_ImportPostedInvoices" FunctionName="Purchase_SaleLedgerModel.Store.GP_Temp_ImportPostedInvoices" />
+          <FunctionImportMapping FunctionImportName="Sage_DeletePreviousOrders" FunctionName="Purchase_SaleLedgerModel.Store.Sage_DeletePreviousOrders" />
+          <FunctionImportMapping FunctionImportName="Sage_Grid_ImportInvoices" FunctionName="Purchase_SaleLedgerModel.Store.Sage_Grid_ImportInvoices" />
+          <FunctionImportMapping FunctionImportName="Sage_Grid_ImportOrders" FunctionName="Purchase_SaleLedgerModel.Store.Sage_Grid_ImportOrders" />
+          <FunctionImportMapping FunctionImportName="Sage_Temp_ImportInvoices" FunctionName="Purchase_SaleLedgerModel.Store.Sage_Temp_ImportInvoices">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Purchase_SaleLedgerModel.Sage_Temp_ImportInvoices_Result">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CustRef" ColumnName="CustRef" />
+                <ScalarProperty Name="GL" ColumnName="GL" />
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Net" ColumnName="Net" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Gross" ColumnName="Gross" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="CustOrderNo" ColumnName="CustOrderNo" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -37,7 +37,7 @@ namespace Jonas_Sage_Importer
         }
 
         private void BindGrid() {
-            var context = new EF_JonasLedgerManager("EF_JonasLedgerManager_Live");
+            var context = new Purchase_SaleLedgerEntities("Purchase_SaleLedgerEntities_Live");
             var query = from c in context.GLTypes select c;
             var nominalCodes = query.ToList();
             nominalCodesGridView.DataSource = nominalCodes;
@@ -92,7 +92,7 @@ namespace Jonas_Sage_Importer
                     glType.GLNo = nominalCode;
                     glType.GLDescription = nominalDescription;
 
-                    using (var dbCtx = new EF_JonasLedgerManager("EF_JonasLedgerManager_Live")) {
+                    using (var dbCtx = new Purchase_SaleLedgerEntities("Purchase_SaleLedgerEntities_Live")) {
                         dbCtx.Entry(glType).State = System.Data.Entity.EntityState.Added;
                         dbCtx.SaveChanges();
                     }
@@ -105,16 +105,16 @@ namespace Jonas_Sage_Importer
                 }
                 catch (SqlException sqlex)
                 {
-                    MessageBox.Show($"Unable to complete Update Command: \n \n {sqlex.Message}");
+                     UtilityMethods.ShowMessageBox($"Unable to complete Update Command: \n \n {sqlex.Message}");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Unable to complete Update Command: \n \n {ex.Message}");
+                     UtilityMethods.ShowMessageBox($"Unable to complete Update Command: \n \n {ex.Message}");
                 }
             }
             else
             {
-                MessageBox.Show(@"Please Enter Nominal Code and Description. The Nominal Code can not be blank.");
+                 UtilityMethods.ShowMessageBox(@"Please Enter Nominal Code and Description. The Nominal Code can not be blank.");
             }
 
 
@@ -133,14 +133,15 @@ namespace Jonas_Sage_Importer
         {
             if (nominalCodesGridView.SelectedRows.Count > 0)
             {
-                DialogResult dResult = MessageBox.Show(
+                DialogResult dResult =  UtilityMethods.ShowMessageBox(
                 $"Are you sure you want to delete this nominal code? \nOnce it is removed you will not be able to recover this.",
                 @"Are you sure?",
-                MessageBoxButtons.YesNo);
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
                 if (dResult == DialogResult.Yes) {
                     var rowToBeDeleted = (int) nominalCodesGridView.SelectedRows[0].Cells[0].Value;
-                    var context = new EF_JonasLedgerManager("EF_JonasLedgerManager_Live");
+                    var context = new Purchase_SaleLedgerEntities("Purchase_SaleLedgerEntities_Live");
                     var gltype = (from o in context.GLTypes where o.GLNo == rowToBeDeleted select o).First();
                     context.GLTypes.Attach(gltype);
                     context.GLTypes.Remove(gltype);
@@ -164,12 +165,12 @@ namespace Jonas_Sage_Importer
                     dbConnections.GetNominalCodeAdapter().Update(changes);
                     
 
-                    MessageBox.Show(@"The Nominal Codes have been Updated.");
+                     UtilityMethods.ShowMessageBox(@"The Nominal Codes have been Updated.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating Nominal Codes \n \n {ex.Message}");
+                 UtilityMethods.ShowMessageBox($"Error updating Nominal Codes \n \n {ex.Message}");
             }
         }
 

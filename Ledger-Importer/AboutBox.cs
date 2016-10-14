@@ -116,5 +116,9 @@ namespace Jonas_Sage_Importer
         private void textBoxDescription_TextChanged(object sender, EventArgs e) {
 
         }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e) {
+
+        }
     }
 }

@@ -10,36 +10,25 @@
 namespace BL_JonasSageImporter
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Temp_OrderLedger
+    public partial class Sage_Temp_ImportInvoices_Result
     {
         public Nullable<System.DateTime> Date { get; set; }
-        public string CustName { get; set; }
         public string CustRef { get; set; }
-        public Nullable<System.DateTime> DueDate { get; set; }
         public Nullable<int> GL { get; set; }
-        public Nullable<long> UniqueID { get; set; }
+        public string UniqueID { get; set; }
         public string ItemDescription { get; set; }
         public Nullable<decimal> Qty { get; set; }
         public Nullable<decimal> Net { get; set; }
         public Nullable<decimal> Tax { get; set; }
         public Nullable<decimal> Gross { get; set; }
         public Nullable<decimal> Profit { get; set; }
-        public string DeliveryAddress { get; set; }
+        public string Type { get; set; }
         public string Currency { get; set; }
+        public string DeliveryAddress { get; set; }
         public string CustOrderNo { get; set; }
-        public string Category { get; set; }
-        public string SiteName { get; set; }
-        public Nullable<short> MiniPack { get; set; }
-        public string SiteSurveyDate { get; set; }
-        public string BacklogComments { get; set; }
-        public string Deposit { get; set; }
-        public string AssignedTo { get; set; }
-        public string MegJobNo { get; set; }
-        public Nullable<short> DirectDebit { get; set; }
-        public string Spare1 { get; set; }
-        public string Spare2 { get; set; }
+        public string InvoiceNo { get; set; }
+        public string CustName { get; set; }
         public long Id { get; set; }
     }
 }

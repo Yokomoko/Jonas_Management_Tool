@@ -67,6 +67,9 @@ namespace Jonas_Sage_Importer {
             var comm = command;
 
             if (command == "CRM_Grid_ImportOrders") {
+                var ef = new Purchase_SaleLedgerEntities("Purchase_SaleLedgerEntities_Live");
+                ef.Database.ExecuteSqlCommand(
+                    "Delete from SaleLedger where [Type] like '%OpenCRM%' and ImportType like '%OpenCRM Sales Order%'");
                 foreach (DataRow dr in tbl.Rows) {
                     using (SqlConnection sqconn = new SqlConnection(ConnectionString())) {
                         using (SqlCommand sqcomm = new SqlCommand(command, sqconn)) {
@@ -130,15 +133,16 @@ namespace Jonas_Sage_Importer {
                                 sqcomm.Parameters.AddWithValue("@Spare1", dr[21]); //Till Type
                                 sqcomm.Parameters.AddWithValue("@Spare2", dr[22]); //Admin Status
                             }
+
                             sqcomm.CommandText = comm;
-                            sqconn.Open();
+                             sqconn.Open();
                             sqcomm.ExecuteNonQuery();
                         }
-                    }
+                    }//select * from saleledgerextended where entrytype like '%OpenCRM%' and Importtype like '%OpenCRM Sales Order%' order by Custref
                 }
             }
-            if (command == "CRM_ImportCogs") {
-                var ef = new EF_JonasLedgerManager("EF_JonasLedgerManager_Live");
+            else if (command == "CRM_ImportCogs") {
+                var ef = new Purchase_SaleLedgerEntities("Purchase_SaleLedgerEntities_Live");
                 ef.Database.ExecuteSqlCommand("Delete [CostOfGoodsSold]");
                 foreach (DataRow row in tbl.Rows) {
                     try {
@@ -189,7 +193,7 @@ namespace Jonas_Sage_Importer {
                         }
                         #endregion
 
-                        var cog = new CostOfGoodsSold {
+                        var cog = new CostOfGoodsSold() {
                             CogsCompanyName = row[0].ToString(),
                             CogsSiteName = row[1].ToString(),
                             CogsStatus = int.Parse(row[2].ToString()),
@@ -208,8 +212,10 @@ namespace Jonas_Sage_Importer {
                         LogToText.WriteToLog(commitSuccess);
                     }
                     catch (Exception ex) {
-                        MessageBox.Show($"Error Importing COGS",
-                            $"Error importing Cogs {Environment.NewLine} {Environment.NewLine} {ex.Message}");
+                        UtilityMethods.ShowMessageBox(
+                            "Error importing Cogs {Environment.NewLine} {Environment.NewLine} {ex.Message}",
+                            "Error Importing COGS");
+                        UtilityMethods.ShowMessageBox($"Error importing Cogs {Environment.NewLine} {Environment.NewLine} {ex.Message}", "Error Importing COGS");
                         string commitFailure = $"{ImpName}: Error committing data to the database: \n{ex.Message}";
                         LogToText.WriteToLog(commitFailure);
                         return;
@@ -253,7 +259,7 @@ namespace Jonas_Sage_Importer {
             catch (Exception ex) {
                 string commitFailure = $"{impName}: Error committing data to the database: \n{ex.Message}";
                 LogToText.WriteToLog(commitFailure);
-                MessageBox.Show(commitFailure, @"Failed");
+                UtilityMethods.ShowMessageBox(commitFailure, "Failed");
             }
         }
 
@@ -371,8 +377,8 @@ namespace Jonas_Sage_Importer {
         }
 
         public static void DeletePreviousOrders(string ImpName) {
-            var dialogResult = MessageBox.Show(
-                @"Would you like to remove all previously entered sales orders?", @"Sales Orders", MessageBoxButtons.YesNo);
+            var dialogResult = UtilityMethods.ShowMessageBox(
+                @"Would you like to remove all previously entered sales orders?", @"Sales Orders", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult != DialogResult.Yes) {
                 LogToText.WriteToLog($"{ImpName}: Previously entered sales orders were not deleted from the database.");
                 return;
@@ -394,7 +400,7 @@ namespace Jonas_Sage_Importer {
             catch (Exception ex) {
                 string deleteFailure = $"{ImpName}: Error deleting previous orders from database: \n {ex.Message}";
                 LogToText.WriteToLog(deleteFailure);
-                MessageBox.Show(deleteFailure, "Failed");
+                UtilityMethods.ShowMessageBox(deleteFailure, "Failed");
             }
         }
 
@@ -402,10 +408,11 @@ namespace Jonas_Sage_Importer {
             if (sourceComboBox.SelectedIndex == 1) {
                 if (removeNewer) {
                     DialogResult dialogResult =
-                        MessageBox.Show(
+                         UtilityMethods.ShowMessageBox(
                             $"Are you sure you would like to delete {typeComboBox.SelectedText} newer than {removeNewerDt} (inclusive)?\n\nYou will not be able to recover this information.",
                             @"Confirm Delete?",
-                            MessageBoxButtons.YesNo);
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
                     if (dialogResult != DialogResult.Yes) {
                     }
                     else {

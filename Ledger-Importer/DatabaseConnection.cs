@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Jonas_Sage_Importer.Properties;
 using SageImporterLibrary;
 
 namespace Jonas_Sage_Importer
@@ -23,6 +24,7 @@ namespace Jonas_Sage_Importer
             PasswordTxtBox.Text = DbConnectionsCs.PasswordTxt();
             ConnectionStringTxtBox.Text = DbConnectionsCs.ConnectionString();
             txtBoxReportServerUrl.Text = @"http://192.168.15.48/reportserver";
+            uxEFConnStringTxt.Text = Settings.Default.EFString;
         }
 
         private void ConnTestBtn_Click(object sender, EventArgs e)
@@ -53,7 +55,8 @@ namespace Jonas_Sage_Importer
                 DbLocationTxtBox.Text,
                 DbNameTxtBox.Text,
                 UsernameTxtBox.Text,
-                PasswordTxtBox.Text);
+                PasswordTxtBox.Text,
+                uxEFConnStringTxt.Text);
             ConnectionStringTxtBox.Text = DbConnectionsCs.ConnectionString();
         }
 
