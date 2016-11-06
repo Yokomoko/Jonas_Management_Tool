@@ -20,7 +20,7 @@
         <EntityTypeShape EntityType="Purchase_SaleLedgerModel.MaintenanceType" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Purchase_SaleLedgerModel.Number" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Purchase_SaleLedgerModel.OutstandingInvoice" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Purchase_SaleLedgerModel.PostedInvoice" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Purchase_SaleLedgerModel.PostedInvoice" Width="1.5" PointX="10.75" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Purchase_SaleLedgerModel.Sage_Temp_InvoiceLedger" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Purchase_SaleLedgerModel.SaleLedger" Width="1.5" PointX="2.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Purchase_SaleLedgerModel.SalesBacklogHistory" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />

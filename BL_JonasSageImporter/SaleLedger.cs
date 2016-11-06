@@ -45,5 +45,6 @@ namespace BL_JonasSageImporter
         public string Spare1 { get; set; }
         public string Spare2 { get; set; }
         public long Id { get; set; }
+        public Nullable<long> SaleLedgerLedgerId { get; set; }
     }
 }

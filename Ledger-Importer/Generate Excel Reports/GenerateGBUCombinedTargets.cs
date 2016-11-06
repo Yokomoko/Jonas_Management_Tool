@@ -7,12 +7,29 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BL_JonasSageImporter;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
+using System.Data.SqlClient;
 
 namespace Jonas_Sage_Importer.Generate_Excel_Reports {
     class GenerateGBUCombinedTargets {
+        #region Enums
+
+        private enum FilterTypes {
+            Total_Backlog = 0,
+            Installed_This_Month = 1,
+            Installed_This_Month_Excluding_This_Week = 2,
+            This_Week = 3,
+            Forecast_This_Month = 4,
+            Forecast_Future_Months = 5,
+            No_Forecast = 6,
+            Stuck = 7,
+            Cancelled = 8
+        }
+        #endregion
+
         /// <summary>
         /// Generates the report.
         /// </summary>
@@ -21,8 +38,8 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 //set the workbook properties and add a default sheet in it
                 SetWorkbookProperties(p);
                 //Create a sheet
-                ExcelWorksheet ws = CreateSheet(p, "Template");
-                DataTable dt = CreateDataTable(); //My Function which generates DataTable
+                ExcelWorksheet ws1 = CreateSheet(p, "Summary", 1);
+                ExcelWorksheet ws2 = CreateSheet(p, "Breakout", 2);
 
                 var percentageFormat = "0%";
                 var currencyFormat = @"_-£* #,##0_-;-£* #,##0_-;_-£* ""-""_-;_-@_-";
@@ -31,168 +48,245 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
 
                 //Set border style
                 //Insides first
-                ws.Cells[8, 2, 32, 4].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[6, 2, 32, 4].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                ws.Cells[14, 4, 16, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                ws.Cells[14, 4, 16, 8].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[17, 4, 20, 6].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[17, 4, 20, 6].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                ws.Cells[21, 4, 22, 8].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                ws.Cells[21, 4, 22, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                ws.Cells[28, 2, 29, 4].Style.Border.Right.Style = ExcelBorderStyle.None;
-                ws.Cells[23, 2, 27, 4].Style.Border.Right.Style = ExcelBorderStyle.None;
-                ws.Cells[23, 2, 27, 4].Style.Border.Bottom.Style = ExcelBorderStyle.None;
+                ws1.Cells[8, 2, 32, 4].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws1.Cells[6, 2, 32, 4].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws1.Cells[14, 4, 16, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws1.Cells[14, 4, 16, 8].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws1.Cells[17, 4, 20, 6].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws1.Cells[17, 4, 20, 6].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws1.Cells[21, 4, 22, 8].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                ws1.Cells[21, 4, 22, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                ws1.Cells[28, 2, 29, 4].Style.Border.Right.Style = ExcelBorderStyle.None;
+                ws1.Cells[23, 2, 27, 4].Style.Border.Right.Style = ExcelBorderStyle.None;
+                ws1.Cells[23, 2, 27, 4].Style.Border.Bottom.Style = ExcelBorderStyle.None;
                 //Medium thickness places
-                ws.Cells[6, 2, 32, 2].Style.Border.Left.Style = ExcelBorderStyle.Medium;
-                ws.Cells[6, 2, 6, 4].Style.Border.Top.Style = ExcelBorderStyle.Medium;
-                ws.Cells[7, 2, 7, 4].Style.Border.Top.Style = ExcelBorderStyle.Medium;
-                ws.Cells[6, 4, 29, 4].Style.Border.Right.Style = ExcelBorderStyle.Medium;
-                ws.Cells[13, 2, 13, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
-                ws.Cells[14, 2, 14, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
-                ws.Cells[14, 8, 16, 8].Style.Border.Right.Style = ExcelBorderStyle.Medium;
-                ws.Cells[16, 7, 16, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
-                ws.Cells[14, 6, 22, 6].Style.Border.Right.Style = ExcelBorderStyle.Medium;
-                ws.Cells[20, 7, 20, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
-                ws.Cells[21, 8, 22, 8].Style.Border.Right.Style = ExcelBorderStyle.Medium;
-                ws.Cells[21, 2, 21, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
-                ws.Cells[22, 2, 22, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
-                ws.Cells[22, 4, 32, 4].Style.Border.Right.Style = ExcelBorderStyle.Medium;
-                ws.Cells[32, 2, 32, 4].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
-                ws.Cells[27, 2, 28, 4].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[6, 2, 32, 2].Style.Border.Left.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[6, 2, 6, 4].Style.Border.Top.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[7, 2, 7, 4].Style.Border.Top.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[6, 4, 29, 4].Style.Border.Right.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[13, 2, 13, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[14, 2, 14, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[14, 8, 16, 8].Style.Border.Right.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[16, 7, 16, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[14, 6, 22, 6].Style.Border.Right.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[20, 7, 20, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[21, 8, 22, 8].Style.Border.Right.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[21, 2, 21, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[22, 2, 22, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[22, 4, 32, 4].Style.Border.Right.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[32, 2, 32, 4].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws1.Cells[27, 2, 28, 4].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
 
                 //Merging cells and create a center heading for out table
-                ws.Cells[3, 2].Value = "Combined EPOS / FM and CCR Key Weekly Figures Status";
-                ws.Cells[3, 2, 3, 3].Merge = true;
-                ws.Cells[3, 2, 3, 3].Style.Font.Bold = true;
-                ws.Cells[3, 2, 3, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                ws.Column(2).Width = 72.25;
+                ws1.Cells[3, 2].Value = "Combined EPOS / FM and CCR Key Weekly Figures Status";
+                ws1.Cells[3, 2, 3, 3].Merge = true;
+                ws1.Cells[3, 2, 3, 3].Style.Font.Bold = true;
+                ws1.Cells[3, 2, 3, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Column(2).Width = 72.25;
 
-                ws.Cells[4, 2].Value = "(We need to all sell to make this happen)";
-                ws.Cells[4, 2, 4, 3].Merge = true;
-                ws.Cells[4, 2, 4, 3].Style.Font.Bold = true;
-                ws.Cells[4, 2, 4, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Cells[4, 2].Value = "(We need to all sell to make this happen)";
+                ws1.Cells[4, 2, 4, 3].Merge = true;
+                ws1.Cells[4, 2, 4, 3].Style.Font.Bold = true;
+                ws1.Cells[4, 2, 4, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                ws.Cells[6, 2].Value = "Sales (NickTB to populate)";
-                ws.Cells[6, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                ws.Cells[6, 2, 7, 4].Style.Font.Bold = true;
-                ws.Cells[6, 3].Value = "Gross";
-                ws.Cells[6, 4].Value = "Nett";
-                ws.Cells[6, 2, 6, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells[6, 2, 6, 4].Style.Fill.BackgroundColor.SetColor(Color.Beige);
-                ws.Cells[8, 2].Value = "Total values of Sales Booked Last Week";
-                ws.Cells[9, 2].Value = "Running total of sales booked for the month so far (Gross and Net)";
-                ws.Cells[10, 2].Value = "Total Gross pipeline value";
-                ws.Cells[11, 2].Value = "Total forecast to close this week";
-                ws.Cells[12, 2].Value = "Total forecast to close next week";
+                ws1.Cells[6, 2].Value = "Sales (NickTB to populate)";
+                ws1.Cells[6, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Cells[6, 2, 7, 4].Style.Font.Bold = true;
+                ws1.Cells[6, 3].Value = "Gross";
+                ws1.Cells[6, 4].Value = "Nett";
+                ws1.Cells[6, 2, 6, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[6, 2, 6, 4].Style.Fill.BackgroundColor.SetColor(Color.Beige);
+                ws1.Cells[8, 2].Value = "Total values of Sales Booked Last Week";
+                ws1.Cells[9, 2].Value = "Running total of sales booked for the month so far (Gross and Net)";
+                ws1.Cells[10, 2].Value = "Total Gross pipeline value";
+                ws1.Cells[11, 2].Value = "Total forecast to close this week";
+                ws1.Cells[12, 2].Value = "Total forecast to close next week";
 
-                ws.Cells[14, 2].Value = "BACKLOG (EPOS Group / FM / CCR)";
-                ws.Cells[14, 2].Style.Font.Bold = true;
-                ws.Cells[14, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                ws.Cells[14, 2].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                ws.Cells[14, 2].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Beige);
+                ws1.Cells[14, 2].Value = "BACKLOG (EPOS Group / FM / CCR)";
+                ws1.Cells[14, 2].Style.Font.Bold = true;
+                ws1.Cells[14, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Cells[14, 2].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                ws1.Cells[14, 2].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Beige);
 
                 var today = DateTime.Today;
                 var friday = today.AddDays(-(int)today.DayOfWeek).AddDays(5);
 
-                ws.Cells[14, 3].Value = "Friday " + friday.ToShortDateString();
-                ws.Cells[14, 3, 14, 4].Merge = true;
-                ws.Cells[14, 3, 14, 4].Style.Font.Bold = true;
-                ws.Cells[14, 3, 14, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Cells[14, 3].Value = "Friday " + friday.ToShortDateString();
+                ws1.Cells[14, 3, 14, 4].Merge = true;
+                ws1.Cells[14, 3, 14, 4].Style.Font.Bold = true;
+                ws1.Cells[14, 3, 14, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                ws.Cells[14, 5].Value = "Previous Week - " + friday.AddDays(-7).ToString("dd/MM");
-                ws.Cells[14, 5, 14, 6].Merge = true;
-                ws.Cells[14, 5, 14, 6].Style.Font.Bold = true;
-                ws.Cells[14, 5, 14, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Cells[14, 5].Value = "Previous Week - " + friday.AddDays(-7).ToString("dd/MM");
+                ws1.Cells[14, 5, 14, 6].Merge = true;
+                ws1.Cells[14, 5, 14, 6].Style.Font.Bold = true;
+                ws1.Cells[14, 5, 14, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                ws.Cells[14, 7].Value = "Backlog Growth";
-                ws.Cells[14, 7, 14, 8].Merge = true;
-                ws.Cells[14, 7, 14, 8].Style.Font.Bold = true;
-                ws.Cells[14, 7, 14, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Cells[14, 7].Value = "Backlog Growth";
+                ws1.Cells[14, 7, 14, 8].Merge = true;
+                ws1.Cells[14, 7, 14, 8].Style.Font.Bold = true;
+                ws1.Cells[14, 7, 14, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                ws.Cells[15, 3].Value = "Gross";
-                ws.Cells[15, 4].Value = "Nett";
-                ws.Cells[15, 5].Value = "Gross";
-                ws.Cells[15, 6].Value = "Nett";
-                ws.Cells[15, 7].Value = "Amount";
-                ws.Cells[15, 8].Value = "%";
+                ws1.Cells[15, 3].Value = "Gross";
+                ws1.Cells[15, 4].Value = "Nett";
+                ws1.Cells[15, 5].Value = "Gross";
+                ws1.Cells[15, 6].Value = "Nett";
+                ws1.Cells[15, 7].Value = "Amount";
+                ws1.Cells[15, 8].Value = "%";
 
-                ws.Cells[16, 2].Value = "Total backlog value (PS+Lic+Hardware)";
-                ws.Cells[16, 3, 22, 6].Style.Numberformat.Format = currencyFormat;
+                ws1.Cells[16, 2].Value = "Total backlog value (PS+Lic+Hardware)";
+                ws1.Cells[16, 3, 22, 6].Style.Numberformat.Format = currencyFormat;
 
-                ws.Cells[14, 3, 14, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells[16, 3, 17, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells[19, 3, 20, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[14, 3, 14, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[16, 3, 17, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[19, 3, 20, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
 
-                ws.Cells[16, 3, 17, 6].Style.Fill.BackgroundColor.SetColor(Color.LightGoldenrodYellow);
-                ws.Cells[19, 3, 20, 6].Style.Fill.BackgroundColor.SetColor(Color.LightGoldenrodYellow);
-                ws.Cells[14, 3, 14, 6].Style.Fill.BackgroundColor.SetColor(Color.LightGoldenrodYellow);
+                ws1.Cells[16, 3, 17, 6].Style.Fill.BackgroundColor.SetColor(Color.LightGoldenrodYellow);
+                ws1.Cells[19, 3, 20, 6].Style.Fill.BackgroundColor.SetColor(Color.LightGoldenrodYellow);
+                ws1.Cells[14, 3, 14, 6].Style.Fill.BackgroundColor.SetColor(Color.LightGoldenrodYellow);
 
-                ws.Cells[16, 7].Formula = "C16 - E16";
-                ws.Cells[16, 7].Style.Numberformat.Format = currencyFormat;
+                ws1.Cells[16, 7].Formula = "C16 - E16";
+                ws1.Cells[16, 7].Style.Numberformat.Format = currencyFormat;
 
-                ws.Cells[16, 8].Style.Numberformat.Format = percentageFormat;
-                ws.Cells[16, 8].Formula = "G16 / E16";
+                ws1.Cells[16, 8].Style.Numberformat.Format = percentageFormat;
+                ws1.Cells[16, 8].Formula = "G16 / E16";
 
-                ws.Cells[17, 2].Value = "Total Installed (ie invoiced) this week (PS+Lic+Hardware)";
-                ws.Cells[19, 2].Value = "Total Backlog booked for this month, not installed (PS+Lic+Hardware)";
-                ws.Cells[20, 2].Value = "Running total of Equipment installed so far this month (PS+Lic+Hardware)";
+                ws1.Cells[17, 2].Value = "Total Installed (ie invoiced) this week (PS+Lic+Hardware)";
+                ws1.Cells[19, 2].Value = "Total Backlog booked for this month, not installed (PS+Lic+Hardware)";
+                ws1.Cells[20, 2].Value = "Running total of Equipment installed so far this month (PS+Lic+Hardware)";
 
-                ws.Cells[21, 7, 21, 8].Merge = true;
-                ws.Cells[21, 7].Value = "Difference (Gross)";
-                ws.Cells[21, 7, 21, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                ws.Cells[21, 7, 21, 8].Style.Font.Bold = true;
+                ws1.Cells[21, 7, 21, 8].Merge = true;
+                ws1.Cells[21, 7].Value = "Difference (Gross)";
+                ws1.Cells[21, 7, 21, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Cells[21, 7, 21, 8].Style.Font.Bold = true;
 
-                ws.Cells[22, 2].Value = "Predicted Equipment Invoices for the month";
-                ws.Cells[22, 2].Style.Font.Bold = true;
-                ws.Cells[22, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                ws.Cells[22, 2, 22, 4].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                ws.Cells[22, 2, 22, 4].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Beige);
+                ws1.Cells[22, 2].Value = "Predicted Equipment Invoices for the month";
+                ws1.Cells[22, 2].Style.Font.Bold = true;
+                ws1.Cells[22, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws1.Cells[22, 2, 22, 4].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                ws1.Cells[22, 2, 22, 4].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Beige);
+                ws1.Cells[22, 3].Formula = "+C20 + C19";
+                ws1.Cells[22, 4].Formula = "+D20 + D19";
+                ws1.Cells[22, 5].Formula = "+E20 + E19";
+                ws1.Cells[22, 6].Formula = "+F20 + F19";
 
-                ws.Cells[22, 7].Formula = "C22 - E22";
-                ws.Cells[22, 7].Style.Numberformat.Format = currencyFormat;
-                ws.Cells[22, 8].Formula = "G22 / E22";
-                ws.Cells[22, 8].Style.Numberformat.Format = percentageFormat;
+                ws1.Cells[22, 7].Formula = "C22 - E22";
+                ws1.Cells[22, 7].Style.Numberformat.Format = currencyFormat;
+                ws1.Cells[22, 8].Formula = "G22 / E22";
+                ws1.Cells[22, 8].Style.Numberformat.Format = percentageFormat;
 
 
-                ws.Cells[23, 2].Value = "Our Monthly Gross Equipment installations directly affect the profit that we make";
-                ws.Cells[23, 2].Style.Font.Bold = true;
+                ws1.Cells[23, 2].Value =
+                    "Our Monthly Gross Equipment installations directly affect the profit that we make";
+                ws1.Cells[23, 2].Style.Font.Bold = true;
 
-                ws.Cells[24, 2].Value = "Gross install <£250K is making a loss";
-                ws.Cells[24, 2].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                ws.Cells[24, 2].Style.Fill.BackgroundColor.SetColor(Color.OrangeRed);
+                ws1.Cells[24, 2].Value = "Gross install <£250K is making a loss";
+                ws1.Cells[24, 2].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                ws1.Cells[24, 2].Style.Fill.BackgroundColor.SetColor(Color.OrangeRed);
 
-                ws.Cells[25, 2].Value = "Gross install £250K to £350 is making an adequate Profit";
-                ws.Cells[25, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells[25, 2].Style.Fill.BackgroundColor.SetColor(Color.Orange);
+                ws1.Cells[25, 2].Value = "Gross install £250K to £350k is making an adequate Profit";
+                ws1.Cells[25, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[25, 2].Style.Fill.BackgroundColor.SetColor(Color.Orange);
 
-                ws.Cells[26, 2].Value = "Gross install >£350K is making exceeding our target";
-                ws.Cells[26, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells[26, 2].Style.Fill.BackgroundColor.SetColor(Color.Green);
+                ws1.Cells[26, 2].Value = "Gross install >£350K is making exceeding our target";
+                ws1.Cells[26, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[26, 2].Style.Fill.BackgroundColor.SetColor(Color.Green);
 
-                ws.Cells[28, 2].Value = "AR (SB to populate)";
-                ws.Cells[28, 2, 28, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells[28, 2, 28, 4].Style.Fill.BackgroundColor.SetColor(Color.Beige);
+                ws1.Cells[28, 2].Value = "AR (SB to populate)";
+                ws1.Cells[28, 2, 28, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[28, 2, 28, 4].Style.Fill.BackgroundColor.SetColor(Color.Beige);
 
-                ws.Cells[30, 2].Value = "Total AR Value Aged";
-                ws.Cells[31, 2].Value = "Cash collected this week";
-                ws.Cells[32, 2].Value = "Running Total of Cash Collected this month";
+                ws1.Cells[30, 2].Value = "Total AR Value Aged";
+                ws1.Cells[31, 2].Value = "Cash collected this week";
+                ws1.Cells[32, 2].Value = "Running Total of Cash Collected this month";
 
-                ws.Cells[10, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells[10, 4].Style.Fill.BackgroundColor.SetColor(Color.DimGray);
-                ws.Cells[30, 4, 32, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                ws.Cells[30, 4, 32, 4].Style.Fill.BackgroundColor.SetColor(Color.DimGray);
+                ws1.Cells[10, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[10, 4].Style.Fill.BackgroundColor.SetColor(Color.DimGray);
+                ws1.Cells[30, 4, 32, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[30, 4, 32, 4].Style.Fill.BackgroundColor.SetColor(Color.DimGray);
 
 
                 //Calculate calculated fields
-                ws.Calculate();
-                /*
-                var condFormatting = ws.ConditionalFormatting;
-                var condFormattingGreen = condFormatting.AddGreaterThan(ws.Cells[16, 7, 16, 8]);
-                condFormattingGreen.Formula = "0";
-                condFormattingGreen.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                condFormattingGreen.Style.Fill.BackgroundColor.Color = Color.DarkSeaGreen;
-                var condFormattingNormal = condFormatting.AddEqual(ws.Cells[16, 7, 16, 8]);
-                */
+                ws1.Calculate();
+
+
+                //Generate Second Worksheet
+
+                ws2.Column(2).Width = 20;
+                ws2.Column(3).Width = 10;
+                ws2.Column(4).Width = 10;
+                ws2.Column(5).Width = 10;
+
+                for (int i = 2; i < 25; i++) {
+                    ws2.Cells[i, 2, i, 5].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                }
+                for (int i = 13; i < 25; i++) {
+                    ws2.Cells[i, 2, i, 5].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    ws2.Cells[i, 2, i, 5].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    ws2.Cells[i, 2, i, 5].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    ws2.Cells[i, 2, i, 5].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    ws2.Cells[i, 2].Style.Border.Right.Style = ExcelBorderStyle.Medium;
+
+                    if (i < 6) {
+                        ws2.Cells[14, i].Style.Border.Right.Style = ExcelBorderStyle.Medium;
+                    }
+                }
+                ws2.Cells[2, 2, 8, 5].Style.Border.BorderAround(ExcelBorderStyle.Medium);
+
+
+                ws2.Cells[2, 2, 2, 5].Style.Font.Bold = true;
+                ws2.Cells[2, 3].Value = "Gross";
+                ws2.Cells[2, 4].Value = "Nett";
+                ws2.Cells[2, 5].Value = "Gross %";
+                ws2.Cells[3, 2].Value = "Forecast - This Month";
+                ws2.Cells[4, 2].Value = "Forecast - Future Months";
+                ws2.Cells[5, 2].Value = "No forecast";
+                ws2.Cells[6, 2].Value = "Total Backlog";
+                ws2.Cells[8, 2].Value = "Stuck **";
+                ws2.Cells[6, 5].Style.Font.Bold = true;
+                ws2.Cells[8, 2, 8, 5].Style.Font.Color.SetColor(Color.Red);
+                ws2.Cells[7, 3].Formula = "Summary!C16";
+                ws2.Cells[7, 4].Formula = "Summary!D16";
+                ws2.Row(7).Hidden = true;
+
+                ws2.Cells[10, 2, 11, 5].Style.Border.BorderAround(ExcelBorderStyle.Medium);
+                ws2.Cells[10, 2].Value = "Installed This Month";
+                ws2.Cells[11, 2].Value = "Cancelled This Month";
+                ws2.Cells[11, 2, 11, 5].Style.Font.Color.SetColor(Color.Red);
+
+
+                ws2.Cells[13, 2, 13, 5].Merge = true;
+                ws2.Cells[13, 2, 13, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws2.Cells[13, 2].Style.Font.Bold = true;
+                ws2.Cells[13, 2, 13, 5].Style.Border.Bottom.Style = ExcelBorderStyle.Medium;
+                ws2.Cells[14, 3, 14, 5].Style.Font.Bold = true;
+                ws2.Cells[13, 2, 24, 5].Style.Border.BorderAround(ExcelBorderStyle.Medium);
+                ws2.Cells[13, 2].Value = "Backlog by Product Type (Gross)";
+                ws2.Cells[14, 2].Value = "Gross >";
+                ws2.Cells[15, 2].Value = "Absolute";
+                ws2.Cells[16, 2].Value = "CBMS";
+                ws2.Cells[17, 2].Value = "Development";
+                ws2.Cells[18, 2].Value = "FM";
+                ws2.Cells[19, 2].Value = "Infinity";
+                ws2.Cells[20, 2].Value = "Pixel";
+                ws2.Cells[21, 2].Value = "QT";
+                ws2.Cells[22, 2].Value = "Quantum";
+                ws2.Cells[23, 2].Value = "RS";
+                ws2.Cells[24, 2].Value = "Grand Total";
+                ws2.Cells[24, 2, 24, 6].Style.Font.Bold = true;
+                ws2.Cells[14, 3].Value = "Hardware";
+                ws2.Cells[14, 4].Value = "Software";
+                ws2.Cells[14, 5].Value = "Pro Services";
+
+                ws2.Cells[24, 3].Formula = "SUM(C15:C23)";
+                ws2.Cells[24, 4].Formula = "SUM(D15:D23)";
+                ws2.Cells[24, 5].Formula = "SUM(E15:E23)";
+                ws2.Cells[24, 6].Formula = "SUM(C24:E24)";
+                ws2.Cells[24, 3, 24, 6].Style.Numberformat.Format = currencyFormat;
+                ws2.Cells[4, 3, 4, 8].Style.Numberformat.Format = currencyFormat;
+                ws2.Cells[10, 3, 11, 4].Style.Numberformat.Format = currencyFormat;
+
+                ws2.Cells[3, 5, 6, 5].Style.Numberformat.Format = percentageFormat;
+                ws2.Cells[3, 8].Style.Numberformat.Format = percentageFormat;
 
                 //Populate Common Conditional Formatting
                 ExcelFillStyle fsSolid = ExcelFillStyle.Solid;
@@ -201,35 +295,50 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 Color trans = Color.Transparent;
                 Color red = Color.IndianRed;
 
+                var ef = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
+                SqlParameter filterId = new SqlParameter("@CogsFilter, 0", SqlDbType.Int);
+
+                var totalSalesBacklog = from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Total_Backlog)
+                                        select new {
+                                            tsb.GrossValue,
+                                            tsb.NetValue
+                                        };
+                var thisMonthForecast = from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Forecast_This_Month)
+                                        select new {
+                                            tsb.GrossValue,
+                                            tsb.NetValue
+                                        };
+
+
 
                 #region Backlog Growth Formatting
-                var condFormattingGreen = ws.ConditionalFormatting.AddGreaterThan(ws.Cells[16, 7, 16, 8]);
+                var condFormattingGreen = ws1.ConditionalFormatting.AddGreaterThan(ws1.Cells[16, 7, 16, 8]);
                 condFormattingGreen.Formula = formula;
                 condFormattingGreen.Style.Fill.PatternType = fsSolid;
                 condFormattingGreen.Style.Fill.BackgroundColor.Color = grn;
 
-                var condFormattingNormal = ws.ConditionalFormatting.AddEqual(ws.Cells[16, 7, 16, 8]);
+                var condFormattingNormal = ws1.ConditionalFormatting.AddEqual(ws1.Cells[16, 7, 16, 8]);
                 condFormattingNormal.Formula = formula;
                 condFormattingNormal.Style.Fill.PatternType = fsSolid;
                 condFormattingNormal.Style.Fill.BackgroundColor.Color = trans;
 
-                var condFormattingRed = ws.ConditionalFormatting.AddLessThan(ws.Cells[16, 7, 16, 8]);
+                var condFormattingRed = ws1.ConditionalFormatting.AddLessThan(ws1.Cells[16, 7, 16, 8]);
                 condFormattingRed.Formula = formula;
                 condFormattingRed.Style.Fill.PatternType = fsSolid;
                 condFormattingRed.Style.Fill.BackgroundColor.Color = red;
                 #endregion
 
-                var diffFormattingGrn = ws.ConditionalFormatting.AddGreaterThan(ws.Cells[22, 7, 22, 8]);
+                var diffFormattingGrn = ws1.ConditionalFormatting.AddGreaterThan(ws1.Cells[22, 7, 22, 8]);
                 diffFormattingGrn.Formula = formula;
                 diffFormattingGrn.Style.Fill.PatternType = fsSolid;
                 diffFormattingGrn.Style.Fill.BackgroundColor.Color = grn;
 
-                var diffFormattingNormal = ws.ConditionalFormatting.AddEqual(ws.Cells[22, 7, 22, 8]);
+                var diffFormattingNormal = ws1.ConditionalFormatting.AddEqual(ws1.Cells[22, 7, 22, 8]);
                 diffFormattingNormal.Formula = formula;
                 diffFormattingNormal.Style.Fill.PatternType = fsSolid;
                 diffFormattingNormal.Style.Fill.BackgroundColor.Color = trans;
 
-                var diffFormattingRed = ws.ConditionalFormatting.AddLessThan(ws.Cells[22, 7, 22, 8]);
+                var diffFormattingRed = ws1.ConditionalFormatting.AddLessThan(ws1.Cells[22, 7, 22, 8]);
                 diffFormattingRed.Formula = formula;
                 diffFormattingRed.Style.Fill.PatternType = fsSolid;
                 diffFormattingRed.Style.Fill.BackgroundColor.Color = red;
@@ -256,9 +365,9 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
             }
         }
 
-        private static ExcelWorksheet CreateSheet(ExcelPackage p, string sheetName) {
+        private static ExcelWorksheet CreateSheet(ExcelPackage p, string sheetName, int sheetId) {
             p.Workbook.Worksheets.Add(sheetName);
-            ExcelWorksheet ws = p.Workbook.Worksheets[1];
+            ExcelWorksheet ws = p.Workbook.Worksheets[sheetId];
             ws.Name = sheetName; //Setting Sheet's name
             ws.Cells.Style.Font.Size = 11; //Default font size for whole sheet
             ws.Cells.Style.Font.Name = "Calibri"; //Default Font name for whole sheet

@@ -18,14 +18,12 @@ namespace BL_JonasSageImporter
     public partial class Purchase_SaleLedgerEntities : DbContext
     {
         public Purchase_SaleLedgerEntities()
-            : base("name=Purchase_SaleLedgerEntities")
-        {
+            : base("name=Purchase_SaleLedgerEntities") {
         }
 
-        public Purchase_SaleLedgerEntities(string connName)
-            : base(connName) {
+        public Purchase_SaleLedgerEntities(string connectionString)
+            : base("name=" + connectionString) {
         }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -410,6 +408,25 @@ namespace BL_JonasSageImporter
         public virtual ObjectResult<Sage_Temp_ImportInvoices_Result> Sage_Temp_ImportInvoices()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sage_Temp_ImportInvoices_Result>("Sage_Temp_ImportInvoices");
+        }
+    
+        public virtual int proc_GetCogsValue(Nullable<int> cogsFilter)
+        {
+            var cogsFilterParameter = cogsFilter.HasValue ?
+                new ObjectParameter("CogsFilter", cogsFilter) :
+                new ObjectParameter("CogsFilter", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("proc_GetCogsValue", cogsFilterParameter);
+        }
+    
+        [DbFunction("Purchase_SaleLedgerEntities", "GetNetandGrossCogs")]
+        public virtual IQueryable<GetNetandGrossCogs_Result> GetNetandGrossCogs(Nullable<int> cogsFilter)
+        {
+            var cogsFilterParameter = cogsFilter.HasValue ?
+                new ObjectParameter("CogsFilter", cogsFilter) :
+                new ObjectParameter("CogsFilter", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetNetandGrossCogs_Result>("[Purchase_SaleLedgerEntities].[GetNetandGrossCogs](@CogsFilter)", cogsFilterParameter);
         }
     }
 }

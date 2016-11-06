@@ -118,18 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Added the ability to generate a GBU Report Template (Values will be pre-filled from the next version once clarify has been received as to what each figure is). 
+    <value>Added the ability to import COGS + Sales Backlog in one Excel sheet.
 
-Added check for first time since the application was upgraded and show the latest release notes. Also highlight any new features the first time the application is opened.
+Added performance improvements to existing COGS import (Should be considerably faster).
 
-Add ability to filter by Jonas Group and Maintenance Type on the Sales Backlog report. This will affect the figures accordingly.
-
-Altered all message boxes so that they will definitely always be placed on top of every other window. This means that the importer no longer needs to always be on top of every other window.
-
-Added the ability to import COGS reports into the system - With an accompanying COGS report found in the Reports menu.
-
-The application will now check for updates when the application starts. There is also a 'Check for Updates' option in the Help menu. This will check for an update and ask if you would like to be taken to the download page. If you select 'Yes' then the application will exit ready for you to install the latest version.
-
+COGS and SaleOrder reports both import using Admin Status now.
 
 </value>
   </data>

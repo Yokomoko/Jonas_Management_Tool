@@ -53,5 +53,6 @@ namespace BL_JonasSageImporter
         public string TerminalTypeName { get; set; }
         public string Spare2 { get; set; }
         public string AdminStatusName { get; set; }
+        public Nullable<long> LedgerId { get; set; }
     }
 }

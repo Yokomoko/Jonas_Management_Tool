@@ -215,6 +215,36 @@ namespace Jonas_Sage_Importer {
                         return;
                     }
                 }
+                if (uxImportTypeCmbo.SelectedIndex == 2) {
+                    gridProcedureName = "SO_COGS";
+                    StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
+                    try {
+                        Jonas.ImportInvoices(gridProcedureName, Table, importSource.Text);
+                        StatusStripLabel.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
+                        DbConnectionsCs.LogImport(uxExcelSheetTxt.Text, "OpenCRM " + uxImportTypeCmbo.Text, uxExcelSheetViewerGv.RowCount);
+                        return;
+                    }
+                    catch (SqlException sqlException) {
+                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+
+                        StringBuilder errorMessages = new StringBuilder();
+                        for (int i = 0; i < sqlException.Errors.Count; i++) {
+                            errorMessages.Append("Index #" + i + "\n" +
+                                "Message: " + sqlException.Errors[i].Message + "\n" +
+                                "LineNumber: " + sqlException.Errors[i].LineNumber + "\n" +
+                                "Source: " + sqlException.Errors[i].Source + "\n" +
+                                "Procedure: " + sqlException.Errors[i].Procedure + "\n");
+                        }
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
+                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
+                        return;
+                    }
+                    catch (Exception exception) {
+                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
+                        return;
+                    }
+                }
             }
             #endregion
 

@@ -31,5 +31,6 @@ namespace BL_JonasSageImporter
         public Nullable<decimal> CogsCogsValue { get; set; }
         public Nullable<decimal> CogsGrossSalesAtList { get; set; }
         public Nullable<decimal> CogsProfitValue { get; set; }
+        public Nullable<long> CogsLedgerId { get; set; }
     }
 }

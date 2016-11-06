@@ -26,5 +26,6 @@ namespace BL_JonasSageImporter
         public decimal CogsItemQuantity { get; set; }
         public decimal CogsItemListPrice { get; set; }
         public decimal CogsItemBuyPrice { get; set; }
+        public Nullable<long> CogsLedgerId { get; set; }
     }
 }

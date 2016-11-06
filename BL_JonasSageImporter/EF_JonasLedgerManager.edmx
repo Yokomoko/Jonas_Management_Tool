@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Purchase_SaleLedgerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Purchase_SaleLedgerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AdminStatuses">
           <Key>
             <PropertyRef Name="AdminStatusId" />
@@ -35,6 +35,7 @@
           <Property Name="CogsItemQuantity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="CogsItemListPrice" Type="money" Nullable="false" />
           <Property Name="CogsItemBuyPrice" Type="money" Nullable="false" />
+          <Property Name="CogsLedgerId" Type="bigint" />
         </EntityType>
         <EntityType Name="EntryTypes">
           <Key>
@@ -265,27 +266,8 @@
           <Property Name="Spare1" Type="varchar" MaxLength="255" />
           <Property Name="Spare2" Type="varchar" MaxLength="255" />
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SaleLedgerLedgerId" Type="bigint" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'Purchase_SaleLedger.dbo.SaleLedgerHistorical' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="SaleLedgerHistorical">
-          <Property Name="a" Type="nvarchar" MaxLength="10" />
-          <Property Name="CustRef" Type="nvarchar" MaxLength="30" />
-          <Property Name="CustName" Type="nvarchar" MaxLength="50" />
-          <Property Name="IncludeInReport" Type="bit" />
-          <Property Name="GL" Type="int" />
-          <Property Name="EntryType" Type="smallint" />
-          <Property Name="d" Type="smallint" />
-          <Property Name="Date" Type="date" />
-          <Property Name="InventoryNo" Type="nvarchar" MaxLength="50" />
-          <Property Name="InventoryDescription" Type="nvarchar" MaxLength="255" />
-          <Property Name="JonasType" Type="smallint" />
-          <Property Name="MaintenanceTypeNo" Type="smallint" />
-          <Property Name="Value1" Type="money" />
-          <Property Name="i" Type="nvarchar" MaxLength="10" />
-          <Property Name="Value2" Type="money" />
-          <Property Name="Value3" Type="money" />
-        </EntityType>-->
         <EntityType Name="SalesBacklogHistory">
           <Key>
             <PropertyRef Name="SbhID" />
@@ -469,34 +451,8 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.SaleLedgerExtended' does n
           <Property Name="TerminalTypeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Spare2" Type="varchar" MaxLength="255" />
           <Property Name="AdminStatusName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LedgerId" Type="bigint" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'Purchase_SaleLedger.dbo.SaleLedgerHistoricalExtended' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="SaleLedgerHistoricalExtended">
-          <Property Name="a" Type="nvarchar" MaxLength="10" />
-          <Property Name="CustRef" Type="nvarchar" MaxLength="30" />
-          <Property Name="CustName" Type="nvarchar" MaxLength="50" />
-          <Property Name="IncludeInReport" Type="bit" />
-          <Property Name="GL" Type="int" />
-          <Property Name="GLDescription" Type="nvarchar" MaxLength="255" />
-          <Property Name="EntryType" Type="smallint" />
-          <Property Name="EntryTypeDescription" Type="nvarchar" MaxLength="20" />
-          <Property Name="d" Type="smallint" />
-          <Property Name="Date" Type="date" />
-          <Property Name="Year" Type="int" />
-          <Property Name="Month" Type="int" />
-          <Property Name="Day" Type="int" />
-          <Property Name="InventoryNo" Type="nvarchar" MaxLength="50" />
-          <Property Name="InventoryDescription" Type="nvarchar" MaxLength="255" />
-          <Property Name="JonasType" Type="smallint" />
-          <Property Name="JonasTypeDescription" Type="nvarchar" MaxLength="255" />
-          <Property Name="MaintenanceTypeNo" Type="smallint" />
-          <Property Name="MaintTypeDescription" Type="nvarchar" MaxLength="255" />
-          <Property Name="Value1" Type="money" />
-          <Property Name="i" Type="nvarchar" MaxLength="10" />
-          <Property Name="Value2" Type="money" />
-          <Property Name="Value3" Type="money" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_GenerateCogsReport">
@@ -514,6 +470,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
             <PropertyRef Name="CogsItemBuyPrice" />
           </Key>
           <Property Name="CogsId" Type="int" Nullable="false" />
+          <Property Name="CogsLedgerId" Type="bigint" />
           <Property Name="CogsCompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CogsSiteName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CogsStatus" Type="int" Nullable="false" />
@@ -608,6 +565,17 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
         <Function Name="CRM_Temp_ImportOrders_Adv" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="CRM_Temp_ImportOrders_Adv2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="CRM_Temp_ImportOrders_Adv3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetNetandGrossCogs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CogsFilter" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="NetValue" Type="decimal" Precision="38" Scale="4" />
+                <Property Name="GrossValue" Type="decimal" Precision="38" Scale="4" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="GP_Grid_ImportInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GP_Grid_ImportOutstandingInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GP_Grid_ImportPostedInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -726,12 +694,14 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
     [SaleLedgerExtended].[Spare1] AS [Spare1], 
     [SaleLedgerExtended].[TerminalTypeName] AS [TerminalTypeName], 
     [SaleLedgerExtended].[Spare2] AS [Spare2], 
-    [SaleLedgerExtended].[AdminStatusName] AS [AdminStatusName]
+    [SaleLedgerExtended].[AdminStatusName] AS [AdminStatusName], 
+    [SaleLedgerExtended].[LedgerId] AS [LedgerId]
     FROM [dbo].[SaleLedgerExtended] AS [SaleLedgerExtended]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_GenerateCogsReport" EntityType="Self.vw_GenerateCogsReport" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_GenerateCogsReport].[CogsId] AS [CogsId], 
+    [vw_GenerateCogsReport].[CogsLedgerId] AS [CogsLedgerId], 
     [vw_GenerateCogsReport].[CogsCompanyName] AS [CogsCompanyName], 
     [vw_GenerateCogsReport].[CogsSiteName] AS [CogsSiteName], 
     [vw_GenerateCogsReport].[CogsStatus] AS [CogsStatus], 
@@ -751,8 +721,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
     FROM [dbo].[vw_GenerateCogsReport] AS [vw_GenerateCogsReport]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Purchase_SaleLedgerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -786,6 +755,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <Property Name="CogsItemQuantity" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="CogsItemListPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="CogsItemBuyPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CogsLedgerId" Type="Int64" />
         </EntityType>
         <EntityType Name="EntryType">
           <Key>
@@ -1016,6 +986,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <Property Name="Spare1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Spare2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleLedgerLedgerId" Type="Int64" />
         </EntityType>
         <EntityType Name="SalesBacklogHistory">
           <Key>
@@ -1194,6 +1165,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <Property Name="TerminalTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Spare2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="AdminStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LedgerId" Type="Int64" />
         </EntityType>
         <EntityType Name="vw_GenerateCogsReport">
           <Key>
@@ -1226,6 +1198,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <Property Name="CogsCogsValue" Type="Decimal" Precision="38" Scale="4" />
           <Property Name="CogsGrossSalesAtList" Type="Decimal" Precision="38" Scale="4" />
           <Property Name="CogsProfitValue" Type="Decimal" Precision="38" Scale="4" />
+          <Property Name="CogsLedgerId" Type="Int64" />
         </EntityType>
         <EntityContainer Name="Purchase_SaleLedgerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AdminStatuses" EntityType="Self.AdminStatus" />
@@ -1341,6 +1314,12 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <FunctionImport Name="Sage_Grid_ImportInvoices" />
           <FunctionImport Name="Sage_Grid_ImportOrders" />
           <FunctionImport Name="Sage_Temp_ImportInvoices" ReturnType="Collection(Purchase_SaleLedgerModel.Sage_Temp_ImportInvoices_Result)" />
+          <FunctionImport Name="proc_GetCogsValue">
+            <Parameter Name="CogsFilter" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetNetandGrossCogs" IsComposable="true" ReturnType="Collection(Purchase_SaleLedgerModel.GetNetandGrossCogs_Result)">
+            <Parameter Name="CogsFilter" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Sage_Temp_ImportInvoices_Result">
           <Property Type="DateTime" Name="Date" Nullable="true" Precision="23" />
@@ -1360,6 +1339,10 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <Property Type="String" Name="InvoiceNo" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CustName" Nullable="true" MaxLength="50" />
           <Property Type="Int64" Name="Id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetNetandGrossCogs_Result">
+          <Property Type="Decimal" Name="NetValue" Nullable="true" Precision="38" Scale="4" />
+          <Property Type="Decimal" Name="GrossValue" Nullable="true" Precision="38" Scale="4" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1386,6 +1369,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <EntitySetMapping Name="CostOfGoodsSolds">
             <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.CostOfGoodsSold">
               <MappingFragment StoreEntitySet="CostOfGoodsSold">
+                <ScalarProperty Name="CogsLedgerId" ColumnName="CogsLedgerId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CogsCompanyName" ColumnName="CogsCompanyName" />
                 <ScalarProperty Name="CogsSiteName" ColumnName="CogsSiteName" />
@@ -1612,6 +1596,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <EntitySetMapping Name="SaleLedgers">
             <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.SaleLedger">
               <MappingFragment StoreEntitySet="SaleLedger">
+                <ScalarProperty Name="SaleLedgerLedgerId" ColumnName="SaleLedgerLedgerId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="CustRef" ColumnName="CustRef" />
                 <ScalarProperty Name="DueDate" ColumnName="DueDate" />
@@ -1764,6 +1749,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <EntitySetMapping Name="SaleLedgerExtendeds">
             <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.SaleLedgerExtended">
               <MappingFragment StoreEntitySet="SaleLedgerExtended">
+                <ScalarProperty Name="LedgerId" ColumnName="LedgerId" />
                 <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
                 <ScalarProperty Name="CustRef" ColumnName="CustRef" />
                 <ScalarProperty Name="CustName" ColumnName="CustName" />
@@ -1809,6 +1795,7 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
           <EntitySetMapping Name="vw_GenerateCogsReport">
             <EntityTypeMapping TypeName="Purchase_SaleLedgerModel.vw_GenerateCogsReport">
               <MappingFragment StoreEntitySet="vw_GenerateCogsReport">
+                <ScalarProperty Name="CogsLedgerId" ColumnName="CogsLedgerId" />
                 <ScalarProperty Name="CogsId" ColumnName="CogsId" />
                 <ScalarProperty Name="CogsCompanyName" ColumnName="CogsCompanyName" />
                 <ScalarProperty Name="CogsSiteName" ColumnName="CogsSiteName" />
@@ -1866,6 +1853,14 @@ warning 6002: The table/view 'Purchase_SaleLedger.dbo.vw_GenerateCogsReport' doe
                 <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
                 <ScalarProperty Name="CustName" ColumnName="CustName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetNetandGrossCogs" FunctionName="Purchase_SaleLedgerModel.Store.GetNetandGrossCogs">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Purchase_SaleLedgerModel.GetNetandGrossCogs_Result">
+                <ScalarProperty Name="NetValue" ColumnName="NetValue" />
+                <ScalarProperty Name="GrossValue" ColumnName="GrossValue" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

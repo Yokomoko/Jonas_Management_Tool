@@ -34,9 +34,9 @@
             this.titleLbl.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.titleLbl.Location = new System.Drawing.Point(13, 13);
             this.titleLbl.Name = "titleLbl";
-            this.titleLbl.Size = new System.Drawing.Size(603, 46);
+            this.titleLbl.Size = new System.Drawing.Size(252, 19);
             this.titleLbl.TabIndex = 0;
-            this.titleLbl.Text = "Release Notes from v1.2.6108.25276";
+            this.titleLbl.Text = "Release Notes from v1.2.6128.27309";
             this.titleLbl.Click += new System.EventHandler(this.label1_Click);
             // 
             // richTextBox1

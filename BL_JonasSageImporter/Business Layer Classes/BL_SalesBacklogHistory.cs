@@ -8,8 +8,8 @@ namespace BL_JonasSageImporter.Business_Layer_Classes {
         
         //Gets value by date
         public static IQueryable<BL_JonasSageImporter.SalesBacklogHistory> GetByDate(DateTime dt) {
-            var context = new Purchase_SaleLedgerEntities();
-            var context2 = new AdminStatus();
+            var context = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
+            new AdminStatus();
             var sbh = from t in context.SalesBacklogHistories
                 where (t.SbhDate.Date == dt.Date)
                 select t;
