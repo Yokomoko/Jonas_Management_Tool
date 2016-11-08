@@ -26,7 +26,10 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
             Forecast_Future_Months = 5,
             No_Forecast = 6,
             Stuck = 7,
-            Cancelled = 8
+            Cancelled = 8,
+            Hardware = 9,
+            Software = 10,
+            Professional_Services = 11
         }
         #endregion
 
@@ -281,12 +284,13 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 ws2.Cells[24, 4].Formula = "SUM(D15:D23)";
                 ws2.Cells[24, 5].Formula = "SUM(E15:E23)";
                 ws2.Cells[24, 6].Formula = "SUM(C24:E24)";
-                ws2.Cells[24, 3, 24, 6].Style.Numberformat.Format = currencyFormat;
-                ws2.Cells[4, 3, 4, 8].Style.Numberformat.Format = currencyFormat;
+                ws2.Column(6).Width = 12;
+                ws2.Cells[15, 3, 24, 6].Style.Numberformat.Format = currencyFormat;
+                ws2.Cells[3, 3, 8, 4].Style.Numberformat.Format = currencyFormat;
                 ws2.Cells[10, 3, 11, 4].Style.Numberformat.Format = currencyFormat;
 
-                ws2.Cells[3, 5, 6, 5].Style.Numberformat.Format = percentageFormat;
-                ws2.Cells[3, 8].Style.Numberformat.Format = percentageFormat;
+                ws2.Cells[3, 5, 8, 5].Style.Numberformat.Format = percentageFormat;
+                ws2.Cells[8, 5].Style.Numberformat.Format = percentageFormat;
 
                 //Populate Common Conditional Formatting
                 ExcelFillStyle fsSolid = ExcelFillStyle.Solid;
@@ -296,20 +300,103 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 Color red = Color.IndianRed;
 
                 var ef = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
-                SqlParameter filterId = new SqlParameter("@CogsFilter, 0", SqlDbType.Int);
 
-                var totalSalesBacklog = from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Total_Backlog)
-                                        select new {
-                                            tsb.GrossValue,
-                                            tsb.NetValue
-                                        };
-                var thisMonthForecast = from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Forecast_This_Month)
-                                        select new {
-                                            tsb.GrossValue,
-                                            tsb.NetValue
-                                        };
+                var thisMonthForecast = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Forecast_This_Month)
+                                         select new {
+                                             tsb.GrossValue,
+                                             tsb.NetValue
+                                         }).ToList().FirstOrDefault();
+                var futureMonthForecast = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Forecast_Future_Months)
+                                           select new {
+                                               tsb.GrossValue,
+                                               tsb.NetValue
+                                           }).ToList().FirstOrDefault();
+                var noForecast = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.No_Forecast)
+                                  select new {
+                                      tsb.GrossValue,
+                                      tsb.NetValue
+                                  }).ToList().FirstOrDefault();
+                var totalSalesBacklog = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Total_Backlog)
+                                         select new {
+                                             tsb.GrossValue,
+                                             tsb.NetValue
+                                         }).ToList().FirstOrDefault();
+                var stuckBacklog = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Stuck)
+                                    select new {
+                                        tsb.GrossValue,
+                                        tsb.NetValue
+                                    }).ToList().FirstOrDefault();
+                var installedThisMonth = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Installed_This_Month_Excluding_This_Week)
+                                          select new {
+                                              tsb.GrossValue,
+                                              tsb.NetValue
+                                          }).ToList().FirstOrDefault();
+                var installedThisWeek = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.This_Week)
+                                         select new {
+                                             tsb.GrossValue,
+                                             tsb.NetValue
+                                         }).ToList().FirstOrDefault();
+                var cancelledThisMonth = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Cancelled)
+                                          select new {
+                                              tsb.GrossValue,
+                                              tsb.NetValue
+                                          }).ToList().FirstOrDefault();
 
+                var hardware = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Hardware)
+                                select new {
+                                    tsb.GrossValue,
+                                    tsb.NetValue
+                                }).ToList().FirstOrDefault();
+                var software = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Software)
+                                select new {
+                                    tsb.GrossValue,
+                                    tsb.NetValue
+                                }).ToList().FirstOrDefault();
+                var professionalServices = (from tsb in ef.GetNetandGrossCogs((int?)FilterTypes.Professional_Services)
+                                            select new {
+                                                tsb.GrossValue,
+                                                tsb.NetValue
+                                            }).ToList().FirstOrDefault();
 
+                ws1.Cells[16, 3].Value = totalSalesBacklog.GrossValue;
+                ws1.Cells[16, 4].Value = totalSalesBacklog.NetValue;
+                ws1.Cells[17, 3].Value = installedThisWeek.GrossValue;
+                ws1.Cells[17, 3].Value = installedThisWeek.NetValue;
+                ws1.Cells[19, 3].Value = thisMonthForecast.GrossValue; //Subject to Change
+                ws1.Cells[19, 4].Value = thisMonthForecast.NetValue; //Subject to change
+                ws1.Cells[20, 3].Value = installedThisMonth.GrossValue;
+                ws1.Cells[20, 4].Value = installedThisMonth.NetValue;
+
+                ws2.Cells[3, 3].Value = thisMonthForecast.GrossValue;
+                ws2.Cells[4, 3].Value = futureMonthForecast.GrossValue;
+                ws2.Cells[5, 3].Value = noForecast.GrossValue;
+                ws2.Cells[6, 3].Formula = "Sum(C3:C5)";
+                ws2.Cells[7, 3].Value = totalSalesBacklog.GrossValue;
+                ws2.Cells[8, 3].Value = stuckBacklog.GrossValue;
+
+                ws2.Cells[3, 4].Value = thisMonthForecast.NetValue;
+                ws2.Cells[4, 4].Value = futureMonthForecast.NetValue;
+                ws2.Cells[5, 4].Value = noForecast.NetValue;
+                ws2.Cells[6, 4].Formula = "Sum(D3:D5)";
+                ws2.Cells[7, 4].Value = totalSalesBacklog.NetValue;
+                ws2.Cells[8, 4].Value = stuckBacklog.NetValue;
+
+                ws2.Cells[10, 3].Value = installedThisMonth.GrossValue ?? 0;
+                ws2.Cells[10, 4].Value = installedThisMonth.NetValue ?? 0;
+
+                ws2.Cells[11, 3].Value = cancelledThisMonth.GrossValue ?? 0;
+                ws2.Cells[11, 4].Value = cancelledThisMonth.NetValue ?? 0;
+
+                ws2.Cells[22, 3].Value = hardware.GrossValue;
+                ws2.Cells[22, 4].Value = software.GrossValue;
+                ws2.Cells[22, 5].Value = professionalServices.GrossValue;
+
+                ws2.Cells[3, 5].Formula = "C3 / C$6";
+                ws2.Cells[4, 5].Formula = "C4 / C$6";
+                ws2.Cells[5, 5].Formula = "C5 / C$6";
+                ws2.Cells[6, 5].Formula = "C6 / C$6";
+                ws2.Cells[7, 5].Formula = "C7 / C$6";
+                ws2.Cells[8, 5].Formula = "C8 / C$6";
 
                 #region Backlog Growth Formatting
                 var condFormattingGreen = ws1.ConditionalFormatting.AddGreaterThan(ws1.Cells[16, 7, 16, 8]);
@@ -346,17 +433,19 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 //Generate A File Name
                 Byte[] bin = p.GetAsByteArray();
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string file = $"GBU Report {friday.ToString("yyMMdd")}" + ".xlsx";
+                string file = $"GBU Report {friday.ToString("yyMMdd")}" + DateTime.Now.ToString("-hhmmss") + ".xlsx";
                 var pathString = System.IO.Path.Combine(path, file);
                 //
 
                 System.GC.Collect();
                 System.GC.WaitForPendingFinalizers();
-                File.WriteAllBytes(pathString, bin);
 
-
-
-
+                try {
+                    File.WriteAllBytes(pathString, bin);
+                }
+                catch (IOException) {
+                    MessageBox.Show(@"Unable to create report. Please close the existing report and try again");
+                }
 
 
                 //These lines will open it in Excel
@@ -382,143 +471,8 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
         /// <returns></returns>
         private static void SetWorkbookProperties(ExcelPackage p) {
             //Here setting some document properties
-            p.Workbook.Properties.Author = "Zeeshan Umar";
-            p.Workbook.Properties.Title = "EPPlus Sample";
-
-
+            p.Workbook.Properties.Author = "Lanko Solutions";
+            p.Workbook.Properties.Title = "Jonas Software GBU Report";
         }
-
-        private static void CreateHeader(ExcelWorksheet ws, ref int rowIndex, DataTable dt) {
-            int colIndex = 1;
-            foreach (DataColumn dc in dt.Columns) //Creating Headings
-            {
-                var cell = ws.Cells[rowIndex, colIndex];
-
-                //Setting the background color of header cells to Gray
-                var fill = cell.Style.Fill;
-                fill.PatternType = ExcelFillStyle.Solid;
-                fill.BackgroundColor.SetColor(Color.Gray);
-
-                //Setting Top/left,right/bottom borders.
-                var border = cell.Style.Border;
-                border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
-
-                //Setting Value in cell
-                cell.Value = "Heading " + dc.ColumnName;
-
-                colIndex++;
-            }
-        }
-
-        private static void CreateData(ExcelWorksheet ws, ref int rowIndex, DataTable dt) {
-            int colIndex = 0;
-            foreach (DataRow dr in dt.Rows) // Adding Data into rows
-            {
-                colIndex = 1;
-                rowIndex++;
-
-                foreach (DataColumn dc in dt.Columns) {
-                    var cell = ws.Cells[rowIndex, colIndex];
-
-                    //Setting Value in cell
-                    cell.Value = Convert.ToInt32(dr[dc.ColumnName]);
-
-                    //Setting borders of cell
-                    var border = cell.Style.Border;
-                    border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
-                    colIndex++;
-                }
-            }
-        }
-
-        private static void CreateFooter(ExcelWorksheet ws, ref int rowIndex, DataTable dt) {
-            int colIndex = 0;
-            foreach (DataColumn dc in dt.Columns) //Creating Formula in footers
-            {
-                colIndex++;
-                var cell = ws.Cells[rowIndex, colIndex];
-
-                //Setting Sum Formula
-                cell.Formula = "Sum(" + ws.Cells[3, colIndex].Address + ":" + ws.Cells[rowIndex - 1, colIndex].Address + ")";
-
-                //Setting Background fill color to Gray
-                cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                cell.Style.Fill.BackgroundColor.SetColor(Color.Gray);
-            }
-        }
-
-        /// <summary>
-        /// Adds the custom shape.
-        /// </summary>
-        /// <param name="ws">Worksheet</param>
-        /// <param name="colIndex">Column Index</param>
-        /// <param name="rowIndex">Row Index</param>
-        /// <param name="shapeStyle">Shape style</param>
-        /// <param name="text">Text for the shape</param>
-        private static void AddCustomShape(ExcelWorksheet ws, int colIndex, int rowIndex, eShapeStyle shapeStyle, string text) {
-            ExcelShape shape = ws.Drawings.AddShape("cs" + rowIndex.ToString() + colIndex.ToString(), shapeStyle);
-            shape.From.Column = colIndex;
-            shape.From.Row = rowIndex;
-            shape.From.ColumnOff = Pixel2MTU(5);
-            shape.SetSize(100, 100);
-            shape.RichText.Add(text);
-        }
-
-        /// <summary>
-        /// Adds the image in excel sheet.
-        /// </summary>
-        /// <param name="ws">Worksheet</param>
-        /// <param name="colIndex">Column Index</param>
-        /// <param name="rowIndex">Row Index</param>
-        /// <param name="filePath">The file path</param>
-
-
-        /// <summary>
-        /// Adds the comment in excel sheet.
-        /// </summary>
-        /// <param name="ws">Worksheet</param>
-        /// <param name="colIndex">Column Index</param>
-        /// <param name="rowIndex">Row Index</param>
-        /// <param name="comments">Comment text</param>
-        /// <param name="author">Author Name</param>
-        private static void AddComment(ExcelWorksheet ws, int colIndex, int rowIndex, string comment, string author) {
-            //Adding a comment to a Cell
-            var commentCell = ws.Cells[rowIndex, colIndex];
-            commentCell.AddComment(comment, author);
-        }
-
-        /// <summary>
-        /// Pixel2s the MTU.
-        /// </summary>
-        /// <param name="pixels">The pixels.</param>
-        /// <returns></returns>
-        public static int Pixel2MTU(int pixels) {
-            int mtus = pixels * 9525;
-            return mtus;
-        }
-
-        /// <summary>
-        /// Creates the data table with some dummy data.
-        /// </summary>
-        /// <returns>DataTable</returns>
-        private static DataTable CreateDataTable() {
-            DataTable dt = new DataTable();
-            for (int i = 0; i < 10; i++) {
-                dt.Columns.Add(i.ToString());
-            }
-
-            for (int i = 0; i < 10; i++) {
-                DataRow dr = dt.NewRow();
-                foreach (DataColumn dc in dt.Columns) {
-                    dr[dc.ToString()] = i;
-                }
-
-                dt.Rows.Add(dr);
-            }
-
-            return dt;
-        }
-
-
     }
 }
