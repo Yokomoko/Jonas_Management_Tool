@@ -13,7 +13,8 @@ using Jonas_Sage_Importer.Properties;
 namespace SageImporterLibrary
 
 {
-    public class DbConnectionsCs : IDisposable {
+    public class DbConnectionsCs : IDisposable
+    {
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
         private LogToText logToText = new LogToText();
@@ -30,7 +31,6 @@ namespace SageImporterLibrary
 
         private static string _reportServerUrl = @"http://192.168.15.48/reportserver";
 
-        private static string _efConnection = "Purchase_SaleLedgerEntities_Live";
         public static string DbLocationTxt()
         {
             return _dbLocationTxt;
@@ -96,7 +96,7 @@ namespace SageImporterLibrary
             {
                 LogToText.WriteToLog($"Connection Failed with the connection string - '{testConString}'");
                 // UtilityMethods.ShowMessageBox($"Connection Failed \n {ex.Message}");
-                 UtilityMethods.ShowMessageBox($"Connection Failed \n {ex.Message}");
+                UtilityMethods.ShowMessageBox($"Connection Failed \n {ex.Message}");
                 connLabel.Text = @"Failed..";
                 connLabel.ForeColor = Color.Red;
                 connLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -119,7 +119,7 @@ namespace SageImporterLibrary
 
                 LogToText.WriteToLog(
                     $"Connection String Updated. dbLocation = {dbLocation} dbName = {dbName} userName = {userName} password = {password}");
-                 UtilityMethods.ShowMessageBox(@"Connection String Updated Successfully", @"Success");
+                UtilityMethods.ShowMessageBox(@"Connection String Updated Successfully", @"Success");
 
                 //Build EF Connection String
                 SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
@@ -135,23 +135,23 @@ namespace SageImporterLibrary
                 EntityConnectionStringBuilder entityBuilder = new EntityConnectionStringBuilder();
                 entityBuilder.Provider = "System.Data.SqlClient";
                 entityBuilder.ProviderConnectionString = providerString;
-               
+
 
                 counter = true;
             }
         }
 
         public static void updateReportServerUri(string reportServerUrl)
-            {
-                _reportServerUrl = reportServerUrl;
-            }
+        {
+            _reportServerUrl = reportServerUrl;
+        }
 
 
         public SqlDataAdapter GetData(string selectCommand)
         {
             using (SqlConnection conn = new SqlConnection(ConnectionString()))
             {
-               dataAdapter = new SqlDataAdapter(selectCommand, conn);
+                dataAdapter = new SqlDataAdapter(selectCommand, conn);
                 SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
 
                 DataTable table = new DataTable();
@@ -202,29 +202,29 @@ namespace SageImporterLibrary
 
             SqlCommand sqlComm;
             SqlConnection sqlConn = new SqlConnection(ConnectionString());
-            
+
 
             SqlDataAdapter adapter = new SqlDataAdapter(sql, sqlconn);
 
 
 
             //SelectCommand
-            sqlComm = new SqlCommand(sql,sqlConn);
+            sqlComm = new SqlCommand(sql, sqlConn);
             adapter.SelectCommand = sqlComm;
             //UpdateCommand
-            sqlComm = new SqlCommand("Update GLTypes Set GLNo = @GlNo, GlDescription = @GlDescription where GlNo = @oldGlNo",sqlConn);
+            sqlComm = new SqlCommand("Update GLTypes Set GLNo = @GlNo, GlDescription = @GlDescription where GlNo = @oldGlNo", sqlConn);
             sqlComm.Parameters.Add("@GlNo", SqlDbType.Int, 5, "NominalCode");
             sqlComm.Parameters.Add("@GlDescription", SqlDbType.NVarChar, 255, "Description");
             SqlParameter parameter = sqlComm.Parameters.Add("@oldGlNo", SqlDbType.Int, 5, "NominalCode");
             parameter.SourceVersion = DataRowVersion.Original;
             adapter.UpdateCommand = sqlComm;
             //DeleteCommand
-            sqlComm = new SqlCommand("Delete from GLTypes where GlNo = @GlNo",sqlConn);
+            sqlComm = new SqlCommand("Delete from GLTypes where GlNo = @GlNo", sqlConn);
             parameter = sqlComm.Parameters.Add("GlNo", SqlDbType.Int, 5, "NominalCode");
             parameter.SourceVersion = DataRowVersion.Original;
             adapter.DeleteCommand = sqlComm;
             //InsertCommand
-            sqlComm = new SqlCommand("Insert into GLTypes (GLNo, GlDescription) values (@GlNo, @GlDescription)",sqlConn);
+            sqlComm = new SqlCommand("Insert into GLTypes (GLNo, GlDescription) values (@GlNo, @GlDescription)", sqlConn);
             sqlComm.Parameters.Add("@GlNo", SqlDbType.Int, 5, "NominalCode");
             sqlComm.Parameters.Add("@GlDescription", SqlDbType.NVarChar, 255, "Description");
             adapter.InsertCommand = sqlComm;

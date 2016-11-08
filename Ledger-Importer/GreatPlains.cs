@@ -70,24 +70,24 @@ namespace Jonas_Sage_Importer
             }
             try
             {
-               Form1._form1.UpdateStripText($"Attempting to Import {comboBox.Text} from Application.");
+               RadForm1._RadForm1.UpdateStripText($"Attempting to Import {comboBox.Text} from Application.");
                 ImportInvoices(gridProcedureName, dTable);
             }
             catch (Exception exception)
             {
-                Form1._form1.UpdateStripText($"Failed to Import {comboBox.Text} from Application.");
+                RadForm1._RadForm1.UpdateStripText($"Failed to Import {comboBox.Text} from Application.");
                  UtilityMethods.ShowMessageBox($"Failed to import {comboBox.Text} from Application.\n\n{exception.Message}", @"Failed");
                 return;
             }
             try
             {
-                Form1._form1.UpdateStripText($"Attempting to Import {comboBox.Text} from Temporary Table.");
+                RadForm1._RadForm1.UpdateStripText($"Attempting to Import {comboBox.Text} from Temporary Table.");
                 CommitImport(tempProcedureName);
-                Form1._form1.UpdateStripText($"Successfully imported {comboBox.Text} from Temporary Table.");
+                RadForm1._RadForm1.UpdateStripText($"Successfully imported {comboBox.Text} from Temporary Table.");
             }
             catch (Exception exception)
             {
-                Form1._form1.UpdateStripText($"Failed to Import {comboBox.Text} from Temporary Table.");
+                RadForm1._RadForm1.UpdateStripText($"Failed to Import {comboBox.Text} from Temporary Table.");
                  UtilityMethods.ShowMessageBox(
                     $"Failed to import {comboBox.Text} from Temporary Table.\n\n{exception.Message}",
                     @"Failed");
