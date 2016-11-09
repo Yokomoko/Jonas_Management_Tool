@@ -6,8 +6,7 @@ namespace Jonas_Sage_Importer
 {
     public partial class ReportViewer : Form
     {
-
-        Uri reportServerPath = new Uri($"{DbConnectionsCs.ReportServerUrl()}");
+        readonly Uri reportServerPath = new Uri($"{DbConnectionsCs.ReportServerUrl()}");
         string reportName = String.Empty;
         
 

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition5 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RadForm1));
             this.gpExcelFileFind = new System.Windows.Forms.OpenFileDialog();
             this.uxExcelWorksheetCmbo = new Telerik.WinControls.UI.RadDropDownList();
@@ -41,8 +41,6 @@
             this.uxRemoveNewerRecordsDt = new Telerik.WinControls.UI.RadDateTimePicker();
             this.uxExcelSheetViewerGv = new Telerik.WinControls.UI.RadGridView();
             this.uxInclusiveLbl = new System.Windows.Forms.Label();
-            this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.StatusStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.radLabel4 = new Telerik.WinControls.UI.RadLabel();
@@ -96,6 +94,9 @@
             this.office2013DarkTheme1 = new Telerik.WinControls.Themes.Office2013DarkTheme();
             this.breezeTheme1 = new Telerik.WinControls.Themes.BreezeTheme();
             this.office2013LightTheme1 = new Telerik.WinControls.Themes.Office2013LightTheme();
+            this.radStatusStrip1 = new Telerik.WinControls.UI.RadStatusStrip();
+            this.radLabelElement1 = new Telerik.WinControls.UI.RadLabelElement();
+            this.radLabelElement2 = new Telerik.WinControls.UI.RadLabelElement();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelWorksheetCmbo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxImportSourceCmbo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxImportTypeCmbo)).BeginInit();
@@ -106,7 +107,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.uxRemoveNewerRecordsDt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelSheetViewerGv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelSheetViewerGv.MasterTemplate)).BeginInit();
-            this.StatusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
@@ -116,6 +116,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.uxImportBtn)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radMenu2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radStatusStrip1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -128,7 +129,7 @@
             // 
             this.uxExcelWorksheetCmbo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uxExcelWorksheetCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
-            this.uxExcelWorksheetCmbo.Location = new System.Drawing.Point(153, 69);
+            this.uxExcelWorksheetCmbo.Location = new System.Drawing.Point(223, 74);
             this.uxExcelWorksheetCmbo.Name = "uxExcelWorksheetCmbo";
             this.uxExcelWorksheetCmbo.Size = new System.Drawing.Size(244, 20);
             this.uxExcelWorksheetCmbo.TabIndex = 86;
@@ -138,7 +139,7 @@
             this.uxImportSourceCmbo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uxImportSourceCmbo.DropDownAnimationEasing = Telerik.WinControls.RadEasingType.InQuart;
             this.uxImportSourceCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
-            this.uxImportSourceCmbo.Location = new System.Drawing.Point(153, 3);
+            this.uxImportSourceCmbo.Location = new System.Drawing.Point(223, 8);
             this.uxImportSourceCmbo.Name = "uxImportSourceCmbo";
             this.uxImportSourceCmbo.Size = new System.Drawing.Size(244, 20);
             this.uxImportSourceCmbo.TabIndex = 85;
@@ -148,14 +149,15 @@
             // 
             this.uxImportTypeCmbo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uxImportTypeCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
-            this.uxImportTypeCmbo.Location = new System.Drawing.Point(153, 25);
+            this.uxImportTypeCmbo.Location = new System.Drawing.Point(223, 30);
             this.uxImportTypeCmbo.Name = "uxImportTypeCmbo";
             this.uxImportTypeCmbo.Size = new System.Drawing.Size(244, 20);
             this.uxImportTypeCmbo.TabIndex = 84;
             // 
             // uxExcelBrowseBtn
             // 
-            this.uxExcelBrowseBtn.Location = new System.Drawing.Point(402, 46);
+            this.uxExcelBrowseBtn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.uxExcelBrowseBtn.Location = new System.Drawing.Point(472, 51);
             this.uxExcelBrowseBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.uxExcelBrowseBtn.Name = "uxExcelBrowseBtn";
             this.uxExcelBrowseBtn.Size = new System.Drawing.Size(45, 20);
@@ -165,7 +167,8 @@
             // 
             // uxWorksheetUpdateBtn
             // 
-            this.uxWorksheetUpdateBtn.Location = new System.Drawing.Point(402, 68);
+            this.uxWorksheetUpdateBtn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.uxWorksheetUpdateBtn.Location = new System.Drawing.Point(472, 73);
             this.uxWorksheetUpdateBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.uxWorksheetUpdateBtn.Name = "uxWorksheetUpdateBtn";
             this.uxWorksheetUpdateBtn.Size = new System.Drawing.Size(70, 20);
@@ -178,7 +181,7 @@
             this.uxExcelSheetTxt.BackColor = System.Drawing.SystemColors.ControlDark;
             this.uxExcelSheetTxt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uxExcelSheetTxt.Enabled = false;
-            this.uxExcelSheetTxt.Location = new System.Drawing.Point(153, 47);
+            this.uxExcelSheetTxt.Location = new System.Drawing.Point(223, 52);
             this.uxExcelSheetTxt.Name = "uxExcelSheetTxt";
             this.uxExcelSheetTxt.ReadOnly = true;
             this.uxExcelSheetTxt.Size = new System.Drawing.Size(244, 20);
@@ -187,16 +190,16 @@
             // uxRemoveNewerRecordsChk
             // 
             this.uxRemoveNewerRecordsChk.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.uxRemoveNewerRecordsChk.Location = new System.Drawing.Point(23, 91);
+            this.uxRemoveNewerRecordsChk.Location = new System.Drawing.Point(93, 96);
             this.uxRemoveNewerRecordsChk.Name = "uxRemoveNewerRecordsChk";
-            this.uxRemoveNewerRecordsChk.Size = new System.Drawing.Size(124, 16);
+            this.uxRemoveNewerRecordsChk.Size = new System.Drawing.Size(124, 18);
             this.uxRemoveNewerRecordsChk.TabIndex = 79;
             this.uxRemoveNewerRecordsChk.Text = "Remove Newer Than";
             // 
             // uxRemoveNewerRecordsDt
             // 
             this.uxRemoveNewerRecordsDt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uxRemoveNewerRecordsDt.Location = new System.Drawing.Point(153, 91);
+            this.uxRemoveNewerRecordsDt.Location = new System.Drawing.Point(223, 96);
             this.uxRemoveNewerRecordsDt.Name = "uxRemoveNewerRecordsDt";
             this.uxRemoveNewerRecordsDt.Size = new System.Drawing.Size(244, 20);
             this.uxRemoveNewerRecordsDt.TabIndex = 78;
@@ -208,7 +211,8 @@
             // 
             this.uxExcelSheetViewerGv.AutoScroll = true;
             this.uxExcelSheetViewerGv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uxExcelSheetViewerGv.Location = new System.Drawing.Point(3, 143);
+            this.uxExcelSheetViewerGv.Location = new System.Drawing.Point(6, 143);
+            this.uxExcelSheetViewerGv.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             // 
             // 
             // 
@@ -223,71 +227,55 @@
             this.uxExcelSheetViewerGv.MasterTemplate.AllowRowResize = false;
             this.uxExcelSheetViewerGv.MasterTemplate.AutoExpandGroups = true;
             this.uxExcelSheetViewerGv.MasterTemplate.ShowRowHeaderColumn = false;
-            this.uxExcelSheetViewerGv.MasterTemplate.ViewDefinition = tableViewDefinition5;
+            this.uxExcelSheetViewerGv.MasterTemplate.ViewDefinition = tableViewDefinition1;
             this.uxExcelSheetViewerGv.Name = "uxExcelSheetViewerGv";
             this.uxExcelSheetViewerGv.ReadOnly = true;
             this.uxExcelSheetViewerGv.ShowGroupPanel = false;
             this.uxExcelSheetViewerGv.ShowNoDataText = false;
-            this.uxExcelSheetViewerGv.Size = new System.Drawing.Size(692, 278);
+            this.uxExcelSheetViewerGv.Size = new System.Drawing.Size(686, 274);
             this.uxExcelSheetViewerGv.TabIndex = 77;
             this.uxExcelSheetViewerGv.Text = "radGridView1";
             this.uxExcelSheetViewerGv.UseScrollbarsInHierarchy = true;
             // 
             // uxInclusiveLbl
             // 
+            this.uxInclusiveLbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.uxInclusiveLbl.AutoSize = true;
             this.uxInclusiveLbl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.uxInclusiveLbl.Location = new System.Drawing.Point(403, 88);
+            this.uxInclusiveLbl.Location = new System.Drawing.Point(473, 97);
             this.uxInclusiveLbl.Name = "uxInclusiveLbl";
             this.uxInclusiveLbl.Size = new System.Drawing.Size(137, 13);
             this.uxInclusiveLbl.TabIndex = 75;
             this.uxInclusiveLbl.Text = "Note: This date is inclusive.";
-            // 
-            // StatusStrip1
-            // 
-            this.StatusStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
-            this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StatusStripLabel});
-            this.StatusStrip1.Location = new System.Drawing.Point(0, 474);
-            this.StatusStrip1.Name = "StatusStrip1";
-            this.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.StatusStrip1.Size = new System.Drawing.Size(698, 22);
-            this.StatusStrip1.SizingGrip = false;
-            this.StatusStrip1.TabIndex = 70;
-            this.StatusStrip1.Text = "StatusStrip1";
-            // 
-            // StatusStripLabel
-            // 
-            this.StatusStripLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.StatusStripLabel.Name = "StatusStripLabel";
-            this.StatusStripLabel.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.StatusStripLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.99999F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.radLabel4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.radLabel3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.radLabel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.radLabel1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.uxImportSourceCmbo, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.uxExcelWorksheetCmbo, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.uxRemoveNewerRecordsDt, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.uxRemoveNewerRecordsChk, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.uxWorksheetUpdateBtn, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.uxImportTypeCmbo, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.uxExcelBrowseBtn, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.uxExcelSheetTxt, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.uxInclusiveLbl, 2, 4);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.00001F));
+            this.tableLayoutPanel1.Controls.Add(this.radLabel4, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.radLabel3, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.radLabel2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.radLabel1, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.uxImportSourceCmbo, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.uxExcelWorksheetCmbo, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.uxRemoveNewerRecordsDt, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.uxRemoveNewerRecordsChk, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.uxWorksheetUpdateBtn, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.uxImportTypeCmbo, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.uxExcelBrowseBtn, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.uxExcelSheetTxt, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.uxInclusiveLbl, 3, 5);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 23);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
@@ -300,9 +288,9 @@
             // radLabel4
             // 
             this.radLabel4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.radLabel4.Location = new System.Drawing.Point(87, 69);
+            this.radLabel4.Location = new System.Drawing.Point(157, 74);
             this.radLabel4.Name = "radLabel4";
-            this.radLabel4.Size = new System.Drawing.Size(60, 16);
+            this.radLabel4.Size = new System.Drawing.Size(60, 18);
             this.radLabel4.TabIndex = 88;
             this.radLabel4.Text = "Worksheet";
             this.radLabel4.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -310,9 +298,9 @@
             // radLabel3
             // 
             this.radLabel3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.radLabel3.Location = new System.Drawing.Point(85, 47);
+            this.radLabel3.Location = new System.Drawing.Point(155, 52);
             this.radLabel3.Name = "radLabel3";
-            this.radLabel3.Size = new System.Drawing.Size(62, 16);
+            this.radLabel3.Size = new System.Drawing.Size(62, 18);
             this.radLabel3.TabIndex = 87;
             this.radLabel3.Text = "Excel Sheet";
             this.radLabel3.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -320,9 +308,9 @@
             // radLabel2
             // 
             this.radLabel2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.radLabel2.Location = new System.Drawing.Point(70, 3);
+            this.radLabel2.Location = new System.Drawing.Point(140, 8);
             this.radLabel2.Name = "radLabel2";
-            this.radLabel2.Size = new System.Drawing.Size(77, 16);
+            this.radLabel2.Size = new System.Drawing.Size(77, 18);
             this.radLabel2.TabIndex = 88;
             this.radLabel2.Text = "Import Source";
             this.radLabel2.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -330,9 +318,9 @@
             // radLabel1
             // 
             this.radLabel1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.radLabel1.Location = new System.Drawing.Point(80, 25);
+            this.radLabel1.Location = new System.Drawing.Point(150, 30);
             this.radLabel1.Name = "radLabel1";
-            this.radLabel1.Size = new System.Drawing.Size(67, 16);
+            this.radLabel1.Size = new System.Drawing.Size(67, 18);
             this.radLabel1.TabIndex = 87;
             this.radLabel1.Text = "Import Type";
             this.radLabel1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -345,7 +333,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel2.Controls.Add(this.uxImportBtn, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 427);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 423);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -371,15 +359,18 @@
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel1, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel2, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.radMenu2, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.radStatusStrip1, 0, 4);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 4;
+            this.tableLayoutPanel3.RowCount = 5;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(698, 474);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(698, 496);
             this.tableLayoutPanel3.TabIndex = 86;
             // 
             // radMenu2
@@ -511,13 +502,13 @@
             // uxLightThemeRmi
             // 
             this.uxLightThemeRmi.Name = "uxLightThemeRmi";
-            this.uxLightThemeRmi.Text = "Light (Default)";
+            this.uxLightThemeRmi.Text = "Light";
             this.uxLightThemeRmi.Click += new System.EventHandler(this.uxLightThemeRmi_Click);
             // 
             // uxDarkThemeRmi
             // 
             this.uxDarkThemeRmi.Name = "uxDarkThemeRmi";
-            this.uxDarkThemeRmi.Text = "Night";
+            this.uxDarkThemeRmi.Text = "Night (Default)";
             this.uxDarkThemeRmi.Click += new System.EventHandler(this.uxDarkThemeRmi_Click);
             // 
             // uxBreezeThmRmi
@@ -533,6 +524,7 @@
             this.uxCheckUpdatesRmi,
             this.uxAboutBoxRmi});
             this.radMenuItem9.Name = "radMenuItem9";
+            this.radMenuItem9.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.radMenuItem9.Text = "Help";
             // 
             // uxReleaseNotesRmi
@@ -669,13 +661,51 @@
             this.uxAboutRmi.Text = "About";
             this.uxAboutRmi.Click += new System.EventHandler(this.uxAboutRmi_Click);
             // 
+            // radStatusStrip1
+            // 
+            this.radStatusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radStatusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.radStatusStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.radStatusStrip1.Items.AddRange(new Telerik.WinControls.RadItem[] {
+            this.radLabelElement2,
+            this.radLabelElement1});
+            this.radStatusStrip1.LayoutStyle = Telerik.WinControls.UI.RadStatusBarLayoutStyle.Overflow;
+            this.radStatusStrip1.Location = new System.Drawing.Point(0, 474);
+            this.radStatusStrip1.Margin = new System.Windows.Forms.Padding(0);
+            this.radStatusStrip1.Name = "radStatusStrip1";
+            // 
+            // 
+            // 
+            this.radStatusStrip1.RootElement.FitToSizeMode = Telerik.WinControls.RadFitToSizeMode.FitToParentBounds;
+            this.radStatusStrip1.RootElement.Opacity = 0.75D;
+            this.radStatusStrip1.RootElement.ScaleTransform = new System.Drawing.SizeF(0F, 0F);
+            this.radStatusStrip1.Size = new System.Drawing.Size(698, 22);
+            this.radStatusStrip1.SizingGrip = false;
+            this.radStatusStrip1.TabIndex = 87;
+            this.radStatusStrip1.Text = "radStatusStrip1";
+            ((Telerik.WinControls.Primitives.FillPrimitive)(this.radStatusStrip1.GetChildAt(0).GetChildAt(1))).Margin = new System.Windows.Forms.Padding(0);
+            // 
+            // radLabelElement1
+            // 
+            this.radLabelElement1.Name = "radLabelElement1";
+            this.radStatusStrip1.SetSpring(this.radLabelElement1, false);
+            this.radLabelElement1.Text = "";
+            this.radLabelElement1.TextWrap = true;
+            // 
+            // radLabelElement2
+            // 
+            this.radLabelElement2.Name = "radLabelElement2";
+            this.radStatusStrip1.SetSpring(this.radLabelElement2, false);
+            this.radLabelElement2.Text = "";
+            this.radLabelElement2.TextWrap = true;
+            // 
             // RadForm1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(698, 496);
             this.Controls.Add(this.tableLayoutPanel3);
-            this.Controls.Add(this.StatusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RadForm1";
             // 
@@ -695,8 +725,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.uxRemoveNewerRecordsDt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelSheetViewerGv.MasterTemplate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelSheetViewerGv)).EndInit();
-            this.StatusStrip1.ResumeLayout(false);
-            this.StatusStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).EndInit();
@@ -708,9 +736,9 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radMenu2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radStatusStrip1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -726,8 +754,6 @@
         private Telerik.WinControls.UI.RadDateTimePicker uxRemoveNewerRecordsDt;
         private Telerik.WinControls.UI.RadGridView uxExcelSheetViewerGv;
         private System.Windows.Forms.Label uxInclusiveLbl;
-        public System.Windows.Forms.StatusStrip StatusStrip1;
-        internal System.Windows.Forms.ToolStripStatusLabel StatusStripLabel;
         private System.DirectoryServices.DirectoryEntry directoryEntry1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -781,5 +807,8 @@
         private Telerik.WinControls.UI.RadMenuItem uxLightThemeRmi;
         private Telerik.WinControls.UI.RadMenuItem uxDarkThemeRmi;
         private Telerik.WinControls.UI.RadMenuItem uxBreezeThmRmi;
+        private Telerik.WinControls.UI.RadStatusStrip radStatusStrip1;
+        private Telerik.WinControls.UI.RadLabelElement radLabelElement1;
+        private Telerik.WinControls.UI.RadLabelElement radLabelElement2;
     }
 }

@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,29 +11,29 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using Microsoft.Win32;
-using SageImporterLibrary;
-using Telerik.WinControls.UI;
-using AutoUpdaterDotNET;
 using Jonas_Sage_Importer.Generate_Excel_Reports;
 using Jonas_Sage_Importer.Properties;
+using Microsoft.Win32;
+using SageImporterLibrary;
 using Telerik.WinControls;
 using Telerik.WinControls.Themes;
+using Telerik.WinControls.UI;
+using PositionChangedEventArgs = Telerik.WinControls.UI.Data.PositionChangedEventArgs;
 
 namespace Jonas_Sage_Importer
 {
-    public partial class RadForm1 : Telerik.WinControls.UI.RadForm
+    public partial class RadForm1 : RadForm
     {
         protected OleDbDataAdapter DataAdapter = new OleDbDataAdapter();
         protected BindingSource TableBindingSource = new BindingSource();
         protected DataTable Table = new DataTable();
 
-        public static RadForm1 _RadForm1 = new RadForm1();
+        internal static RadForm1 _radForm1 = new RadForm1();
 
         public RadForm1()
         {
             InitializeComponent();
-            _RadForm1 = this;
+            _radForm1 = this;
             LoadImportSourceCmbo();
         }
 
@@ -47,7 +46,7 @@ namespace Jonas_Sage_Importer
             Text = Application.ProductName;
             uxRemoveNewerRecordsDt.Value = DateTime.Today;
             uxImportSourceCmbo.SelectedIndex = 1;
-            StatusStripLabel.Text = @"OK";
+            radLabelElement1.Text = @"OK";
             //TopMost = true;
             uxRemoveNewerRecordsDt.Enabled = uxRemoveNewerRecordsChk.Checked;
             if (CheckForUpdates(true))
@@ -79,26 +78,8 @@ namespace Jonas_Sage_Importer
                     SetLightTheme();
                     break;
             }
-
-            if (Settings.Default.Theme == 0)
-            {
-                SetLightTheme();
-            }
-            else if (Settings.Default.Theme == 1)
-            {
-                SetDarkTheme();
-            }
-            else if (Settings.Default.Theme == 2)
-            {
-                SetBreezeTheme();
-            }
-            else
-            {
-                SetLightTheme();
-            }
-
-
-
+            this.MinimumSize = new System.Drawing.Size(500,376);
+            
         }
 
 
@@ -139,31 +120,31 @@ namespace Jonas_Sage_Importer
                         tempProcedureName = "GP_Temp_ImportPostedInvoices";
                         break;
                     case 2: //OpenCRM
-                        Jonas.DeleteHistoricalLedger(uxImportTypeCmbo.SelectedIndex, new DateTime(1900, 01, 01), importSource.Text); ;
+                        Jonas.DeleteHistoricalLedger(uxImportTypeCmbo.SelectedIndex, new DateTime(1900, 01, 01), importSource.Text);
                         gridProcedureName = "GP_Grid_ImportOutstandingInvoices";
                         tempProcedureName = "GP_Temp_ImportOutstandingInvoices";
                         break;
                 }
                 try
                 {
-                    StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application.");
+                    radLabelElement1.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application.");
                     Jonas.ImportInvoices(gridProcedureName, Table, importSource.Text);
                 }
                 catch (Exception exception)
                 {
-                    StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+                    radLabelElement1.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
                     UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message}", @"Failed");
                     return;
                 }
                 try
                 {
-                    StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Temporary Table.");
+                    radLabelElement1.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Temporary Table.");
                     Jonas.CommitImport(tempProcedureName, importSource.Text);
-                    StatusStripLabel.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Temporary Table.");
+                    radLabelElement1.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Temporary Table.");
                 }
                 catch (Exception exception)
                 {
-                    StatusStripLabel.Text = $"Failed to Import {uxImportTypeCmbo.Text} from Temporary Table.";
+                    radLabelElement1.Text = $"Failed to Import {uxImportTypeCmbo.Text} from Temporary Table.";
                     UtilityMethods.ShowMessageBox(
                         $"Failed to import {uxImportTypeCmbo.Text} from Temporary Table.\n\n{exception.Message}",
                         @"Failed");
@@ -199,9 +180,9 @@ namespace Jonas_Sage_Importer
                     }
                     try
                     {
-                        StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
+                        radLabelElement1.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
                         Jonas.ImportInvoices(gridProcedureName, Table, importSource.Text);
-                        StatusStripLabel.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
+                        radLabelElement1.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
                         if (gridProcedureName == "CRM_ImportCogs")
                         {
                             return;
@@ -209,7 +190,7 @@ namespace Jonas_Sage_Importer
                     }
                     catch (SqlException sqlException)
                     {
-                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+                        radLabelElement1.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
 
                         StringBuilder errorMessages = new StringBuilder();
                         for (int i = 0; i < sqlException.Errors.Count; i++)
@@ -220,26 +201,26 @@ namespace Jonas_Sage_Importer
                                 "Source: " + sqlException.Errors[i].Source + "\n" +
                                 "Procedure: " + sqlException.Errors[i].Procedure + "\n");
                         }
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
-                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}", @"Failed");
+                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}");
                         return;
                     }
                     catch (Exception exception)
                     {
-                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+                        radLabelElement1.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
                         UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
                         return;
                     }
 
                     try
                     {
-                        StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Temporary Table.");
+                        radLabelElement1.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Temporary Table.");
                         Jonas.CommitImport(tempProcedureName, importSource.Text);
-                        StatusStripLabel.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Temporary Table.");
+                        radLabelElement1.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Temporary Table.");
                     }
                     catch (Exception exception)
                     {
-                        StatusStripLabel.Text = $"Failed to Import {uxImportTypeCmbo.Text} from Temporary Table.";
+                        radLabelElement1.Text = $"Failed to Import {uxImportTypeCmbo.Text} from Temporary Table.";
                         UtilityMethods.ShowMessageBox(
                             $"Failed to import {uxImportTypeCmbo.Text} from Temporary Table.\n\n{exception.Message}",
                             @"Failed");
@@ -252,16 +233,16 @@ namespace Jonas_Sage_Importer
 
                     try
                     {
-                        StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
+                        radLabelElement1.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
                         Jonas.ImportInvoices(gridProcedureName, Table, importSource.Text);
-                        StatusStripLabel.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
+                        radLabelElement1.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
                         DbConnectionsCs.LogImport(uxExcelSheetTxt.Text, "OpenCRM " + uxImportTypeCmbo.Text, uxExcelSheetViewerGv.RowCount);
                         return;
 
                     }
                     catch (SqlException sqlException)
                     {
-                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+                        radLabelElement1.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
 
                         StringBuilder errorMessages = new StringBuilder();
                         for (int i = 0; i < sqlException.Errors.Count; i++)
@@ -272,13 +253,13 @@ namespace Jonas_Sage_Importer
                                 "Source: " + sqlException.Errors[i].Source + "\n" +
                                 "Procedure: " + sqlException.Errors[i].Procedure + "\n");
                         }
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
-                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}", @"Failed");
+                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}");
                         return;
                     }
                     catch (Exception exception)
                     {
-                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+                        radLabelElement1.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
                         UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
                         return;
                     }
@@ -286,18 +267,17 @@ namespace Jonas_Sage_Importer
                 if (uxImportTypeCmbo.SelectedIndex == 2)
                 {
                     gridProcedureName = "SO_COGS";
-                    StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
+                    radLabelElement1.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
                     try
                     {
                         Jonas.ImportInvoices(gridProcedureName, Table, importSource.Text);
-                        StatusStripLabel.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
+                        radLabelElement1.Text = ($"Successfully imported {uxImportTypeCmbo.Text} from Application");
                         DbConnectionsCs.LogImport(uxExcelSheetTxt.Text, "OpenCRM " + uxImportTypeCmbo.Text, uxExcelSheetViewerGv.RowCount);
                         return;
                     }
                     catch (SqlException sqlException)
                     {
-                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
-
+                        radLabelElement1.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
                         StringBuilder errorMessages = new StringBuilder();
                         for (int i = 0; i < sqlException.Errors.Count; i++)
                         {
@@ -307,13 +287,13 @@ namespace Jonas_Sage_Importer
                                 "Source: " + sqlException.Errors[i].Source + "\n" +
                                 "Procedure: " + sqlException.Errors[i].Procedure + "\n");
                         }
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
-                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}", @"Failed");
+                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}");
                         return;
                     }
                     catch (Exception exception)
                     {
-                        StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
+                        radLabelElement1.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
                         UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
                         return;
                     }
@@ -529,7 +509,7 @@ namespace Jonas_Sage_Importer
 
         public void UpdateStripText(string message)
         {
-            StatusStripLabel.Text = message;
+            radLabelElement1.Text = message;
         }
 
         private void LoadImportSourceCmbo()
@@ -585,7 +565,7 @@ namespace Jonas_Sage_Importer
         }
 
 
-        private void uxImportSourceCmbo_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
+        private void uxImportSourceCmbo_SelectedIndexChanged(object sender, PositionChangedEventArgs e)
         {
             LoadImportTypeCmbo(uxImportSourceCmbo.SelectedIndex);
             if (uxImportSourceCmbo.SelectedIndex == 0)
@@ -648,7 +628,7 @@ namespace Jonas_Sage_Importer
         {
             if (uxExcelSheetTxt.Text == "")
             {
-                StatusStripLabel.Text = @"Nothing to Update!";
+                radLabelElement1.Text = @"Nothing to Update!";
                 return;
             }
             try
@@ -668,7 +648,7 @@ namespace Jonas_Sage_Importer
         }
 
 
-        private void uxRemoveNewerRecordsChk_ToggleStateChanged(object sender, Telerik.WinControls.UI.StateChangedEventArgs args)
+        private void uxRemoveNewerRecordsChk_ToggleStateChanged(object sender, StateChangedEventArgs args)
         {
             uxRemoveNewerRecordsDt.Enabled = uxRemoveNewerRecordsChk.Checked;
         }
@@ -685,8 +665,8 @@ namespace Jonas_Sage_Importer
 
         private static void DeleteUpdateFile()
         {
-            System.GC.Collect();
-            System.GC.WaitForPendingFinalizers();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             File.Delete("UpdateFile.xml");
         }
 
@@ -707,7 +687,7 @@ namespace Jonas_Sage_Importer
 
                 if (node1 != null)
                 {
-                    var updateVersion = new Version(node1.InnerText.ToString());
+                    var updateVersion = new Version(node1.InnerText);
                     var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
                     var versionComparionResult = updateVersion.CompareTo(currentVersion);
 
@@ -718,7 +698,7 @@ namespace Jonas_Sage_Importer
                             "New version available", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dialogResult == DialogResult.Yes)
                         {
-                            System.Diagnostics.Process.Start(node2.InnerText.ToString());
+                            Process.Start(node2.InnerText);
                             UtilityMethods.ShowMessageBox(
                                 "The application will now exit. Please download and install the latest version");
                             fs.Dispose();
@@ -783,13 +763,12 @@ namespace Jonas_Sage_Importer
             var rnForm = (ReleaseNotes)GetOpenedForm<ReleaseNotes>();
             if (rnForm == null)
             {
-                var rn = new ReleaseNotes();
-                //rn.Location = new Point(Screen.PrimaryScreen.Bounds.X, //should be (0,0)
-                //    Screen.PrimaryScreen.Bounds.Y);
-                rn.TopMost = true;
-                //rn.StartPosition = FormStartPosition.Manual;
-                rn.Owner = _RadForm1;
-                rn.StartPosition = FormStartPosition.CenterParent;
+                var rn = new ReleaseNotes
+                {
+                    TopMost = true,
+                    Owner = _radForm1,
+                    StartPosition = FormStartPosition.CenterParent
+                };
                 rn.ShowDialog();
             }
             else
@@ -838,7 +817,7 @@ namespace Jonas_Sage_Importer
 
         private void SetBreezeTheme()
         {
-            BreezeTheme breeze = new BreezeTheme();
+            //new BreezeTheme();
             ThemeResolutionService.ApplicationThemeName = "Breeze";
             Settings.Default.Theme = 2;
             Settings.Default.Save();

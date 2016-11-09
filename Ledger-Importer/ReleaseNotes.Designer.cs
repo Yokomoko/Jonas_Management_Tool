@@ -56,7 +56,12 @@
             this.ClientSize = new System.Drawing.Size(429, 348);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.titleLbl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ReleaseNotes";
+            this.ShowIcon = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Release Notes";
             this.ResumeLayout(false);
             this.PerformLayout();

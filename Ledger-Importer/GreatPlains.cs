@@ -63,31 +63,31 @@ namespace Jonas_Sage_Importer
                     tempProcedureName = "GP_Temp_ImportPostedInvoices";
                     break;
                 case 2:
-                    DeleteHistoricalLedger(comboBox.SelectedIndex, new DateTime(1900,01,01));;
+                    DeleteHistoricalLedger(comboBox.SelectedIndex, new DateTime(1900,01,01));
                     gridProcedureName = "GP_Grid_ImportOutstandingInvoices";
                     tempProcedureName = "GP_Temp_ImportOutstandingInvoices";
                     break;
             }
             try
             {
-               RadForm1._RadForm1.UpdateStripText($"Attempting to Import {comboBox.Text} from Application.");
+               RadForm1._radForm1.UpdateStripText($"Attempting to Import {comboBox.Text} from Application.");
                 ImportInvoices(gridProcedureName, dTable);
             }
             catch (Exception exception)
             {
-                RadForm1._RadForm1.UpdateStripText($"Failed to Import {comboBox.Text} from Application.");
+                RadForm1._radForm1.UpdateStripText($"Failed to Import {comboBox.Text} from Application.");
                  UtilityMethods.ShowMessageBox($"Failed to import {comboBox.Text} from Application.\n\n{exception.Message}", @"Failed");
                 return;
             }
             try
             {
-                RadForm1._RadForm1.UpdateStripText($"Attempting to Import {comboBox.Text} from Temporary Table.");
+                RadForm1._radForm1.UpdateStripText($"Attempting to Import {comboBox.Text} from Temporary Table.");
                 CommitImport(tempProcedureName);
-                RadForm1._RadForm1.UpdateStripText($"Successfully imported {comboBox.Text} from Temporary Table.");
+                RadForm1._radForm1.UpdateStripText($"Successfully imported {comboBox.Text} from Temporary Table.");
             }
             catch (Exception exception)
             {
-                RadForm1._RadForm1.UpdateStripText($"Failed to Import {comboBox.Text} from Temporary Table.");
+                RadForm1._radForm1.UpdateStripText($"Failed to Import {comboBox.Text} from Temporary Table.");
                  UtilityMethods.ShowMessageBox(
                     $"Failed to import {comboBox.Text} from Temporary Table.\n\n{exception.Message}",
                     @"Failed");

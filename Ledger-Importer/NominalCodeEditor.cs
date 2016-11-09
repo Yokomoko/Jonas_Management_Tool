@@ -80,9 +80,10 @@ namespace Jonas_Sage_Importer {
 
 
                 try {
-                    var glType = new GLType();
-                    glType.GLNo = nominalCode;
-                    glType.GLDescription = nominalDescription;
+                    var glType = new GLType {
+                        GLNo = nominalCode,
+                        GLDescription = nominalDescription
+                    };
 
                     using (var dbCtx = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString())) {
                         dbCtx.Entry(glType).State = System.Data.Entity.EntityState.Added;
