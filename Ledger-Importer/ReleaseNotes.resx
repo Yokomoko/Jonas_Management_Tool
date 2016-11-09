@@ -126,9 +126,11 @@ COGS and SaleOrder reports both import using Admin Status now.
 
 Improved Import Preview to Fit Columns as best as possible.
 
-Ability to run the application in fullscreen (To view more Import Preview Columns).
+Improved scaling (Appears better when in full screen).
 
 Add Ability to Assign a Theme to the application in Configuration &gt; Themes.
+
+Updated the Access Database Engine installer to use the x86 version if not currently installed. The original installer was not fixing the issue.
 .</value>
   </data>
 </root>
