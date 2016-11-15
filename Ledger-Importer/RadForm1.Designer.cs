@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition5 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RadForm1));
             this.gpExcelFileFind = new System.Windows.Forms.OpenFileDialog();
             this.uxExcelWorksheetCmbo = new Telerik.WinControls.UI.RadDropDownList();
@@ -130,7 +130,7 @@
             this.uxExcelWorksheetCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
             this.uxExcelWorksheetCmbo.Location = new System.Drawing.Point(153, 69);
             this.uxExcelWorksheetCmbo.Name = "uxExcelWorksheetCmbo";
-            this.uxExcelWorksheetCmbo.Size = new System.Drawing.Size(244, 20);
+            this.uxExcelWorksheetCmbo.Size = new System.Drawing.Size(244, 16);
             this.uxExcelWorksheetCmbo.TabIndex = 86;
             // 
             // uxImportSourceCmbo
@@ -140,7 +140,7 @@
             this.uxImportSourceCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
             this.uxImportSourceCmbo.Location = new System.Drawing.Point(153, 3);
             this.uxImportSourceCmbo.Name = "uxImportSourceCmbo";
-            this.uxImportSourceCmbo.Size = new System.Drawing.Size(244, 20);
+            this.uxImportSourceCmbo.Size = new System.Drawing.Size(244, 16);
             this.uxImportSourceCmbo.TabIndex = 85;
             this.uxImportSourceCmbo.SelectedIndexChanged += new Telerik.WinControls.UI.Data.PositionChangedEventHandler(this.uxImportSourceCmbo_SelectedIndexChanged);
             // 
@@ -150,7 +150,7 @@
             this.uxImportTypeCmbo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList;
             this.uxImportTypeCmbo.Location = new System.Drawing.Point(153, 25);
             this.uxImportTypeCmbo.Name = "uxImportTypeCmbo";
-            this.uxImportTypeCmbo.Size = new System.Drawing.Size(244, 20);
+            this.uxImportTypeCmbo.Size = new System.Drawing.Size(244, 16);
             this.uxImportTypeCmbo.TabIndex = 84;
             // 
             // uxExcelBrowseBtn
@@ -181,7 +181,7 @@
             this.uxExcelSheetTxt.Location = new System.Drawing.Point(153, 47);
             this.uxExcelSheetTxt.Name = "uxExcelSheetTxt";
             this.uxExcelSheetTxt.ReadOnly = true;
-            this.uxExcelSheetTxt.Size = new System.Drawing.Size(244, 20);
+            this.uxExcelSheetTxt.Size = new System.Drawing.Size(244, 16);
             this.uxExcelSheetTxt.TabIndex = 80;
             // 
             // uxRemoveNewerRecordsChk
@@ -198,7 +198,7 @@
             this.uxRemoveNewerRecordsDt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uxRemoveNewerRecordsDt.Location = new System.Drawing.Point(153, 91);
             this.uxRemoveNewerRecordsDt.Name = "uxRemoveNewerRecordsDt";
-            this.uxRemoveNewerRecordsDt.Size = new System.Drawing.Size(244, 20);
+            this.uxRemoveNewerRecordsDt.Size = new System.Drawing.Size(244, 16);
             this.uxRemoveNewerRecordsDt.TabIndex = 78;
             this.uxRemoveNewerRecordsDt.TabStop = false;
             this.uxRemoveNewerRecordsDt.Text = "29 June 2016";
@@ -223,7 +223,7 @@
             this.uxExcelSheetViewerGv.MasterTemplate.AllowRowResize = false;
             this.uxExcelSheetViewerGv.MasterTemplate.AutoExpandGroups = true;
             this.uxExcelSheetViewerGv.MasterTemplate.ShowRowHeaderColumn = false;
-            this.uxExcelSheetViewerGv.MasterTemplate.ViewDefinition = tableViewDefinition5;
+            this.uxExcelSheetViewerGv.MasterTemplate.ViewDefinition = tableViewDefinition1;
             this.uxExcelSheetViewerGv.Name = "uxExcelSheetViewerGv";
             this.uxExcelSheetViewerGv.ReadOnly = true;
             this.uxExcelSheetViewerGv.ShowGroupPanel = false;
