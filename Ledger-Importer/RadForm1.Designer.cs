@@ -74,6 +74,9 @@
             this.uxReleaseNotesRmi = new Telerik.WinControls.UI.RadMenuItem();
             this.uxCheckUpdatesRmi = new Telerik.WinControls.UI.RadMenuItem();
             this.uxAboutBoxRmi = new Telerik.WinControls.UI.RadMenuItem();
+            this.radStatusStrip1 = new Telerik.WinControls.UI.RadStatusStrip();
+            this.radLabelElement2 = new Telerik.WinControls.UI.RadLabelElement();
+            this.radLabelElement1 = new Telerik.WinControls.UI.RadLabelElement();
             this.radMenuItem1 = new Telerik.WinControls.UI.RadMenuItem();
             this.uxExitRmi = new Telerik.WinControls.UI.RadMenuItem();
             this.radMenuItem2 = new Telerik.WinControls.UI.RadMenuItem();
@@ -94,9 +97,6 @@
             this.office2013DarkTheme1 = new Telerik.WinControls.Themes.Office2013DarkTheme();
             this.breezeTheme1 = new Telerik.WinControls.Themes.BreezeTheme();
             this.office2013LightTheme1 = new Telerik.WinControls.Themes.Office2013LightTheme();
-            this.radStatusStrip1 = new Telerik.WinControls.UI.RadStatusStrip();
-            this.radLabelElement1 = new Telerik.WinControls.UI.RadLabelElement();
-            this.radLabelElement2 = new Telerik.WinControls.UI.RadLabelElement();
             ((System.ComponentModel.ISupportInitialize)(this.uxExcelWorksheetCmbo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxImportSourceCmbo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uxImportTypeCmbo)).BeginInit();
@@ -192,9 +192,10 @@
             this.uxRemoveNewerRecordsChk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.uxRemoveNewerRecordsChk.Location = new System.Drawing.Point(93, 96);
             this.uxRemoveNewerRecordsChk.Name = "uxRemoveNewerRecordsChk";
-            this.uxRemoveNewerRecordsChk.Size = new System.Drawing.Size(124, 18);
+            this.uxRemoveNewerRecordsChk.Size = new System.Drawing.Size(124, 16);
             this.uxRemoveNewerRecordsChk.TabIndex = 79;
             this.uxRemoveNewerRecordsChk.Text = "Remove Newer Than";
+            this.uxRemoveNewerRecordsChk.ToggleStateChanged += new Telerik.WinControls.UI.StateChangedEventHandler(this.uxRemoveNewerRecordsChk_ToggleStateChanged);
             // 
             // uxRemoveNewerRecordsDt
             // 
@@ -290,7 +291,7 @@
             this.radLabel4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.radLabel4.Location = new System.Drawing.Point(157, 74);
             this.radLabel4.Name = "radLabel4";
-            this.radLabel4.Size = new System.Drawing.Size(60, 18);
+            this.radLabel4.Size = new System.Drawing.Size(60, 16);
             this.radLabel4.TabIndex = 88;
             this.radLabel4.Text = "Worksheet";
             this.radLabel4.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -300,7 +301,7 @@
             this.radLabel3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.radLabel3.Location = new System.Drawing.Point(155, 52);
             this.radLabel3.Name = "radLabel3";
-            this.radLabel3.Size = new System.Drawing.Size(62, 18);
+            this.radLabel3.Size = new System.Drawing.Size(62, 16);
             this.radLabel3.TabIndex = 87;
             this.radLabel3.Text = "Excel Sheet";
             this.radLabel3.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -310,7 +311,7 @@
             this.radLabel2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.radLabel2.Location = new System.Drawing.Point(140, 8);
             this.radLabel2.Name = "radLabel2";
-            this.radLabel2.Size = new System.Drawing.Size(77, 18);
+            this.radLabel2.Size = new System.Drawing.Size(77, 16);
             this.radLabel2.TabIndex = 88;
             this.radLabel2.Text = "Import Source";
             this.radLabel2.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -320,7 +321,7 @@
             this.radLabel1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.radLabel1.Location = new System.Drawing.Point(150, 30);
             this.radLabel1.Name = "radLabel1";
-            this.radLabel1.Size = new System.Drawing.Size(67, 18);
+            this.radLabel1.Size = new System.Drawing.Size(67, 16);
             this.radLabel1.TabIndex = 87;
             this.radLabel1.Text = "Import Type";
             this.radLabel1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -383,7 +384,7 @@
             this.radMenuItem9});
             this.radMenu2.Location = new System.Drawing.Point(3, 3);
             this.radMenu2.Name = "radMenu2";
-            this.radMenu2.Size = new System.Drawing.Size(692, 20);
+            this.radMenu2.Size = new System.Drawing.Size(692, 14);
             this.radMenu2.TabIndex = 85;
             this.radMenu2.Text = "radMenu2";
             // 
@@ -545,6 +546,47 @@
             this.uxAboutBoxRmi.Text = "About";
             this.uxAboutBoxRmi.Click += new System.EventHandler(this.uxAboutRmi_Click);
             // 
+            // radStatusStrip1
+            // 
+            this.radStatusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radStatusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.radStatusStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.radStatusStrip1.Items.AddRange(new Telerik.WinControls.RadItem[] {
+            this.radLabelElement2,
+            this.radLabelElement1});
+            this.radStatusStrip1.LayoutStyle = Telerik.WinControls.UI.RadStatusBarLayoutStyle.Overflow;
+            this.radStatusStrip1.Location = new System.Drawing.Point(0, 470);
+            this.radStatusStrip1.Margin = new System.Windows.Forms.Padding(0);
+            this.radStatusStrip1.Name = "radStatusStrip1";
+            // 
+            // 
+            // 
+            this.radStatusStrip1.RootElement.FitToSizeMode = Telerik.WinControls.RadFitToSizeMode.FitToParentBounds;
+            this.radStatusStrip1.RootElement.Opacity = 0.75D;
+            this.radStatusStrip1.RootElement.ScaleTransform = new System.Drawing.SizeF(0F, 0F);
+            this.radStatusStrip1.Size = new System.Drawing.Size(698, 26);
+            this.radStatusStrip1.SizingGrip = false;
+            this.radStatusStrip1.TabIndex = 87;
+            this.radStatusStrip1.Text = "radStatusStrip1";
+            ((Telerik.WinControls.UI.RadStatusBarElement)(this.radStatusStrip1.GetChildAt(0))).Text = "radStatusStrip1";
+            ((Telerik.WinControls.UI.RadStatusBarElement)(this.radStatusStrip1.GetChildAt(0))).StretchVertically = false;
+            ((Telerik.WinControls.Primitives.FillPrimitive)(this.radStatusStrip1.GetChildAt(0).GetChildAt(1))).Margin = new System.Windows.Forms.Padding(0);
+            // 
+            // radLabelElement2
+            // 
+            this.radLabelElement2.Name = "radLabelElement2";
+            this.radStatusStrip1.SetSpring(this.radLabelElement2, false);
+            this.radLabelElement2.Text = "";
+            this.radLabelElement2.TextWrap = true;
+            // 
+            // radLabelElement1
+            // 
+            this.radLabelElement1.Name = "radLabelElement1";
+            this.radStatusStrip1.SetSpring(this.radLabelElement1, false);
+            this.radLabelElement1.Text = "";
+            this.radLabelElement1.TextWrap = true;
+            // 
             // radMenuItem1
             // 
             this.radMenuItem1.Items.AddRange(new Telerik.WinControls.RadItem[] {
@@ -660,45 +702,6 @@
             this.uxAboutRmi.Name = "uxAboutRmi";
             this.uxAboutRmi.Text = "About";
             this.uxAboutRmi.Click += new System.EventHandler(this.uxAboutRmi_Click);
-            // 
-            // radStatusStrip1
-            // 
-            this.radStatusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.radStatusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.radStatusStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.radStatusStrip1.Items.AddRange(new Telerik.WinControls.RadItem[] {
-            this.radLabelElement2,
-            this.radLabelElement1});
-            this.radStatusStrip1.LayoutStyle = Telerik.WinControls.UI.RadStatusBarLayoutStyle.Overflow;
-            this.radStatusStrip1.Location = new System.Drawing.Point(0, 474);
-            this.radStatusStrip1.Margin = new System.Windows.Forms.Padding(0);
-            this.radStatusStrip1.Name = "radStatusStrip1";
-            // 
-            // 
-            // 
-            this.radStatusStrip1.RootElement.FitToSizeMode = Telerik.WinControls.RadFitToSizeMode.FitToParentBounds;
-            this.radStatusStrip1.RootElement.Opacity = 0.75D;
-            this.radStatusStrip1.RootElement.ScaleTransform = new System.Drawing.SizeF(0F, 0F);
-            this.radStatusStrip1.Size = new System.Drawing.Size(698, 22);
-            this.radStatusStrip1.SizingGrip = false;
-            this.radStatusStrip1.TabIndex = 87;
-            this.radStatusStrip1.Text = "radStatusStrip1";
-            ((Telerik.WinControls.Primitives.FillPrimitive)(this.radStatusStrip1.GetChildAt(0).GetChildAt(1))).Margin = new System.Windows.Forms.Padding(0);
-            // 
-            // radLabelElement1
-            // 
-            this.radLabelElement1.Name = "radLabelElement1";
-            this.radStatusStrip1.SetSpring(this.radLabelElement1, false);
-            this.radLabelElement1.Text = "";
-            this.radLabelElement1.TextWrap = true;
-            // 
-            // radLabelElement2
-            // 
-            this.radLabelElement2.Name = "radLabelElement2";
-            this.radStatusStrip1.SetSpring(this.radLabelElement2, false);
-            this.radLabelElement2.Text = "";
-            this.radLabelElement2.TextWrap = true;
             // 
             // RadForm1
             // 

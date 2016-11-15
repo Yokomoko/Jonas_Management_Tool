@@ -27,9 +27,11 @@ namespace Jonas_Sage_Importer.EditorControls {
 
         #endregion
 
+        #region Constructors
         public NominalCodeEditor_Rad() {
             InitializeComponent();
         }
+        #endregion
 
         #region Event Handlers
 
