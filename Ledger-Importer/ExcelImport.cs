@@ -68,10 +68,7 @@ namespace SageImporterLibrary {
                     }
                     catch (Exception ex) {
                          UtilityMethods.ShowMessageBox($"Unable to open Excel document. \n \n + {ex.Message}", @"Error");
-                        if (oXL == null) {
-                            oXL.Quit();
-                            return null;
-                        }
+                        oXL?.Quit();
                         return null;
                     }
 

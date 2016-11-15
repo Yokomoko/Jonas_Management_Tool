@@ -122,19 +122,21 @@ namespace SageImporterLibrary
                 UtilityMethods.ShowMessageBox(@"Connection String Updated Successfully", @"Success");
 
                 //Build EF Connection String
-                SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
+                SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder {
+                    DataSource = dbLocation,
+                    InitialCatalog = dbName,
+                    IntegratedSecurity = false,
+                    UserID = userName,
+                    Password = password
+                };
 
-                sqlBuilder.DataSource = dbLocation;
-                sqlBuilder.InitialCatalog = dbName;
-                sqlBuilder.IntegratedSecurity = false;
-                sqlBuilder.UserID = userName;
-                sqlBuilder.Password = password;
 
                 string providerString = sqlBuilder.ToString();
 
-                EntityConnectionStringBuilder entityBuilder = new EntityConnectionStringBuilder();
-                entityBuilder.Provider = "System.Data.SqlClient";
-                entityBuilder.ProviderConnectionString = providerString;
+                EntityConnectionStringBuilder entityBuilder = new EntityConnectionStringBuilder {
+                    Provider = "System.Data.SqlClient",
+                    ProviderConnectionString = providerString
+                };
 
 
                 counter = true;
@@ -200,16 +202,11 @@ namespace SageImporterLibrary
             string sql = "Select GLNo as NominalCode, GLDescription as Description from GlTypes order by GLNo";
             string sqlconn = ConnectionString();
 
-            SqlCommand sqlComm;
             SqlConnection sqlConn = new SqlConnection(ConnectionString());
-
-
             SqlDataAdapter adapter = new SqlDataAdapter(sql, sqlconn);
-
-
-
+            
             //SelectCommand
-            sqlComm = new SqlCommand(sql, sqlConn);
+            var sqlComm = new SqlCommand(sql, sqlConn);
             adapter.SelectCommand = sqlComm;
             //UpdateCommand
             sqlComm = new SqlCommand("Update GLTypes Set GLNo = @GlNo, GlDescription = @GlDescription where GlNo = @oldGlNo", sqlConn);

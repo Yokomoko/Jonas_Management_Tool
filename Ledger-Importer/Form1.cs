@@ -625,13 +625,14 @@ namespace Jonas_Sage_Importer {
         private void PopReleaseNotes() {
             var rnForm = (ReleaseNotes)GetOpenedForm<ReleaseNotes>();
             if (rnForm == null) {
-                var rn = new ReleaseNotes();
+                var rn = new ReleaseNotes {
+                    TopMost = true,
+                    Owner = _form1,
+                    StartPosition = FormStartPosition.CenterParent
+                };
                 //rn.Location = new Point(Screen.PrimaryScreen.Bounds.X, //should be (0,0)
                 //    Screen.PrimaryScreen.Bounds.Y);
-                rn.TopMost = true;
                 //rn.StartPosition = FormStartPosition.Manual;
-                rn.Owner = _form1;
-                rn.StartPosition = FormStartPosition.CenterParent;
                 rn.ShowDialog();
             }
             else {
