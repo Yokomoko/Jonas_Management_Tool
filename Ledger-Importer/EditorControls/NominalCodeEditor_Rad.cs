@@ -61,7 +61,7 @@ namespace Jonas_Sage_Importer.EditorControls {
             } //Do Nothing
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e) {
+        private void uxNomFilterTxt_TextChanged(object sender, EventArgs e) {
             // this.bindingSource.Filter = $"convert(NominalCode,'System.String') like '%{this.textBox1.Text.ToString()}%' OR convert(Description,'System.String') like '%{this.textBox1.Text.ToString()}%'";
             string rowFilter = $"Convert([NominalCode],\'System.String\') like \'%{uxNomFilterTxt.Text}%\'";
             rowFilter += $"OR [Description] like \'%{uxNomFilterTxt.Text}%\'";
@@ -111,7 +111,7 @@ namespace Jonas_Sage_Importer.EditorControls {
             }
         }
 
-        private void nominalCodeTxtBox_KeyPress(object sender, KeyPressEventArgs e) {
+        private void uxNomCodeTxt_KeyPress(object sender, KeyPressEventArgs e) {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) {
                 e.Handled = true;
             }

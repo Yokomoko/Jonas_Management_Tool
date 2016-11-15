@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition5 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition3 = new Telerik.WinControls.UI.TableViewDefinition();
             this.radGroupBox1 = new Telerik.WinControls.UI.RadGroupBox();
             this.uxAddNominalBtn = new Telerik.WinControls.UI.RadButton();
             this.uxNomDescTxt = new Telerik.WinControls.UI.RadTextBox();
@@ -103,6 +103,7 @@
             this.uxNomCodeTxt.Name = "uxNomCodeTxt";
             this.uxNomCodeTxt.Size = new System.Drawing.Size(229, 20);
             this.uxNomCodeTxt.TabIndex = 2;
+            this.uxNomCodeTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.uxNomCodeTxt_KeyPress);
             // 
             // radLabel2
             // 
@@ -189,7 +190,7 @@
             // 
             // 
             // 
-            this.uxNomCodeListGv.MasterTemplate.ViewDefinition = tableViewDefinition5;
+            this.uxNomCodeListGv.MasterTemplate.ViewDefinition = tableViewDefinition3;
             this.uxNomCodeListGv.Name = "uxNomCodeListGv";
             this.uxNomCodeListGv.Size = new System.Drawing.Size(271, 282);
             this.uxNomCodeListGv.TabIndex = 0;
@@ -209,6 +210,7 @@
             this.uxNomFilterTxt.Name = "uxNomFilterTxt";
             this.uxNomFilterTxt.Size = new System.Drawing.Size(229, 20);
             this.uxNomFilterTxt.TabIndex = 2;
+            this.uxNomFilterTxt.TextChanged += new System.EventHandler(this.uxNomFilterTxt_TextChanged);
             // 
             // uxCloseBtn
             // 

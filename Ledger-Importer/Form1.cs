@@ -18,6 +18,7 @@ using Telerik.WinControls.UI;
 using AutoUpdaterDotNET;
 using Jonas_Sage_Importer.Generate_Excel_Reports;
 using Jonas_Sage_Importer.Properties;
+using Jonas_Sage_Importer.EditorControls;
 
 namespace Jonas_Sage_Importer {
     public partial class Form1 : Form {
@@ -286,7 +287,7 @@ namespace Jonas_Sage_Importer {
         }
 
         private void NominalCodeEditorToolStripMenuItemClick(object sender, EventArgs e) {
-            NominalCodeEditor codeEditor = new NominalCodeEditor {
+            NominalCodeEditor_Rad codeEditor = new NominalCodeEditor_Rad {
                 TopMost = true,
                 StartPosition = FormStartPosition.CenterScreen
             };
