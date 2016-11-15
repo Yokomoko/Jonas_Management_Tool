@@ -169,10 +169,10 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseConnection.cs">
+    <Compile Include="EditorControls\DatabaseConnection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DatabaseConnection.Designer.cs">
+    <Compile Include="EditorControls\DatabaseConnection.Designer.cs">
       <DependentUpon>DatabaseConnection.cs</DependentUpon>
     </Compile>
     <Compile Include="DbConnections.cs" />
@@ -194,10 +194,10 @@
       <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
     <Compile Include="LogToText.cs" />
-    <Compile Include="NominalCodeEditor.cs">
+    <Compile Include="EditorControls\NominalCodeEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NominalCodeEditor.Designer.cs">
+    <Compile Include="EditorControls\NominalCodeEditor.Designer.cs">
       <DependentUpon>NominalCodeEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -229,7 +229,7 @@
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DatabaseConnection.resx">
+    <EmbeddedResource Include="EditorControls\DatabaseConnection.resx">
       <DependentUpon>DatabaseConnection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
@@ -238,7 +238,7 @@
     <EmbeddedResource Include="Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NominalCodeEditor.resx">
+    <EmbeddedResource Include="EditorControls\NominalCodeEditor.resx">
       <DependentUpon>NominalCodeEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />

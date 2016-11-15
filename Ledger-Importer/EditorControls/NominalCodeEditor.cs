@@ -8,6 +8,9 @@ using BL_JonasSageImporter;
 
 namespace Jonas_Sage_Importer {
     public partial class NominalCodeEditor : Form {
+
+        #region Public and Private Properties
+
         private readonly string connectionString = DbConnectionsCs.ConnectionString();
 
         private DataSet ds = new DataSet();
@@ -16,40 +19,28 @@ namespace Jonas_Sage_Importer {
 
         DbConnectionsCs dbConnections = new DbConnectionsCs();
 
-        /*
-        DataTable dt = new DataTable();
-        BindingSource bindingSource = new BindingSource();
-        SqlDataAdapter da = new SqlDataAdapter();
-        DbConnectionsCs dbConnectionsCs = new DbConnectionsCs();
-        */
-
         private string nCode = string.Empty;
-
         private string nDesc = string.Empty;
 
+        #endregion
 
+        #region Constructor
 
         public NominalCodeEditor() {
             InitializeComponent();
         }
+        #endregion
 
-        private void BindGrid() {
-            var context = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
-            var query = from c in context.GLTypes select c;
-            var nominalCodes = query.ToList();
-            nominalCodesGridView.DataSource = nominalCodes;
-
-
-        }
+        #region Event Handlers
 
         private void NominalCodeEditor_Load(object sender, EventArgs e) {
-
             BindGrid();
-
-
-            nominalCodesGridView.Columns[1].Width = nominalCodesGridView.Width
-                                                       - nominalCodesGridView.Columns[0].Width
-                                                     - 21;
+            try {
+                nominalCodesGridView.Columns[1].Width = nominalCodesGridView.Width - nominalCodesGridView.Columns[0].Width - 21;
+            }
+            catch (Exception) {
+                return;
+            } //Do Nothing
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e) {
@@ -93,7 +84,6 @@ namespace Jonas_Sage_Importer {
 
                     nominalCodeTxtBox.Text = "";
                     nominalDescriptionTxtBox.Text = "";
-
                 }
                 catch (SqlException sqlex) {
                     UtilityMethods.ShowMessageBox($"Unable to complete Update Command: \n \n {sqlex.Message}");
@@ -105,8 +95,6 @@ namespace Jonas_Sage_Importer {
             else {
                 UtilityMethods.ShowMessageBox(@"Please Enter Nominal Code and Description. The Nominal Code can not be blank.");
             }
-
-
         }
 
         private void nominalCodeTxtBox_KeyPress(object sender, KeyPressEventArgs e) {
@@ -114,7 +102,6 @@ namespace Jonas_Sage_Importer {
                 e.Handled = true;
             }
         }
-
 
         private void btnDelete_Click(object sender, EventArgs e) {
             if (nominalCodesGridView.SelectedRows.Count > 0) {
@@ -158,5 +145,23 @@ namespace Jonas_Sage_Importer {
             BindGrid();
         }
 
+        #endregion
+
+        #region Private Methods
+
+        private void BindGrid() {
+            try {
+                var context = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
+                var query = from c in context.GLTypes select c;
+                var nominalCodes = query.ToList();
+                nominalCodesGridView.DataSource = nominalCodes;
+            }
+            catch (Exception ex) {
+                MessageBox.Show($"An Exception has Occurred. Please check you have access to the database and try again. \n\n" + ex.Message);
+                return;
+            }
+        }
+
+        #endregion
     }
 }
