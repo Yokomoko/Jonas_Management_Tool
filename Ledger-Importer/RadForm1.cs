@@ -32,13 +32,13 @@ namespace Jonas_Sage_Importer {
         protected BindingSource TableBindingSource = new BindingSource();
         protected DataTable Table = new DataTable();
 
-        public static RadForm1 _RadForm1 = new RadForm1();
+        public static RadForm1 _radForm1 = new RadForm1();
         #endregion
 
         #region Constructor
         public RadForm1() {
             InitializeComponent();
-            _RadForm1 = this;
+            _radForm1 = this;
             LoadImportSourceCmbo();
         }
         #endregion
@@ -285,10 +285,6 @@ namespace Jonas_Sage_Importer {
 
         }
 
-        private void ExitToolStripMenuItemClick(object sender, EventArgs e) {
-            CloseApplication();
-        }
-
         private void uxAboutRmi_Click(object sender, EventArgs e) {
             AboutBox box = new AboutBox { TopMost = true };
             box.ShowDialog();
@@ -308,10 +304,7 @@ namespace Jonas_Sage_Importer {
                 TopMost = true,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            codeEditor.Show();
-        }
-
-        private void MenuStrip1ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+            codeEditor.ShowDialog();
         }
 
         private void GpExcelFileFindFileOk(object sender, CancelEventArgs e) {
@@ -683,13 +676,17 @@ namespace Jonas_Sage_Importer {
                 //    Screen.PrimaryScreen.Bounds.Y);
                 rn.TopMost = true;
                 //rn.StartPosition = FormStartPosition.Manual;
-                rn.Owner = _RadForm1;
+                rn.Owner = _radForm1;
                 rn.StartPosition = FormStartPosition.CenterParent;
                 rn.ShowDialog();
             }
             else {
                 rnForm.Select();
             }
+        }
+
+        public void UpdateStripText(string message) {
+            radLabelElement1.Text = message;
         }
         #endregion
     }
