@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using BL_JonasSageImporter;
 using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
-using System.Data.SqlClient;
 
 namespace Jonas_Sage_Importer.Generate_Excel_Reports {
     class GenerateGBUCombinedTargets {
@@ -19,7 +14,7 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
 
         private enum FilterTypes {
             Total_Backlog = 0,
-            Installed_This_Month = 1,
+            //Installed_This_Month = 1,
             Installed_This_Month_Excluding_This_Week = 2,
             This_Week = 3,
             Forecast_This_Month = 4,
@@ -46,8 +41,6 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
 
                 var percentageFormat = "0%";
                 var currencyFormat = @"_-£* #,##0_-;-£* #,##0_-;_-£* ""-""_-;_-@_-";
-
-
 
                 //Set border style
                 //Insides first
@@ -108,8 +101,8 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 ws1.Cells[14, 2].Value = "BACKLOG (EPOS Group / FM / CCR)";
                 ws1.Cells[14, 2].Style.Font.Bold = true;
                 ws1.Cells[14, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                ws1.Cells[14, 2].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                ws1.Cells[14, 2].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Beige);
+                ws1.Cells[14, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[14, 2].Style.Fill.BackgroundColor.SetColor(Color.Beige);
 
                 var today = DateTime.Today;
                 var friday = today.AddDays(-(int)today.DayOfWeek).AddDays(5);
@@ -165,8 +158,8 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 ws1.Cells[22, 2].Value = "Predicted Equipment Invoices for the month";
                 ws1.Cells[22, 2].Style.Font.Bold = true;
                 ws1.Cells[22, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                ws1.Cells[22, 2, 22, 4].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                ws1.Cells[22, 2, 22, 4].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Beige);
+                ws1.Cells[22, 2, 22, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws1.Cells[22, 2, 22, 4].Style.Fill.BackgroundColor.SetColor(Color.Beige);
                 ws1.Cells[22, 3].Formula = "+C20 + C19";
                 ws1.Cells[22, 4].Formula = "+D20 + D19";
                 ws1.Cells[22, 5].Formula = "+E20 + E19";
@@ -183,7 +176,7 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 ws1.Cells[23, 2].Style.Font.Bold = true;
 
                 ws1.Cells[24, 2].Value = "Gross install <£250K is making a loss";
-                ws1.Cells[24, 2].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                ws1.Cells[24, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 ws1.Cells[24, 2].Style.Fill.BackgroundColor.SetColor(Color.OrangeRed);
 
                 ws1.Cells[25, 2].Value = "Gross install £250K to £350k is making an adequate Profit";
@@ -358,18 +351,18 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                                                 tsb.NetValue
                                             }).ToList().FirstOrDefault();
 
-                ws1.Cells[16, 3].Value = totalSalesBacklog.GrossValue;
-                ws1.Cells[16, 4].Value = totalSalesBacklog.NetValue;
-                ws1.Cells[17, 3].Value = installedThisWeek.GrossValue;
-                ws1.Cells[17, 3].Value = installedThisWeek.NetValue;
-                ws1.Cells[19, 3].Value = thisMonthForecast.GrossValue; //Subject to Change
-                ws1.Cells[19, 4].Value = thisMonthForecast.NetValue; //Subject to change
-                ws1.Cells[20, 3].Value = installedThisMonth.GrossValue;
-                ws1.Cells[20, 4].Value = installedThisMonth.NetValue;
+                ws1.Cells[16, 3].Value = totalSalesBacklog?.GrossValue;
+                ws1.Cells[16, 4].Value = totalSalesBacklog?.NetValue;
+                ws1.Cells[17, 3].Value = installedThisWeek?.GrossValue;
+                ws1.Cells[17, 3].Value = installedThisWeek?.NetValue;
+                ws1.Cells[19, 3].Value = thisMonthForecast?.GrossValue; //Subject to Change
+                ws1.Cells[19, 4].Value = thisMonthForecast?.NetValue; //Subject to change
+                ws1.Cells[20, 3].Value = installedThisMonth?.GrossValue;
+                ws1.Cells[20, 4].Value = installedThisMonth?.NetValue;
 
-                ws2.Cells[3, 3].Value = thisMonthForecast.GrossValue;
-                ws2.Cells[4, 3].Value = futureMonthForecast.GrossValue;
-                ws2.Cells[5, 3].Value = noForecast.GrossValue;
+                ws2.Cells[3, 3].Value = thisMonthForecast?.GrossValue;
+                ws2.Cells[4, 3].Value = futureMonthForecast?.GrossValue;
+                ws2.Cells[5, 3].Value = noForecast?.GrossValue;
                 ws2.Cells[6, 3].Formula = "Sum(C3:C5)";
                 ws2.Cells[7, 3].Value = totalSalesBacklog.GrossValue;
                 ws2.Cells[8, 3].Value = stuckBacklog.GrossValue;
@@ -433,18 +426,18 @@ namespace Jonas_Sage_Importer.Generate_Excel_Reports {
                 //Generate A File Name
                 Byte[] bin = p.GetAsByteArray();
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string file = $"GBU Report {friday.ToString("yyMMdd")}" + DateTime.Now.ToString("-hhmmss") + ".xlsx";
-                var pathString = System.IO.Path.Combine(path, file);
+                string file = $"GBU Report {friday:yyMMdd}" + DateTime.Now.ToString("-hhmmss") + ".xlsx";
+                var pathString = Path.Combine(path, file);
                 //
 
-                System.GC.Collect();
-                System.GC.WaitForPendingFinalizers();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
 
                 try {
                     File.WriteAllBytes(pathString, bin);
                 }
                 catch (IOException) {
-                    MessageBox.Show(@"Unable to create report. Please close the existing report and try again");
+                    MessageBox.Show("Unable to create report. Please close the existing report and try again");
                 }
 
 

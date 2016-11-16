@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
-using SageImporterLibrary;
+using Jonas_Sage_Importer.Properties;
 
 namespace Jonas_Sage_Importer
 {
     public partial class ReportViewer : Form
     {
-        readonly Uri reportServerPath = new Uri($"{DbConnectionsCs.ReportServerUrl()}");
+        readonly Uri reportServerPath = new Uri($"{Settings.Default.DBReportServerUrl}");
         string reportName = String.Empty;
         
 

@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,16 +14,16 @@ using System.Xml;
 using Microsoft.Win32;
 using SageImporterLibrary;
 using Telerik.WinControls.UI;
-using AutoUpdaterDotNET;
 using Jonas_Sage_Importer.Generate_Excel_Reports;
 using Jonas_Sage_Importer.Properties;
 using Jonas_Sage_Importer.EditorControls;
+using Microsoft.Office.Interop.Excel;
 
 namespace Jonas_Sage_Importer {
     public partial class Form1 : Form {
         protected OleDbDataAdapter DataAdapter = new OleDbDataAdapter();
         protected BindingSource TableBindingSource = new BindingSource();
-        protected DataTable Table = new DataTable();
+        protected System.Data.DataTable Table = new System.Data.DataTable();
 
         public static Form1 _form1 = new Form1();
 
@@ -39,10 +38,10 @@ namespace Jonas_Sage_Importer {
             var screen = Screen.PrimaryScreen.WorkingArea;
             Top = (screen.Height / 2) - (Height / 2);
             Left = (screen.Width / 2) - (Width / 2);
-            Text = Application.ProductName;
+            Text = System.Windows.Forms.Application.ProductName;
             uxRemoveNewerRecordsDt.Value = DateTime.Today;
             uxImportSourceCmbo.SelectedIndex = 1;
-            StatusStripLabel.Text = @"OK";
+            StatusStripLabel.Text = "OK";
             //TopMost = true;
             uxRemoveNewerRecordsDt.Enabled = uxRemoveNewerRecordsChk.Checked;
             if (CheckForUpdates(true)) {
@@ -67,7 +66,7 @@ namespace Jonas_Sage_Importer {
             #region GreatPlains
             if (importSource.SelectedIndex == 0) {
                 if (uxExcelSheetViewerGv.Rows.Count == 0) {
-                    UtilityMethods.ShowMessageBox(@"Please select an Excel sheet first so that there is information in the table.", "");
+                    UtilityMethods.ShowMessageBox("Please select an Excel sheet first so that there is information in the table.", "");
                     return;
                 }
 
@@ -80,21 +79,21 @@ namespace Jonas_Sage_Importer {
                 switch (uxImportTypeCmbo.SelectedIndex) {
                     case -1:
 
-                        UtilityMethods.ShowMessageBox(@"Please select an Import Type", "");
-                        return;
+                    UtilityMethods.ShowMessageBox("Please select an Import Type", "");
+                    return;
                     case 0: //Sage
-                        gridProcedureName = "GP_Grid_ImportInvoices";
-                        tempProcedureName = "GP_Temp_ImportInvoices";
-                        break;
+                    gridProcedureName = "GP_Grid_ImportInvoices";
+                    tempProcedureName = "GP_Temp_ImportInvoices";
+                    break;
                     case 1: //Great Pains
-                        gridProcedureName = "GP_Grid_ImportPostedInvoices";
-                        tempProcedureName = "GP_Temp_ImportPostedInvoices";
-                        break;
+                    gridProcedureName = "GP_Grid_ImportPostedInvoices";
+                    tempProcedureName = "GP_Temp_ImportPostedInvoices";
+                    break;
                     case 2: //OpenCRM
-                        Jonas.DeleteHistoricalLedger(uxImportTypeCmbo.SelectedIndex, new DateTime(1900, 01, 01), importSource.Text); ;
-                        gridProcedureName = "GP_Grid_ImportOutstandingInvoices";
-                        tempProcedureName = "GP_Temp_ImportOutstandingInvoices";
-                        break;
+                    Jonas.DeleteHistoricalLedger(uxImportTypeCmbo.SelectedIndex, new DateTime(1900, 01, 01), importSource.Text);
+                    gridProcedureName = "GP_Grid_ImportOutstandingInvoices";
+                    tempProcedureName = "GP_Temp_ImportOutstandingInvoices";
+                    break;
                 }
                 try {
                     StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application.");
@@ -102,7 +101,7 @@ namespace Jonas_Sage_Importer {
                 }
                 catch (Exception exception) {
                     StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
-                    UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message}", @"Failed");
+                    UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message}", "Failed");
                     return;
                 }
                 try {
@@ -114,7 +113,7 @@ namespace Jonas_Sage_Importer {
                     StatusStripLabel.Text = $"Failed to Import {uxImportTypeCmbo.Text} from Temporary Table.";
                     UtilityMethods.ShowMessageBox(
                         $"Failed to import {uxImportTypeCmbo.Text} from Temporary Table.\n\n{exception.Message}",
-                        @"Failed");
+                        "Failed");
                     return;
                 }
 
@@ -127,20 +126,20 @@ namespace Jonas_Sage_Importer {
                     gridProcedureName = "CRM_Grid_ImportOrders";
                     switch (Table.Columns.Count) {
                         case 14:
-                            tempProcedureName = "CRM_Temp_ImportOrders";
-                            break;
+                        tempProcedureName = "CRM_Temp_ImportOrders";
+                        break;
                         case 21:
-                            tempProcedureName = "CRM_Temp_ImportOrders_Adv";
-                            break;
+                        tempProcedureName = "CRM_Temp_ImportOrders_Adv";
+                        break;
                         case 22:
-                            tempProcedureName = "CRM_Temp_ImportOrders_Adv2";
-                            break;
+                        tempProcedureName = "CRM_Temp_ImportOrders_Adv2";
+                        break;
                         case 23:
-                            tempProcedureName = "CRM_Temp_ImportOrders_Adv3";
-                            break;
+                        tempProcedureName = "CRM_Temp_ImportOrders_Adv3";
+                        break;
                         default:
-                            UtilityMethods.ShowMessageBox(@"The number of columns should be either 14,21,22 or 23");
-                            return;
+                        UtilityMethods.ShowMessageBox("The number of columns should be either 14,21,22 or 23");
+                        return;
                     }
                     try {
                         StatusStripLabel.Text = ($"Attempting to Import {uxImportTypeCmbo.Text} from Application");
@@ -161,13 +160,13 @@ namespace Jonas_Sage_Importer {
                                 "Source: " + sqlException.Errors[i].Source + "\n" +
                                 "Procedure: " + sqlException.Errors[i].Procedure + "\n");
                         }
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
-                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}", "Failed");
+                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}");
                         return;
                     }
                     catch (Exception exception) {
                         StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", "Failed");
                         return;
                     }
 
@@ -180,7 +179,7 @@ namespace Jonas_Sage_Importer {
                         StatusStripLabel.Text = $"Failed to Import {uxImportTypeCmbo.Text} from Temporary Table.";
                         UtilityMethods.ShowMessageBox(
                             $"Failed to import {uxImportTypeCmbo.Text} from Temporary Table.\n\n{exception.Message}",
-                            @"Failed");
+                            "Failed");
                         return;
                     }
                 }
@@ -206,13 +205,13 @@ namespace Jonas_Sage_Importer {
                                 "Source: " + sqlException.Errors[i].Source + "\n" +
                                 "Procedure: " + sqlException.Errors[i].Procedure + "\n");
                         }
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
-                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}", "Failed");
+                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}");
                         return;
                     }
                     catch (Exception exception) {
                         StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", "Failed");
                         return;
                     }
                 }
@@ -236,26 +235,26 @@ namespace Jonas_Sage_Importer {
                                 "Source: " + sqlException.Errors[i].Source + "\n" +
                                 "Procedure: " + sqlException.Errors[i].Procedure + "\n");
                         }
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}", @"Failed");
-                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages.ToString()}");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}", "Failed");
+                        LogToText.WriteToLog($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{errorMessages}");
                         return;
                     }
                     catch (Exception exception) {
                         StatusStripLabel.Text = ($"Failed to Import {uxImportTypeCmbo.Text} from Application.");
-                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", @"Failed");
+                        UtilityMethods.ShowMessageBox($"Failed to import {uxImportTypeCmbo.Text} from Application.\n\n{exception.Message} \n \n {exception.InnerException}", "Failed");
                         return;
                     }
                 }
             }
             #endregion
 
-            DbConnectionsCs.LogImport(uxExcelSheetTxt.Text, uxImportTypeCmbo.Text == @"Sales Order" ? "OpenCRM " + uxImportTypeCmbo.Text : uxImportTypeCmbo.Text, uxExcelSheetViewerGv.RowCount);
+            DbConnectionsCs.LogImport(uxExcelSheetTxt.Text, uxImportTypeCmbo.Text == "Sales Order" ? "OpenCRM " + uxImportTypeCmbo.Text : uxImportTypeCmbo.Text, uxExcelSheetViewerGv.RowCount);
         }
 
         private void uxImportBtn_Click(object sender, EventArgs e) {
 
             if (uxExcelSheetTxt.Text == "") {
-                UtilityMethods.ShowMessageBox(@"Please select an Excel sheet.", @"Error");
+                UtilityMethods.ShowMessageBox("Please select an Excel sheet.", "Error");
                 return;
             }
             ImportFromGridView(uxImportSourceCmbo);
@@ -268,8 +267,8 @@ namespace Jonas_Sage_Importer {
         }
 
         private void CloseApplication() {
-            Application.ExitThread();
-            Application.Exit();
+            System.Windows.Forms.Application.ExitThread();
+            System.Windows.Forms.Application.Exit();
         }
 
         private void AboutToolStripMenuItemClick(object sender, EventArgs e) {
@@ -300,110 +299,121 @@ namespace Jonas_Sage_Importer {
 
 
         private void GpExcelFileFindFileOk(object sender, CancelEventArgs e) {
-            TableBindingSource = ExcelImport.ExcelDialogFind(
-                gpExcelFileFind,
-                uxExcelSheetTxt,
-                uxExcelWorksheetCmbo,
-                uxExcelSheetViewerGv,
-                TableBindingSource);
+            Stream strm = null;
+            try {
+                strm = gpExcelFileFind.OpenFile();
+            }
+            catch (IOException ioex) {
+                UtilityMethods.ShowMessageBox($"File is being used elsewhere. Please close the file and try again. \n {ioex.Message}");
+            }
+            catch (Exception ex) {
+                UtilityMethods.ShowMessageBox($"Error opening file: \n {ex.Message}");
+            }
+            uxExcelSheetTxt.Text = gpExcelFileFind.FileName;
+            Type officeType = Type.GetTypeFromProgID("Excel.Application");
+
+            if (officeType == null) {
+                UtilityMethods.ShowMessageBox("Excel is not installed. Please install Excel and try again.");
+            }
+            else {
+                try {
+                    strm?.Close();
+                    var oXL = new Microsoft.Office.Interop.Excel.Application { Visible = false };
+                    var oWb = oXL.Workbooks.Open(uxExcelSheetTxt.Text, ReadOnly: true);
+                    uxExcelWorksheetCmbo.Items.Clear();
+                    foreach (Worksheet oSheet in oWb.Sheets) {
+                        uxExcelWorksheetCmbo.Items.Add(oSheet.Name);
+                    }
+                    uxExcelWorksheetCmbo.SelectedIndex = 0;
+                    oWb.Close(0);
+                    oXL.Application.Quit();
+                }
+                catch (ApplicationException noExcel) {
+                    UtilityMethods.ShowMessageBox("Unable to open Excel document. Excel may not be installed." + $"Please install Microsoft Excel Viewer or Microsoft Office and try again. \n \n {noExcel.Message}");
+                    return;
+                }
+                catch (Exception ex) {
+                    UtilityMethods.ShowMessageBox($"Unable to open Excel document. \n \n + {ex.Message}", "Error");
+                    return;
+                }
+            }
+            uxExcelSheetViewerGv.DataSource = TableBindingSource;
         }
 
 
         private void customerLedgerByGroupToolStripMenuItem_Click(object sender, EventArgs e) {
             //ReportViewer rViewer = new ReportViewer {TopMost = true};
 
-            CreateNewReportWindow(@"/Sales Backlog and Raised Invoices");
+            CreateNewReportWindow("/Sales Backlog and Raised Invoices");
         }
 
 
         private void invoicesPostedToPAndLToolStripMenuItem_Click(object sender, EventArgs e) {
-            CreateNewReportWindow(@"/Invoices Posted to P and L");
+            CreateNewReportWindow("/Invoices Posted to P and L");
         }
 
         private void customerStatementToolStripMenuItem_Click(object sender, EventArgs e) {
-            CreateNewReportWindow(@"/Customer Statement");
+            CreateNewReportWindow("/Customer Statement");
         }
 
         private void salesBacklogToolStripMenuItem_Click(object sender, EventArgs e) {
-            CreateNewReportWindow(@"/Sales Backlog");
+            CreateNewReportWindow("/Sales Backlog");
         }
 
         private void raisedInvoicesToolStripMenuItem_Click(object sender, EventArgs e) {
-            CreateNewReportWindow(@"/Raised Invoices");
+            CreateNewReportWindow("/Raised Invoices");
         }
         private void costOfGoodsSoldToolStripMenuItem_Click(object sender, EventArgs e) {
-            CreateNewReportWindow(@"/Cost of Goods Sold");
+            CreateNewReportWindow("/Cost of Goods Sold");
         }
 
         private void CreateNewReportWindow(string path) {
             bool stopTimer = false;
 
             Loading lS = new Loading { TopMost = true };
-            lS.UpdateText($"Loading Report, please wait...\nThis may take up to a minute the first time the report is generated.");
+            lS.UpdateText("Loading Report, please wait...\nThis may take up to a minute the first time the report is generated.");
 
-            if (IsSqlClrTypesInstalled()) {
-                if (IsReportViewerInstalled()) {
-                    try {
-                        while (stopTimer == false) {
-                            lS.Show();
-                            lS.Update();
-                            ReportViewer rViewer = new ReportViewer {
-                                TopMost = true,
-                                StartPosition = FormStartPosition.CenterScreen
-                            };
-                            rViewer.ReportServerPathName(path);
-                            rViewer.Show();
-                            stopTimer = true;
-                        }
-                    }
-                    catch (FileNotFoundException fex) {
-                        UtilityMethods.ShowMessageBox(
-                            $"Pre-requisite files are not found. Please ensure Report Viewer 2012 is installed\n\n{fex.Message}", "");
-                    }
-                    catch (Exception ex) {
-                        UtilityMethods.ShowMessageBox($"Error loading reports.\n\n{ex.Message}", "");
-                    }
-                }
-                else {
-                    if (UtilityMethods.ShowMessageBox(
-                            $"Microsoft Report Viewer is not installed.\n\n"
-                           + @"Do you want to install this now?", @"Report Viewer is not installed", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                        UtilityMethods.ShowMessageBox(@"This application will now be minimised.");
-                        WindowState = FormWindowState.Minimized;
-                        Process.Start($@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Resources\ReportViewer2012.msi");
-                    }
-                    else {
-                        return;
-                    }
-
+            if (!InstallationCheck()) return;
+            try {
+                while (stopTimer == false) {
+                    lS.Show();
+                    var rViewer = new ReportViewer { TopMost = true, StartPosition = FormStartPosition.CenterScreen };
+                    rViewer.ReportServerPathName(path);
+                    rViewer.Show();
+                    stopTimer = true;
                 }
             }
-            else {
-                if (UtilityMethods.ShowMessageBox(
-                    $"Microsoft CLR Types are not installed.\n\n" + @"Do you want to install this now?",
-                    @"Microsoft CLR Types are not installed",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes) {
-                    UtilityMethods.ShowMessageBox(@"This application will now be minimised");
-                    WindowState = FormWindowState.Minimized;
-                    Process.Start(
-                        $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Resources\SQLSysClrTypes2012.msi");
-                }
-                else {
-                    return;
-                }
+            catch (Exception ex) {
+                UtilityMethods.ShowMessageBox($"Error loading reports.\n\n{ex.Message}", "");
             }
-            lS.Hide();
-
             if (lS.Visible) {
                 lS.Hide();
             }
         }
+
+        private bool InstallationCheck() {
+            if (IsReportViewerInstalled()) {
+                if (IsSqlClrTypesInstalled()) return true;
+                if (UtilityMethods.ShowMessageBox("Microsoft CLR Types are not installed.\n\n Do you want to install this now?", "Microsoft CLR Types are not installed", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    UtilityMethods.ShowMessageBox("This application will now be minimised");
+                    WindowState = FormWindowState.Minimized;
+                    Process.Start($@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Resources\SQLSysClrTypes2012.msi");
+                }
+                return false;
+            }
+            if (UtilityMethods.ShowMessageBox("Microsoft Report Viewer is not installed.\n\nDo you want to install this now?", "Report Viewer is not installed", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                UtilityMethods.ShowMessageBox("This application will now be minimised.");
+                WindowState = FormWindowState.Minimized;
+                Process.Start($@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Resources\ReportViewer2012.msi");
+            }
+            return false;
+        }
+
         /// <summary>
         /// returns true if ReportViewer OR ReportViewer Language Pack is installed
         /// </summary>
         /// <returns></returns>
-        public bool IsReportViewerInstalled() {
+        private bool IsReportViewerInstalled() {
             RegistryKey registryBase = RegistryKey.OpenRemoteBaseKey(RegistryHive.LocalMachine, string.Empty);
             // check the two possible reportviewer v10 registry keys
             return registryBase.OpenSubKey(@"Software\Microsoft\ReportViewer\v2.0.50727") != null
@@ -444,31 +454,31 @@ namespace Jonas_Sage_Importer {
         private void LoadImportTypeCmbo(int importSourceCmboSelectedIndex) {
             switch (importSourceCmboSelectedIndex) {
                 case 0:
-                    uxImportTypeCmbo.DataSource = Enum.GetValues(typeof(JonasImporterEnums.GreatPlainsImportTypes))
-                        .Cast<Enum>()
-                        .Select(value => new {
-                            (Attribute.GetCustomAttribute(value.GetType().GetField(value.ToString()),
-                                typeof(DescriptionAttribute)) as DescriptionAttribute)?.Description,
-                            value
-                        })
-                        .OrderBy(item => item.value)
-                        .ToList();
-                    uxImportTypeCmbo.DisplayMember = "Description";
-                    uxImportTypeCmbo.ValueMember = "value";
-                    break;
+                uxImportTypeCmbo.DataSource = Enum.GetValues(typeof(JonasImporterEnums.GreatPlainsImportTypes))
+                    .Cast<Enum>()
+                    .Select(value => new {
+                        (Attribute.GetCustomAttribute(value.GetType().GetField(value.ToString()),
+                            typeof(DescriptionAttribute)) as DescriptionAttribute)?.Description,
+                        value
+                    })
+                    .OrderBy(item => item.value)
+                    .ToList();
+                uxImportTypeCmbo.DisplayMember = "Description";
+                uxImportTypeCmbo.ValueMember = "value";
+                break;
                 case 1:
-                    uxImportTypeCmbo.DataSource = Enum.GetValues(typeof(JonasImporterEnums.CrmImportTypes))
-                        .Cast<Enum>()
-                        .Select(value => new {
-                            (Attribute.GetCustomAttribute(value.GetType().GetField(value.ToString()),
-                                typeof(DescriptionAttribute)) as DescriptionAttribute)?.Description,
-                            value
-                        })
-                        .OrderBy(item => item.value)
-                        .ToList();
-                    uxImportTypeCmbo.DisplayMember = "Description";
-                    uxImportTypeCmbo.ValueMember = "value";
-                    break;
+                uxImportTypeCmbo.DataSource = Enum.GetValues(typeof(JonasImporterEnums.CrmImportTypes))
+                    .Cast<Enum>()
+                    .Select(value => new {
+                        (Attribute.GetCustomAttribute(value.GetType().GetField(value.ToString()),
+                            typeof(DescriptionAttribute)) as DescriptionAttribute)?.Description,
+                        value
+                    })
+                    .OrderBy(item => item.value)
+                    .ToList();
+                uxImportTypeCmbo.DisplayMember = "Description";
+                uxImportTypeCmbo.ValueMember = "value";
+                break;
             }
         }
 
@@ -499,14 +509,22 @@ namespace Jonas_Sage_Importer {
 
         private void uxExcelBrowseBtn_Click(object sender, EventArgs e) {
             if (uxImportTypeCmbo.SelectedIndex == -1) {
-                UtilityMethods.ShowMessageBox(@"Please select an import type first.");
+                UtilityMethods.ShowMessageBox("Please select an import type first.");
             }
             else {
-                if (ExcelImport.ExcelDialogBox(gpExcelFileFind).ShowDialog() != DialogResult.OK) {
+                var excelFileFind = new OpenFileDialog {
+                    Title = "Please Select a File",
+                    FileName = "",
+                    ValidateNames = true,
+                    Filter = "Excel Worksheets|*.xls;*.xlsx;",
+                    FilterIndex = 1
+                };
+
+                if (excelFileFind.ShowDialog() != DialogResult.OK) {
                     return;
                 }
                 try {
-                    Table = ExcelImport.GetData(uxExcelWorksheetCmbo.Text, uxExcelSheetTxt);
+                    FillDataTable();
                 }
                 catch (ArgumentException iaex) {
                     LogToText.WriteToLog($"Invalid Argument (Might have pressed close on the directory box - {iaex}");
@@ -518,11 +536,11 @@ namespace Jonas_Sage_Importer {
 
         private void uxWorksheetUpdateBtn_Click(object sender, EventArgs e) {
             if (uxExcelSheetTxt.Text == "") {
-                StatusStripLabel.Text = @"Nothing to Update!";
+                StatusStripLabel.Text = "Nothing to Update!";
                 return;
             }
             try {
-                Table = ExcelImport.GetData(uxExcelWorksheetCmbo.Text, uxExcelSheetTxt);
+                FillDataTable();
             }
             catch (ArgumentException iaex) {
                 LogToText.WriteToLog($"Invalid Argument (Might have pressed close on the directory box - {iaex}");
@@ -532,7 +550,7 @@ namespace Jonas_Sage_Importer {
         }
 
 
-        private void uxRemoveNewerRecordsChk_ToggleStateChanged(object sender, Telerik.WinControls.UI.StateChangedEventArgs args) {
+        private void uxRemoveNewerRecordsChk_ToggleStateChanged(object sender, StateChangedEventArgs args) {
             uxRemoveNewerRecordsDt.Enabled = uxRemoveNewerRecordsChk.Checked;
         }
 
@@ -543,8 +561,8 @@ namespace Jonas_Sage_Importer {
         }
 
         private static void DeleteUpdateFile() {
-            System.GC.Collect();
-            System.GC.WaitForPendingFinalizers();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             File.Delete("UpdateFile.xml");
         }
 
@@ -557,20 +575,21 @@ namespace Jonas_Sage_Importer {
                 var fs = new FileStream("UpdateFile.xml", FileMode.Open, FileAccess.Read);
                 var doc = new XmlDataDocument();
                 doc.Load(fs);
-                XmlNode node1 = doc.DocumentElement.SelectSingleNode("/item/version");
-                XmlNode node2 = doc.DocumentElement.SelectSingleNode("/item/url");
+                var node1 = doc.DocumentElement?.SelectSingleNode("/item/version");
+                var node2 = doc.DocumentElement?.SelectSingleNode("/item/url");
 
                 if (node1 != null) {
-                    var updateVersion = new Version(node1.InnerText.ToString());
+                    var updateVersion = new Version(node1.InnerText);
                     var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
                     var versionComparionResult = updateVersion.CompareTo(currentVersion);
 
                     if (versionComparionResult > 0) {
                         var dialogResult = UtilityMethods.ShowMessageBox(
-                            $"A newer version is available. Would you like to go to download this now?\n \n Current Version: {currentVersion} \n Latest version: {updateVersion} \n \n Download Link:\n {node2.InnerText}",
+                            $"A newer version is available. Would you like to go to download this now?\n \n Current Version: {currentVersion} \n Latest version: {updateVersion} \n \n Download Link:\n {node2?.InnerText}",
                             "New version available", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dialogResult == DialogResult.Yes) {
-                            System.Diagnostics.Process.Start(node2.InnerText.ToString());
+                            // ReSharper disable once PossibleNullReferenceException
+                            Process.Start(node2.InnerText);
                             UtilityMethods.ShowMessageBox(
                                 "The application will now exit. Please download and install the latest version");
                             fs.Dispose();
@@ -592,14 +611,6 @@ namespace Jonas_Sage_Importer {
                 DeleteUpdateFile();
                 return false;
             }
-            catch (UnauthorizedAccessException) {
-                DeleteUpdateFile();
-                return false;
-            }
-            catch (IOException) {
-                DeleteUpdateFile();
-                return false;
-            }
             catch (Exception) {
                 DeleteUpdateFile();
                 return false;
@@ -615,7 +626,7 @@ namespace Jonas_Sage_Importer {
         }
 
         public static Form GetOpenedForm<T>() where T : Form {
-            foreach (Form openForm in Application.OpenForms) {
+            foreach (Form openForm in System.Windows.Forms.Application.OpenForms) {
                 if (openForm.GetType() == typeof(T)) {
                     return openForm;
                 }
@@ -641,8 +652,56 @@ namespace Jonas_Sage_Importer {
             }
         }
 
-        private void radButton1_Click(object sender, EventArgs e) {
-            UtilityMethods.ShowMessageBox("test", "test");
+        private void FillDataTable() {
+            string connectionString = ($"Provider=Microsoft.ACE.OLEDB.12.0;Data Source ={uxExcelSheetTxt.Text};Extended Properties= \"Excel 8.0;HDR=Yes;IMED=1\"");
+            OleDbConnection connectionBuilder = new OleDbConnection(connectionString);
+            string command = $"Select * from [{uxExcelSheetTxt.Text}";
+            OleDbDataAdapter adapter = new OleDbDataAdapter(command, connectionBuilder);
+
+            try {
+                Table.Rows.Clear();
+                adapter.Fill(Table);
+            }
+            catch (InvalidOperationException) {
+                if (UtilityMethods.ShowMessageBox("64-Bit OLEDB Provider for ODBC Not Installed.\n\n Do you want to install this now?", "64-Bit OLEDB Provider for ODBC pnot installed", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    UtilityMethods.ShowMessageBox("This application will now be minimised.");
+                    Process.Start($@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Resources\Ace.exe");
+                }
+            }
+            catch (ArgumentException argex) {
+                LogToText.WriteToLog($"This is an informational message. Argument Exception. {argex.Message}");
+            }
+            catch (Exception ex) {
+                UtilityMethods.ShowMessageBox($"Something went wrong. \n \n {ex.Message} \n \n {ex.InnerException}");
+            }
+            RemoveExcessTableRows();
+        }
+
+        private void RemoveExcessTableRows() {
+            //Remove Excess Columns
+            if (Table != null) {
+                int originalSize = Table.Columns.Count;
+                int columnSize = 17;
+                //If the excel sheet has 41 columns, trim 8 columns from the beginning and 16 from the end so that it complies.
+                if (originalSize == 41) {
+                    UtilityMethods.ShowMessageBox($"The application has detected {originalSize} in this spreadsheet.\n8 Columns will automatically be trimmed from the beginning and 16 from the end in order to comply with import standards.");
+                    for (var i = 0; i < 8; i++) {
+                        Table.Columns.RemoveAt(0);
+                    }
+                    while (Table.Columns.Count > columnSize) {
+                        Table.Columns.RemoveAt(columnSize);
+                    }
+                    var TableClone = Table.Clone();
+                    TableClone.Columns[0].DataType = typeof(string);
+                    TableClone.Columns[4].DataType = typeof(string);
+                    TableClone.Columns[6].DataType = typeof(string);
+                    TableClone.Columns[7].DataType = typeof(string);
+                    foreach (DataRow row in Table.Rows) {
+                        TableClone.ImportRow(row);
+                    }
+                    Table = TableClone;
+                }
+            }
         }
     }
 }

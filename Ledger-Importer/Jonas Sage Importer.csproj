@@ -182,7 +182,6 @@
     <Compile Include="EditorControls\NominalCodeEditor_Rad.Designer.cs">
       <DependentUpon>NominalCodeEditor_Rad.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExcelImport.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

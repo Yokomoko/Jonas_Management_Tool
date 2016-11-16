@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Linq;
 using Jonas_Sage_Importer.Properties;
-using Telerik.WinControls.Themes;
 using Telerik.WinControls;
 
 namespace Jonas_Sage_Importer.EditorControls {
@@ -14,16 +13,11 @@ namespace Jonas_Sage_Importer.EditorControls {
 
         #region Public and Private Properties
 
-        private readonly string connectionString = DbConnectionsCs.ConnectionString();
-
-        private DataSet ds = new DataSet();
+        private readonly DataSet ds = new DataSet();
 
         private DataSet changes;
 
-        DbConnectionsCs dbConnections = new DbConnectionsCs();
-
-        private string nCode = string.Empty;
-        private string nDesc = string.Empty;
+        readonly DbConnectionsCs dbConnections = new DbConnectionsCs();
 
         #endregion
 
@@ -51,13 +45,12 @@ namespace Jonas_Sage_Importer.EditorControls {
                 SetLightTheme();
                 break;
             }
-
             BindGrid();
             try {
                 uxNomCodeListGv.Columns[1].Width = uxNomCodeListGv.Width - uxNomCodeListGv.Columns[0].Width - 21;
             }
-            catch (Exception) {
-                return;
+            catch {
+                // ignored
             } //Do Nothing
         }
 
@@ -77,38 +70,27 @@ namespace Jonas_Sage_Importer.EditorControls {
         }
 
         private void uxAddBtn_Click(object sender, EventArgs e) {
-            nCode = uxNomCodeTxt.Text;
-            nDesc = uxNomDescTxt.Text;
-            int nominalCode = nCode != string.Empty ? int.Parse(nCode) : 0;
+            int nominalCode = uxNomCodeTxt.Text != string.Empty ? int.Parse(uxNomCodeTxt.Text) : 0;
 
-            string nominalDescription = nDesc;
-
-            if (nominalCode != 0 && nominalDescription != string.Empty) {
+            if (nominalCode != 0 && !string.IsNullOrEmpty(uxNomCodeTxt.Text)) {
                 try {
-                    var glType = new GLType();
-                    glType.GLNo = nominalCode;
-                    glType.GLDescription = nominalDescription;
-
+                    var glType = new GLType {
+                        GLNo = nominalCode,
+                        GLDescription = uxNomDescTxt.Text
+                    };
                     using (var dbCtx = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString())) {
                         dbCtx.Entry(glType).State = System.Data.Entity.EntityState.Added;
                         dbCtx.SaveChanges();
                     }
-
-                    BindGrid();
-
-                    uxNomCodeTxt.Text = "";
-                    uxNomDescTxt.Text = "";
-                }
-                catch (SqlException sqlex) {
-                    UtilityMethods.ShowMessageBox($"Unable to complete Update Command: \n \n {sqlex.Message}");
+                    Populate();
+                    return;
                 }
                 catch (Exception ex) {
                     UtilityMethods.ShowMessageBox($"Unable to complete Update Command: \n \n {ex.Message}");
+                    return;
                 }
             }
-            else {
-                UtilityMethods.ShowMessageBox(@"Please Enter Nominal Code and Description. The Nominal Code can not be blank.");
-            }
+            UtilityMethods.ShowMessageBox("Please Enter Nominal Code and Description. The Nominal Code can not be blank.");
         }
 
         private void uxNomCodeTxt_KeyPress(object sender, KeyPressEventArgs e) {
@@ -120,11 +102,7 @@ namespace Jonas_Sage_Importer.EditorControls {
         private void uxDeleteBtn_Click(object sender, EventArgs e) {
             if (uxNomCodeListGv.SelectedRows.Count > 0) {
                 DialogResult dResult = UtilityMethods.ShowMessageBox(
-                $"Are you sure you want to delete this nominal code? \nOnce it is removed you will not be able to recover this.",
-                @"Are you sure?",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
+                "Are you sure you want to delete this nominal code? \nOnce it is removed you will not be able to recover this.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dResult != DialogResult.Yes) return;
                 var rowToBeDeleted = (int)uxNomCodeListGv.SelectedRows[0].Cells[0].Value;
                 var context = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
@@ -139,15 +117,11 @@ namespace Jonas_Sage_Importer.EditorControls {
         private void uxSaveBtn_Click(object sender, EventArgs e) {
             try {
                 changes = ds.GetChanges();
-
                 if (changes != null) {
-
                     ds.AcceptChanges();
                     dbConnections.GetNominalCodeAdapter().AcceptChangesDuringUpdate = true;
                     dbConnections.GetNominalCodeAdapter().Update(changes);
-
-
-                    UtilityMethods.ShowMessageBox(@"The Nominal Codes have been Updated.");
+                    UtilityMethods.ShowMessageBox("The Nominal Codes have been Updated.");
                 }
             }
             catch (Exception ex) {
@@ -163,41 +137,39 @@ namespace Jonas_Sage_Importer.EditorControls {
 
         #region Private Methods
 
+        private void Populate() {
+            BindGrid();
+            uxNomCodeTxt.Text = "";
+            uxNomDescTxt.Text = "";
+        }
+
         private void BindGrid() {
             try {
                 var context = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
-                var query = from c in context.GLTypes select c;
-                var nominalCodes = query.ToList();
-                uxNomCodeListGv.DataSource = nominalCodes;
+                uxNomCodeListGv.DataSource = (from c in context.GLTypes select c).ToList();
             }
             catch (Exception ex) {
-                MessageBox.Show($"An Exception has Occurred. Please check you have access to the database and try again. \n\n" + ex.Message);
-                return;
+                MessageBox.Show("An Exception has Occurred. Please check you have access to the database and try again. \n\n" + ex.Message);
             }
         }
 
-        private void SetLightTheme() {
-            Office2013LightTheme lighttheme = new Office2013LightTheme();
+        private static void SetLightTheme() {
             ThemeResolutionService.ApplicationThemeName = "Office2013Light";
             Settings.Default.Theme = 0;
             Settings.Default.Save();
         }
 
-        private void SetDarkTheme() {
-            Office2013DarkTheme darkTheme = new Office2013DarkTheme();
+        private static void SetDarkTheme() {
             ThemeResolutionService.ApplicationThemeName = "Office2013Dark";
             Settings.Default.Theme = 1;
             Settings.Default.Save();
         }
 
-        private void SetBreezeTheme() {
-            BreezeTheme breeze = new BreezeTheme();
+        private static void SetBreezeTheme() {
             ThemeResolutionService.ApplicationThemeName = "Breeze";
             Settings.Default.Theme = 2;
             Settings.Default.Save();
         }
-
         #endregion
-
     }
 }

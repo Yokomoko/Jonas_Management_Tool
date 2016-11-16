@@ -25,6 +25,11 @@ namespace Jonas_Sage_Importer
         public void UpdateText(string TextString)
         {
             lblConnectionTest.Text = TextString;
+            Update();
+        }
+
+        public void ShowError(string error) {
+            UtilityMethods.ShowMessageBox(error);
         }
 
     }

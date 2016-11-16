@@ -58,8 +58,7 @@
     <Compile Include="AdminStatus.cs">
       <DependentUpon>EF_JonasLedgerManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Business Layer Classes\BL_SalesBacklogHistory.cs" />
-    <Compile Include="Business Layer Classes\CostOfGoodsSold.cs" />
+    <Compile Include="Business Layer Classes\DataEncryptor.cs" />
     <Compile Include="Configuration.cs">
       <DependentUpon>EF_JonasLedgerManager.tt</DependentUpon>
     </Compile>

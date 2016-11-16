@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using SageImporterLibrary;
+using Jonas_Sage_Importer.Properties;
 
 namespace Jonas_Sage_Importer
 {
@@ -19,18 +20,11 @@ namespace Jonas_Sage_Importer
         /// </returns>
         private static string ConnectionString()
         {
-            return DbConnectionsCs.ConnectionString();
+            return DbConnectionsCs.ConnectionString;
         }
 
-        /// <summary>
-        /// The DbName from DbConnectionsCs class in order to reference what the database name it is importing into is.
-        /// </summary>
-        /// <returns></returns>
-        private static string DbNameTxt()
-        {
-            return DbConnectionsCs.DbNameTxt();
-        }
 
+        private static readonly string DBName = Settings.Default.DBName;
 
 
         public static void ImportInvoices(string command, DataTable tbl)
@@ -48,7 +42,7 @@ namespace Jonas_Sage_Importer
                     //statusStripBar.Text = "Attempting to import to temporary table.";
                     sqcomm.ExecuteNonQuery();
                 }
-                string tempSuccess = $"{ImpName}: Successfully imported to temporary table in the {DbNameTxt()} database";
+                string tempSuccess = $"{ImpName}: Successfully imported to temporary table in the {DBName} database";
                 LogToText.WriteToLog(tempSuccess);
                 // statusStripBar.Text = tempSuccess;
             }
@@ -71,7 +65,7 @@ namespace Jonas_Sage_Importer
                         sqcomm.ExecuteNonQuery();
                     }
                 }
-                string commitSuccess = $"{ImpName}: Successfully committed new data to the {DbNameTxt()} database";
+                string commitSuccess = $"{ImpName}: Successfully committed new data to the {DBName} database";
                 LogToText.WriteToLog(commitSuccess);
             }
             catch (Exception ex)
@@ -108,7 +102,7 @@ namespace Jonas_Sage_Importer
                         sqcomm.ExecuteNonQuery();
                     }
                 }
-                string deleteSuccess = $"{ImpName}: Deleted previous orders from the {DbNameTxt()} database.";
+                string deleteSuccess = $"{ImpName}: Deleted previous orders from the {DBName} database.";
                 LogToText.WriteToLog(deleteSuccess);
             }
             catch (Exception ex)

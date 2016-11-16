@@ -1,181 +1,66 @@
 ﻿using System;
 using System.Data;
-using System.Data.Entity.Core.EntityClient;
 using System.Data.OleDb;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Windows.Forms;
-using BL_JonasSageImporter;
-using System.Data.Entity;
 using Jonas_Sage_Importer;
 using Jonas_Sage_Importer.Properties;
 
-namespace SageImporterLibrary
-
-{
-    public class DbConnectionsCs : IDisposable
-    {
-        private SqlDataAdapter dataAdapter = new SqlDataAdapter();
-
-        private LogToText logToText = new LogToText();
-
-
-        private static string _dbLocationTxt = "192.168.15.48";
-
-
-        private static string _dbNameTxt = "Purchase_SaleLedger";
-
-        private static string _usernameTxt = "Sage";
-
-        private static string _passwordTxt = "SageImport";
-
-        private static string _reportServerUrl = @"http://192.168.15.48/reportserver";
-
-        public static string DbLocationTxt()
-        {
-            return _dbLocationTxt;
-        }
-
-
-        public static string DbNameTxt()
-        {
-            return _dbNameTxt;
-        }
-
-        public static string UserNameTxt()
-        {
-            return _usernameTxt;
-        }
-
-        public static string PasswordTxt()
-        {
-            return _passwordTxt;
-        }
-
-        public static string ReportServerUrl()
-        {
-            return _reportServerUrl;
-        }
-
-        public static string ConnectionString()
-        {
-            return
-                $"Persist Security Info=False;Integrated Security=False;Initial Catalog={DbNameTxt()};Data Source={DbLocationTxt()};User ID={UserNameTxt()};Password={PasswordTxt()};";
-        }
+namespace SageImporterLibrary {
+    public class DbConnectionsCs : IDisposable {
+        public static string ConnectionString = new SqlConnectionStringBuilder {
+            PersistSecurityInfo = false,
+            DataSource = Settings.Default.DBLocation,
+            IntegratedSecurity = false,
+            InitialCatalog = Settings.Default.DBName,
+            UserID = Settings.Default.DBUsername,
+            Password = BL_JonasSageImporter.Business_Layer_Classes.DataEncryptor.DecryptStringAES(Settings.Default.DBPassword, "DBPassword")
+        }.ConnectionString;
 
         internal OleDbDataAdapter DataAdapter = new OleDbDataAdapter();
-
         internal BindingSource TableBindingSource = new BindingSource();
-
         internal DataTable Table = new DataTable();
 
-
-
-        public static void TestConnection(
-            string dbLocation,
-            string dbName,
-            string userName,
-            string password,
-            Label connLabel)
-        {
-            string testConString =
-                $"Persist Security Info=False;Integrated Security=false;Initial Catalog={dbName};Data Source={dbLocation};User ID={userName};Password={password}";
-            LogToText.WriteToLog($"Testing connection - {testConString}");
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(testConString))
-                {
+        public static bool TestConnection(string TestConnectionString) {
+            LogToText.WriteToLog($"Testing connection - {TestConnectionString}");
+            try {
+                using (SqlConnection conn = new SqlConnection(TestConnectionString)) {
                     conn.Open();
-                    connLabel.Text = @"Success";
-                    LogToText.WriteToLog($"Connection OK with the connection string - '{testConString}'");
-                    connLabel.ForeColor = Color.Green;
-                    connLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    LogToText.WriteToLog($"Connection OK with the connection string - '{TestConnectionString}'");
                 }
+                return true;
             }
-            catch (SqlException ex)
-            {
-                LogToText.WriteToLog($"Connection Failed with the connection string - '{testConString}'");
-                // UtilityMethods.ShowMessageBox($"Connection Failed \n {ex.Message}");
-                UtilityMethods.ShowMessageBox($"Connection Failed \n {ex.Message}");
-                connLabel.Text = @"Failed..";
-                connLabel.ForeColor = Color.Red;
-                connLabel.TextAlign = ContentAlignment.MiddleCenter;
+            catch (SqlException ex) {
+                LogToText.WriteToLog($"Connection Failed with the connection string - '{TestConnectionString}'\n\n {ex.Message}");
+                return false;
             }
         }
 
-        public static void UpdateConnection(string dbLocation, string dbName, string userName, string password, string EFConnString)
-        {
-            bool counter = false;
+        public static void UpdateConnection(string dbLocation, string dbName, string userName, string password) {
+            password = BL_JonasSageImporter.Business_Layer_Classes.DataEncryptor.EncryptStringAES(password, "DBPassword");
+            Settings.Default.DBLocation = dbLocation;
+            Settings.Default.DBName = dbName;
+            Settings.Default.DBUsername = userName;
+            Settings.Default.DBPassword = password;
+            Settings.Default.Save();
 
-            while (counter == false)
-            {
-                _dbLocationTxt = dbLocation;
-                _dbNameTxt = dbName;
-                _usernameTxt = userName;
-                _passwordTxt = password;
-                //EF Connection String
-                Settings.Default.EFString = EFConnString;
-                Settings.Default.Save();
-
-                LogToText.WriteToLog(
-                    $"Connection String Updated. dbLocation = {dbLocation} dbName = {dbName} userName = {userName} password = {password}");
-                UtilityMethods.ShowMessageBox(@"Connection String Updated Successfully", @"Success");
-
-                //Build EF Connection String
-                SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder {
-                    DataSource = dbLocation,
-                    InitialCatalog = dbName,
-                    IntegratedSecurity = false,
-                    UserID = userName,
-                    Password = password
-                };
-
-
-                string providerString = sqlBuilder.ToString();
-
-                EntityConnectionStringBuilder entityBuilder = new EntityConnectionStringBuilder {
-                    Provider = "System.Data.SqlClient",
-                    ProviderConnectionString = providerString
-                };
-
-
-                counter = true;
-            }
+            LogToText.WriteToLog(
+                $"Connection String Updated. dbLocation = {dbLocation} dbName = {dbName} userName = {userName} password = {password}");
+            UtilityMethods.ShowMessageBox("Connection String Updated Successfully", "Success");
         }
 
-        public static void updateReportServerUri(string reportServerUrl)
-        {
-            _reportServerUrl = reportServerUrl;
+        public static void updateReportServerUri(string reportServerUrl) {
+            Settings.Default.DBReportServerUrl = reportServerUrl;
+            Settings.Default.Save();
         }
 
 
-        public SqlDataAdapter GetData(string selectCommand)
-        {
-            using (SqlConnection conn = new SqlConnection(ConnectionString()))
-            {
-                dataAdapter = new SqlDataAdapter(selectCommand, conn);
-                SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
-
-                DataTable table = new DataTable();
-                //BindingSource bSource = new BindingSource();
-
-                //dataAdapter.Fill(table);
-                //bSource.DataSource = table;
-
-                return dataAdapter;
-            }
-        }
-
-        public static void LogImport(string excelPath, string importType, int rowCount)
-        {
+        public static void LogImport(string excelPath, string importType, int rowCount) {
             string sqlQuery =
                 "Insert into log (LogDate, ExcelPath, ImportType, NumberOfRowsImported) Values (GetDate(), @ExcelPath, @ImportType, @RowCount)";
-            try
-            {
-                using (SqlConnection sqconn = new SqlConnection(ConnectionString()))
-                {
-                    using (SqlCommand sqcomm = new SqlCommand(sqlQuery, sqconn))
-                    {
+            try {
+                using (SqlConnection sqconn = new SqlConnection(ConnectionString)) {
+                    using (SqlCommand sqcomm = new SqlCommand(sqlQuery, sqconn)) {
                         LogToText.WriteToLog("Logging information to the log table.");
                         sqcomm.Connection = sqconn;
                         sqcomm.CommandType = CommandType.Text;
@@ -189,22 +74,20 @@ namespace SageImporterLibrary
                     LogToText.WriteToLog("Successfully logged information to the log table.");
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 LogToText.WriteToLog($"Failed to write to log in the database\n{e.Message}");
                 throw;
             }
         }
 
 
-        public SqlDataAdapter GetNominalCodeAdapter()
-        {
+        public SqlDataAdapter GetNominalCodeAdapter() {
             string sql = "Select GLNo as NominalCode, GLDescription as Description from GlTypes order by GLNo";
-            string sqlconn = ConnectionString();
+            string sqlconn = ConnectionString;
 
-            SqlConnection sqlConn = new SqlConnection(ConnectionString());
+            SqlConnection sqlConn = new SqlConnection(ConnectionString);
             SqlDataAdapter adapter = new SqlDataAdapter(sql, sqlconn);
-            
+
             //SelectCommand
             var sqlComm = new SqlCommand(sql, sqlConn);
             adapter.SelectCommand = sqlComm;
@@ -226,14 +109,11 @@ namespace SageImporterLibrary
             sqlComm.Parameters.Add("@GlDescription", SqlDbType.NVarChar, 255, "Description");
             adapter.InsertCommand = sqlComm;
 
-
             return adapter;
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
+        protected virtual void Dispose(bool disposing) {
+            if (!disposing) {
                 return;
             }
             // dispose managed resources
@@ -243,8 +123,7 @@ namespace SageImporterLibrary
             // free native resources
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }

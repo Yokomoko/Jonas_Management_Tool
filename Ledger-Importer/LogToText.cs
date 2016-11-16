@@ -27,10 +27,7 @@ namespace SageImporterLibrary
                     WriteStream(FileName, inputText);
                 }
                 catch (UnauthorizedAccessException ) {
-
-                    return;
                 }
-                
             }
             else
             {
@@ -41,7 +38,6 @@ namespace SageImporterLibrary
                     WriteStream(FileName, inputText);
                 }
                 catch (UnauthorizedAccessException) {
-                    return;
                 }
             }
 
@@ -56,18 +52,10 @@ namespace SageImporterLibrary
         /// <param name="inputText">
         /// The input Text which is handled via the WriteToLog method.
         /// </param>
-        private static void WriteStream(string fileName, string inputText)
-        {
-            try
+        private static void WriteStream(string fileName, string inputText){
+            using (StreamWriter writeFile = new StreamWriter(fileName, true))
             {
-                using (StreamWriter writeFile = new StreamWriter(fileName, true))
-                {
-                    writeFile.WriteLine($"{DateTime.Now} \t {inputText}");
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                writeFile.WriteLine($"{DateTime.Now} \t {inputText}");
             }
         }
 
