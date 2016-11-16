@@ -21,7 +21,7 @@ namespace Jonas_Sage_Importer {
             DbNameTxtBox.Text = Settings.Default.DBName;
             UsernameTxtBox.Text = Settings.Default.DBUsername;
             PasswordTxtBox.Text = DataEncryptor.DecryptStringAES(Settings.Default.DBPassword, "DBPassword");
-            ConnectionStringTxtBox.Text = DbConnectionsCs.ConnectionString;
+            ConnectionStringTxtBox.Text = DbConnectionsCs.EncryptedConnectionString;
             txtBoxReportServerUrl.Text = Settings.Default.DBReportServerUrl;
         }
 
@@ -32,7 +32,6 @@ namespace Jonas_Sage_Importer {
             bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_TestConnectionComplete);
 
             bg.RunWorkerAsync();
-
             lS.UpdateText($"Testing Connection...\n Please Wait... This May Take up to a Minute to Complete. ");
             lS.Show();
         }
@@ -62,7 +61,10 @@ namespace Jonas_Sage_Importer {
             ConnectionStatus.Text = result ? "Connection Established" : "Connection Failed";
             ConnectionStatus.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
             if (!result) {
-                lS.UpdateText($"Failed... Please see the log in the install directory for further details.");
+                lS.UpdateText("Failed... Please see the log in the install directory for further details.");
+            }
+            else {
+                lS.UpdateText("Connection Established Successfully");
             }
             System.Threading.Thread.Sleep(3500);
             lS.Hide();
@@ -74,7 +76,7 @@ namespace Jonas_Sage_Importer {
                 DbNameTxtBox.Text,
                 UsernameTxtBox.Text,
                 PasswordTxtBox.Text);
-            ConnectionStringTxtBox.Text = DbConnectionsCs.ConnectionString;
+            ConnectionStringTxtBox.Text = DbConnectionsCs.EncryptedConnectionString;
         }
 
         private void dbConnectionExitBtn_Click(object sender, EventArgs e) {

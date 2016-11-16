@@ -4412,7 +4412,7 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Jonas Sage Importer.Primary output</td><td/></row>
-		<row><td>ProductCode</td><td>{84060982-8F4D-41EA-9F45-00E567985346}</td><td/></row>
+		<row><td>ProductCode</td><td>{767D7131-F0B3-43F5-A916-D23BEE75D9A1}</td><td/></row>
 		<row><td>ProductName</td><td>Jonas Ledger Management Tool</td><td/></row>
 		<row><td>ProductVersion</td><td>2.00.000</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
@@ -4427,7 +4427,7 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
 		<row><td>SHOWLAUNCHPROGRAM</td><td>-1</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION40CLIENT;DOTNETVERSION35SP1;ISACTIONPROP1;ISACTIONPROP2;ISACTIONPROP3;ISACTIONPROP4;ISACTIONPROP5;ISACTIONPROP6</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION40CLIENT;DOTNETVERSION35SP1;ISACTIONPROP1;ISACTIONPROP2;ISACTIONPROP3;ISACTIONPROP4;ISACTIONPROP5;ISACTIONPROP6;ISACTIONPROP7;ISACTIONPROP8;ISACTIONPROP9</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
 		<row><td>UpgradeCode</td><td>{84060982-8F4D-41EA-9F45-00E567985346}</td><td/></row>
@@ -4707,7 +4707,10 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>{27D71FCF-38C4-477B-8D1C-D2181E6D2CDC}</td><td></td><td>2.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP1</td><td>NewUpgradeEntry1</td></row>
 		<row><td>{84060982-8F4D-41EA-9F45-00E567985346}</td><td></td><td>2.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP5</td><td>NewUpgradeEntry5</td></row>
 		<row><td>{84060982-8F4D-41EA-9F45-00E567985346}</td><td></td><td>3.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP6</td><td>NewUpgradeEntry6</td></row>
+		<row><td>{84060982-8F4D-41EA-9F45-00E567985346}</td><td></td><td>4.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP7</td><td>NewUpgradeEntry7</td></row>
+		<row><td>{84060982-8F4D-41EA-9F45-00E567985346}</td><td></td><td>5.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP9</td><td>NewUpgradeEntry9</td></row>
 		<row><td>{8768698E-1FDB-4EF6-8D03-29FE87122F54}</td><td></td><td>2.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP4</td><td>NewUpgradeEntry4</td></row>
+		<row><td>{FCD785D4-A057-4CB8-9D61-69A7226B74AE}</td><td></td><td>2.00.000</td><td></td><td>768</td><td/><td>ISACTIONPROP8</td><td>NewUpgradeEntry8</td></row>
 	</table>
 
 	<table name="Verb">

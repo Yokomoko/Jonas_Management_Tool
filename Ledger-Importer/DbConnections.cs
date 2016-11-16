@@ -17,6 +17,17 @@ namespace SageImporterLibrary {
             Password = BL_JonasSageImporter.Business_Layer_Classes.DataEncryptor.DecryptStringAES(Settings.Default.DBPassword, "DBPassword")
         }.ConnectionString;
 
+        public static string EncryptedConnectionString = new SqlConnectionStringBuilder
+        {
+            PersistSecurityInfo = false,
+            DataSource = Settings.Default.DBLocation,
+            IntegratedSecurity = false,
+            InitialCatalog = Settings.Default.DBName,
+            UserID = Settings.Default.DBUsername,
+            Password = Settings.Default.DBPassword + " (ENCRYPTED)"
+        }.ConnectionString;
+
+
         internal OleDbDataAdapter DataAdapter = new OleDbDataAdapter();
         internal BindingSource TableBindingSource = new BindingSource();
         internal DataTable Table = new DataTable();
@@ -36,6 +47,27 @@ namespace SageImporterLibrary {
             }
         }
 
+        private static void UpdateConnectionString() {
+           ConnectionString = new SqlConnectionStringBuilder
+            {
+                PersistSecurityInfo = false,
+                DataSource = Settings.Default.DBLocation,
+                IntegratedSecurity = false,
+                InitialCatalog = Settings.Default.DBName,
+                UserID = Settings.Default.DBUsername,
+                Password = BL_JonasSageImporter.Business_Layer_Classes.DataEncryptor.DecryptStringAES(Settings.Default.DBPassword, "DBPassword")
+            }.ConnectionString;
+            EncryptedConnectionString = new SqlConnectionStringBuilder
+            {
+                PersistSecurityInfo = false,
+                DataSource = Settings.Default.DBLocation,
+                IntegratedSecurity = false,
+                InitialCatalog = Settings.Default.DBName,
+                UserID = Settings.Default.DBUsername,
+                Password = Settings.Default.DBPassword + " (ENCRYPTED)"
+            }.ConnectionString;
+        }
+
         public static void UpdateConnection(string dbLocation, string dbName, string userName, string password) {
             password = BL_JonasSageImporter.Business_Layer_Classes.DataEncryptor.EncryptStringAES(password, "DBPassword");
             Settings.Default.DBLocation = dbLocation;
@@ -43,6 +75,7 @@ namespace SageImporterLibrary {
             Settings.Default.DBUsername = userName;
             Settings.Default.DBPassword = password;
             Settings.Default.Save();
+            UpdateConnectionString();
 
             LogToText.WriteToLog(
                 $"Connection String Updated. dbLocation = {dbLocation} dbName = {dbName} userName = {userName} password = {password}");
