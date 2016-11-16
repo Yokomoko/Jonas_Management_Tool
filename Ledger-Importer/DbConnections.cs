@@ -7,12 +7,9 @@ using BL_JonasSageImporter;
 using Jonas_Sage_Importer;
 using Jonas_Sage_Importer.Properties;
 
-namespace SageImporterLibrary
-{
-    public class DbConnectionsCs : IDisposable
-    {
-        public static string ConnectionString = new SqlConnectionStringBuilder
-        {
+namespace SageImporterLibrary {
+    public class DbConnectionsCs : IDisposable {
+        public static string ConnectionString = new SqlConnectionStringBuilder {
             PersistSecurityInfo = false,
             DataSource = Settings.Default.DBLocation,
             IntegratedSecurity = false,
@@ -21,8 +18,7 @@ namespace SageImporterLibrary
             Password = BL_JonasSageImporter.Business_Layer_Classes.DataEncryptor.DecryptStringAES(Settings.Default.DBPassword, "DBPassword")
         }.ConnectionString;
 
-        public static string EncryptedConnectionString = new SqlConnectionStringBuilder
-        {
+        public static string EncryptedConnectionString = new SqlConnectionStringBuilder {
             PersistSecurityInfo = false,
             DataSource = Settings.Default.DBLocation,
             IntegratedSecurity = false,
@@ -36,29 +32,23 @@ namespace SageImporterLibrary
         internal BindingSource TableBindingSource = new BindingSource();
         internal DataTable Table = new DataTable();
 
-        public static bool TestConnection(string TestConnectionString)
-        {
+        public static bool TestConnection(string TestConnectionString) {
             LogToText.WriteToLog($"Testing connection - {TestConnectionString}");
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(TestConnectionString))
-                {
+            try {
+                using (SqlConnection conn = new SqlConnection(TestConnectionString)) {
                     conn.Open();
                     LogToText.WriteToLog($"Connection OK with the connection string - '{TestConnectionString}'");
                 }
                 return true;
             }
-            catch (SqlException ex)
-            {
+            catch (SqlException ex) {
                 LogToText.WriteToLog($"Connection Failed with the connection string - '{TestConnectionString}'\n\n {ex.Message}");
                 return false;
             }
         }
 
-        private static void UpdateConnectionString()
-        {
-            ConnectionString = new SqlConnectionStringBuilder
-            {
+        private static void UpdateConnectionString() {
+            ConnectionString = new SqlConnectionStringBuilder {
                 PersistSecurityInfo = false,
                 DataSource = Settings.Default.DBLocation,
                 IntegratedSecurity = false,
@@ -66,8 +56,7 @@ namespace SageImporterLibrary
                 UserID = Settings.Default.DBUsername,
                 Password = BL_JonasSageImporter.Business_Layer_Classes.DataEncryptor.DecryptStringAES(Settings.Default.DBPassword, "DBPassword")
             }.ConnectionString;
-            EncryptedConnectionString = new SqlConnectionStringBuilder
-            {
+            EncryptedConnectionString = new SqlConnectionStringBuilder {
                 PersistSecurityInfo = false,
                 DataSource = Settings.Default.DBLocation,
                 IntegratedSecurity = false,
@@ -77,8 +66,7 @@ namespace SageImporterLibrary
             }.ConnectionString;
         }
 
-        public static void UpdateConnection(string dbLocation, string dbName, string userName, string password)
-        {
+        public static void UpdateConnection(string dbLocation, string dbName, string userName, string password) {
             password = BL_JonasSageImporter.Business_Layer_Classes.DataEncryptor.EncryptStringAES(password, "DBPassword");
             Settings.Default.DBLocation = dbLocation;
             Settings.Default.DBName = dbName;
@@ -92,17 +80,15 @@ namespace SageImporterLibrary
             UtilityMethods.ShowMessageBox("Connection String Updated Successfully", "Success");
         }
 
-        public static void updateReportServerUri(string reportServerUrl)
-        {
+        public static void updateReportServerUri(string reportServerUrl) {
             Settings.Default.DBReportServerUrl = reportServerUrl;
             Settings.Default.Save();
         }
 
 
-        public static void LogImport(string excelPath, string importType, int rowCount)
-        {
+        public static void LogImport(string excelPath, string importType, int rowCount) {
             var ef = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
-            try { 
+            try {
                 var log = new Log {
                     LogDate = DateTime.Now,
                     ExcelPath = excelPath,
@@ -112,15 +98,13 @@ namespace SageImporterLibrary
                 ef.Logs.Add(log);
                 ef.SaveChanges();
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 LogToText.WriteToLog($"Failed to write to log in the database\n{e.Message}");
             }
         }
 
 
-        public SqlDataAdapter GetNominalCodeAdapter()
-        {
+        public SqlDataAdapter GetNominalCodeAdapter() {
             string sql = "Select GLNo as NominalCode, GLDescription as Description from GlTypes order by GLNo";
             string sqlconn = ConnectionString;
 
@@ -151,10 +135,8 @@ namespace SageImporterLibrary
             return adapter;
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
+        protected virtual void Dispose(bool disposing) {
+            if (!disposing) {
                 return;
             }
             // dispose managed resources
@@ -164,8 +146,7 @@ namespace SageImporterLibrary
             // free native resources
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
