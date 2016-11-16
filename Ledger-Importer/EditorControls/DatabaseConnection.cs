@@ -61,7 +61,9 @@ namespace Jonas_Sage_Importer {
 
             ConnectionStatus.Text = result ? "Connection Established" : "Connection Failed";
             ConnectionStatus.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
-            lS.UpdateText($"Failed... Please see the log in the install directory for further details.");
+            if (!result) {
+                lS.UpdateText($"Failed... Please see the log in the install directory for further details.");
+            }
             System.Threading.Thread.Sleep(3500);
             lS.Hide();
         }
