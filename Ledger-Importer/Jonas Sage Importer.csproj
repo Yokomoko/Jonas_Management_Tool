@@ -182,12 +182,6 @@
     <Compile Include="EditorControls\NominalCodeEditor_Rad.Designer.cs">
       <DependentUpon>NominalCodeEditor_Rad.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Generate Excel Reports\GenerateGBUCombinedTargets.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GreatPlains.cs" />
@@ -233,9 +227,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditorControls\NominalCodeEditor_Rad.resx">
       <DependentUpon>NominalCodeEditor_Rad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>

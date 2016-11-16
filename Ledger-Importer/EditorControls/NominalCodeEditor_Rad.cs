@@ -2,6 +2,7 @@
 using SageImporterLibrary;
 using System;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Jonas_Sage_Importer.EditorControls {
         private DataSet changes;
 
         readonly DbConnectionsCs dbConnections = new DbConnectionsCs();
-
+        private readonly Purchase_SaleLedgerEntities ef = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
         #endregion
 
         #region Constructors
@@ -70,27 +71,22 @@ namespace Jonas_Sage_Importer.EditorControls {
         }
 
         private void uxAddBtn_Click(object sender, EventArgs e) {
-            int nominalCode = uxNomCodeTxt.Text != string.Empty ? int.Parse(uxNomCodeTxt.Text) : 0;
+            var nominalCode = !string.IsNullOrEmpty(uxNomCodeTxt.Text) ? int.Parse(uxNomCodeTxt.Text) : (int?)null;
 
-            if (nominalCode != 0 && !string.IsNullOrEmpty(uxNomCodeTxt.Text)) {
+            if (nominalCode == null) UtilityMethods.ShowMessageBox("Please Enter Nominal Code and Description. The Nominal Code can not be blank.");
+            else
                 try {
                     var glType = new GLType {
-                        GLNo = nominalCode,
+                        GLNo = (int)nominalCode,
                         GLDescription = uxNomDescTxt.Text
                     };
-                    using (var dbCtx = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString())) {
-                        dbCtx.Entry(glType).State = System.Data.Entity.EntityState.Added;
-                        dbCtx.SaveChanges();
-                    }
+                    ef.GLTypes.Add(glType);
+                    ef.SaveChanges();
                     Populate();
-                    return;
                 }
                 catch (Exception ex) {
                     UtilityMethods.ShowMessageBox($"Unable to complete Update Command: \n \n {ex.Message}");
-                    return;
                 }
-            }
-            UtilityMethods.ShowMessageBox("Please Enter Nominal Code and Description. The Nominal Code can not be blank.");
         }
 
         private void uxNomCodeTxt_KeyPress(object sender, KeyPressEventArgs e) {
@@ -105,18 +101,21 @@ namespace Jonas_Sage_Importer.EditorControls {
                 "Are you sure you want to delete this nominal code? \nOnce it is removed you will not be able to recover this.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dResult != DialogResult.Yes) return;
                 var rowToBeDeleted = (int)uxNomCodeListGv.SelectedRows[0].Cells[0].Value;
-                var context = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
-                var gltype = (from o in context.GLTypes where o.GLNo == rowToBeDeleted select o).First();
-                context.GLTypes.Attach(gltype);
-                context.GLTypes.Remove(gltype);
-                context.SaveChanges();
+
+                var gltype = (from o in ef.GLTypes where o.GLNo == rowToBeDeleted select o).First();
+                ef.GLTypes.Attach(gltype);
+                ef.GLTypes.Remove(gltype);
+                ef.SaveChanges();
                 BindGrid();
             }
         }
 
         private void uxSaveBtn_Click(object sender, EventArgs e) {
             try {
+
                 changes = ds.GetChanges();
+
+
                 if (changes != null) {
                     ds.AcceptChanges();
                     dbConnections.GetNominalCodeAdapter().AcceptChangesDuringUpdate = true;
@@ -145,8 +144,8 @@ namespace Jonas_Sage_Importer.EditorControls {
 
         private void BindGrid() {
             try {
-                var context = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
-                uxNomCodeListGv.DataSource = (from c in context.GLTypes select c).ToList();
+                uxNomCodeListGv.DataSource = ef.GLTypes.Local.ToBindingList();
+                uxNomCodeListGv.Refresh();
             }
             catch (Exception ex) {
                 MessageBox.Show("An Exception has Occurred. Please check you have access to the database and try again. \n\n" + ex.Message);

@@ -41,7 +41,6 @@
             this.uxRemoveNewerRecordsDt = new Telerik.WinControls.UI.RadDateTimePicker();
             this.uxExcelSheetViewerGv = new Telerik.WinControls.UI.RadGridView();
             this.uxInclusiveLbl = new System.Windows.Forms.Label();
-            this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.radLabel4 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
@@ -757,7 +756,6 @@
         private Telerik.WinControls.UI.RadDateTimePicker uxRemoveNewerRecordsDt;
         private Telerik.WinControls.UI.RadGridView uxExcelSheetViewerGv;
         private System.Windows.Forms.Label uxInclusiveLbl;
-        private System.DirectoryServices.DirectoryEntry directoryEntry1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
