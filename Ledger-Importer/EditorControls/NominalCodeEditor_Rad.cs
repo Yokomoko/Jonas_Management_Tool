@@ -2,7 +2,6 @@
 using SageImporterLibrary;
 using System;
 using System.Data;
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Linq;
@@ -101,7 +100,7 @@ namespace Jonas_Sage_Importer.EditorControls {
                 "Are you sure you want to delete this nominal code? \nOnce it is removed you will not be able to recover this.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dResult != DialogResult.Yes) return;
                 var rowToBeDeleted = (int)uxNomCodeListGv.SelectedRows[0].Cells[0].Value;
-
+                
                 var gltype = (from o in ef.GLTypes where o.GLNo == rowToBeDeleted select o).First();
                 ef.GLTypes.Attach(gltype);
                 ef.GLTypes.Remove(gltype);
@@ -112,15 +111,16 @@ namespace Jonas_Sage_Importer.EditorControls {
 
         private void uxSaveBtn_Click(object sender, EventArgs e) {
             try {
-
+                
                 changes = ds.GetChanges();
-
+                
 
                 if (changes != null) {
                     ds.AcceptChanges();
                     dbConnections.GetNominalCodeAdapter().AcceptChangesDuringUpdate = true;
                     dbConnections.GetNominalCodeAdapter().Update(changes);
                     UtilityMethods.ShowMessageBox("The Nominal Codes have been Updated.");
+                    ef.SaveChanges();
                 }
             }
             catch (Exception ex) {
@@ -144,8 +144,7 @@ namespace Jonas_Sage_Importer.EditorControls {
 
         private void BindGrid() {
             try {
-                uxNomCodeListGv.DataSource = ef.GLTypes.Local.ToBindingList();
-                uxNomCodeListGv.Refresh();
+                uxNomCodeListGv.DataSource = (from c in ef.GLTypes select c).ToList();
             }
             catch (Exception ex) {
                 MessageBox.Show("An Exception has Occurred. Please check you have access to the database and try again. \n\n" + ex.Message);
