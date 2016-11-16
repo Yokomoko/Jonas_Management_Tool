@@ -6,16 +6,20 @@ using System.Data.SqlClient;
 using System.ComponentModel;
 using BL_JonasSageImporter.Business_Layer_Classes;
 
-namespace Jonas_Sage_Importer {
-    public partial class DatabaseConnection : Form {
+namespace Jonas_Sage_Importer
+{
+    public partial class DatabaseConnection : Form
+    {
 
         Loading lS = new Loading { TopMost = true };
 
-        public DatabaseConnection() {
+        public DatabaseConnection()
+        {
             InitializeComponent();
         }
 
-        private void DatabaseConnection_Load(object sender, EventArgs e) {
+        private void DatabaseConnection_Load(object sender, EventArgs e)
+        {
             CenterToScreen();
             DbLocationTxtBox.Text = Settings.Default.DBLocation;
             DbNameTxtBox.Text = Settings.Default.DBName;
@@ -25,7 +29,8 @@ namespace Jonas_Sage_Importer {
             txtBoxReportServerUrl.Text = Settings.Default.DBReportServerUrl;
         }
 
-        private void ConnTestBtn_Click(object sender, EventArgs e) {
+        private void ConnTestBtn_Click(object sender, EventArgs e)
+        {
 
             BackgroundWorker bg = new BackgroundWorker();
             bg.DoWork += new DoWorkEventHandler(bg_TestConnection);
@@ -36,10 +41,10 @@ namespace Jonas_Sage_Importer {
             lS.Show();
         }
 
-        private void bg_TestConnection(object sender, DoWorkEventArgs e) {
-
-
-            SqlConnectionStringBuilder cs = new SqlConnectionStringBuilder {
+        private void bg_TestConnection(object sender, DoWorkEventArgs e)
+        {
+            SqlConnectionStringBuilder cs = new SqlConnectionStringBuilder
+            {
                 ["Persist Security Info"] = false,
                 ["Data Source"] = DbLocationTxtBox.Text,
                 ["integrated Security"] = false,
@@ -55,22 +60,26 @@ namespace Jonas_Sage_Importer {
             e.Result = testResult;
         }
 
-        private void bg_TestConnectionComplete(object sender, RunWorkerCompletedEventArgs e) {
+        private void bg_TestConnectionComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
             bool result = (bool)e.Result;
 
             ConnectionStatus.Text = result ? "Connection Established" : "Connection Failed";
             ConnectionStatus.ForeColor = result ? System.Drawing.Color.Green : System.Drawing.Color.Red;
-            if (!result) {
+            if (!result)
+            {
                 lS.UpdateText("Failed... Please see the log in the install directory for further details.");
             }
-            else {
+            else
+            {
                 lS.UpdateText("Connection Established Successfully");
             }
             System.Threading.Thread.Sleep(3500);
             lS.Hide();
         }
 
-        private void uxUpdateBtn_Click(object sender, EventArgs e) {
+        private void uxUpdateBtn_Click(object sender, EventArgs e)
+        {
             DbConnectionsCs.UpdateConnection(
                 DbLocationTxtBox.Text,
                 DbNameTxtBox.Text,
@@ -79,17 +88,21 @@ namespace Jonas_Sage_Importer {
             ConnectionStringTxtBox.Text = DbConnectionsCs.EncryptedConnectionString;
         }
 
-        private void dbConnectionExitBtn_Click(object sender, EventArgs e) {
+        private void dbConnectionExitBtn_Click(object sender, EventArgs e)
+        {
             Close();
         }
 
-        private void ReturnPress(object sender, KeyEventArgs e) {
-            if (e.KeyCode.Equals(Keys.Enter)) {
+        private void ReturnPress(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.Equals(Keys.Enter))
+            {
                 ConnTestBtn.PerformClick();
             }
         }
 
-        private void btnUpdateRptServerUrl_Click(object sender, EventArgs e) {
+        private void btnUpdateRptServerUrl_Click(object sender, EventArgs e)
+        {
             DbConnectionsCs.updateReportServerUri(txtBoxReportServerUrl.Text);
         }
     }

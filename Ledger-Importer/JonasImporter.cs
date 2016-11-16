@@ -8,12 +8,15 @@ using Telerik.WinControls.UI;
 using BL_JonasSageImporter;
 using Jonas_Sage_Importer.Properties;
 
-namespace Jonas_Sage_Importer {
-    class JonasImporterEnums {
+namespace Jonas_Sage_Importer
+{
+    class JonasImporterEnums
+    {
         #region Public Enums
 
         //All Enums need a description
-        public enum ConvertColumns {
+        public enum ConvertColumns
+        {
             MiniPack = 0,
             DirectDebit = 1,
             TillType = 2,
@@ -22,21 +25,24 @@ namespace Jonas_Sage_Importer {
         }
 
 
-        public enum ImportSources {
+        public enum ImportSources
+        {
             [Description("Great Plains")]
             Great_Plains = 1,
             [Description("OpenCRM")]
             OpenCrm = 2
         }
 
-        public enum SageImportTypes {
+        public enum SageImportTypes
+        {
             [Description("Invoice")]
             Invoice = 0,
             [Description("Sales Order")]
             Sales_Order = 1
         }
 
-        public enum GreatPlainsImportTypes {
+        public enum GreatPlainsImportTypes
+        {
             [Description("Invoice (EPOS AR)")]
             Invoice_EposAR = 0,
             [Description("Invoices Posted to P+L (CSS DOWNLOAD)")]
@@ -45,7 +51,8 @@ namespace Jonas_Sage_Importer {
             Outstanding_Invoices = 2
         }
 
-        public enum CrmImportTypes {
+        public enum CrmImportTypes
+        {
             [Description("Sales Order")]
             Sales_Order = 0,
             [Description("COGS Report")]
@@ -57,27 +64,131 @@ namespace Jonas_Sage_Importer {
         #endregion
     }
 
-    class Jonas {
+    class Jonas
+    {
 
         private static string ConnectionString = DbConnectionsCs.ConnectionString;
 
         private static readonly string DbName = Settings.Default.DBName;
 
 
-        public static void ImportInvoices(string command, DataTable tbl, string ImpName) {
+        public static void ImportInvoices(string command, DataTable tbl, string ImpName)
+        {
             var comm = command;
             var ef = new Purchase_SaleLedgerEntities(ConnectionProperties.GetConnectionString());
 
-            switch (command) {
-                case "CRM_Grid_ImportOrders": {
+            switch (command)
+            {
+                case "CRM_Grid_ImportOrders":
+                    {
+                        ef.Database.ExecuteSqlCommand(
+                            "Delete from SaleLedger where [Type] like '%OpenCRM%' and ImportType like '%OpenCRM Sales Order%'");
+                        foreach (DataRow dr in tbl.Rows)
+                        {
+                            var salesLedger = new SaleLedger();
+                            salesLedger.Date = DateTime.Parse(dr[0].ToString());
+                            salesLedger.CustName = dr[1].ToString();
+                            salesLedger.SiteName = dr[2].ToString();
+                            salesLedger.CustRef = dr[3].ToString();
+                            salesLedger.DueDate = DateTime.Parse(dr[4].ToString());
+                            salesLedger.Category = dr[5].ToString();
+                            salesLedger.ItemDescription = dr[6].ToString();
+                            salesLedger.Qty = decimal.Parse(dr[7].ToString());
+                            salesLedger.Net = decimal.Parse(dr[8].ToString());
+                            salesLedger.Tax = decimal.Parse(dr[9].ToString());
+                            salesLedger.Gross = decimal.Parse(dr[10].ToString());
+                            salesLedger.Profit = decimal.Parse(dr[11].ToString());
+                            salesLedger.Type = "OpenCRM";
+                            salesLedger.Currency = dr[12].ToString();
+                            salesLedger.CustOrderNo = dr[13].ToString();
+                            salesLedger.ImportType = "OpenCRM Sales Order";
+                            salesLedger.MiniPack = tbl.Columns.Count >=14 ? (short?)ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.MiniPack, dr[14].ToString()) : (short?)null;
+                            salesLedger.SiteSurveyDate = dr[15]?.ToString();
+                            salesLedger.BacklogComments = dr[16]?.ToString();
+                            salesLedger.Deposit = dr[17]?.ToString();
+                            salesLedger.AssignedTo = dr[18]?.ToString();
+                            salesLedger.MegJobNo = dr[19]?.ToString();
+                            salesLedger.DirectDebit = tbl.Columns.Count >=14 ? short.Parse(ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.DirectDebit, dr[20].ToString()).ToString()) : (short?)null;
+                            salesLedger.Spare1 = tbl.Columns.Count >= 21 ? ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.TillType, dr[21].ToString()).ToString() : null;
+                            salesLedger.Spare2 = tbl.Columns.Count >= 22 ? ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus, dr[22].ToString()).ToString() : null;
+                            ef.SaleLedgers.Add(salesLedger);
+                        }
+                        ef.SaveChanges();
+                    }
+                    break;
+                case "CRM_ImportCogs":
+                    {
+                        ef.Database.ExecuteSqlCommand("Delete [CostOfGoodsSold]");
+                        foreach (DataRow row in tbl.Rows)
+                        {
+                            try
+                            {
+                                row[2] = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus, row[2].ToString().ToUpper()).ToString();
+
+                                var cog = new CostOfGoodsSold()
+                                {
+                                    CogsCompanyName = row[0].ToString(),
+                                    CogsSiteName = row[1].ToString(),
+                                    CogsStatus = int.Parse(row[2].ToString()),
+                                    CogsGPCode = row[3].ToString(),
+                                    CogsDueDate = DateTime.Parse(row[4].ToString()),
+                                    CogsGPCategory = row[5].ToString(),
+                                    CogsDescription = row[6].ToString(),
+                                    CogsSalesOrderId = int.Parse(row[7].ToString()),
+                                    CogsItemQuantity = decimal.Parse(row[8].ToString()),
+                                    CogsItemListPrice = decimal.Parse(row[9].ToString()),
+                                    CogsItemBuyPrice = decimal.Parse(row[10].ToString())
+                                };
+
+
+                                ef.CostOfGoodsSolds.Add(cog);
+                                string commitSuccess = $"{ImpName}: Successfully committed new data to the {DbName} database";
+                                LogToText.WriteToLog(commitSuccess);
+                            }
+                            catch (Exception ex)
+                            {
+                                UtilityMethods.ShowMessageBox(
+                                    "Error importing Cogs {Environment.NewLine} {Environment.NewLine} {ex.Message}",
+                                    "Error Importing COGS");
+                                UtilityMethods.ShowMessageBox($"Error importing Cogs {Environment.NewLine} {Environment.NewLine} {ex.Message}", "Error Importing COGS");
+                                string commitFailure = $"{ImpName}: Error committing data to the database: \n{ex.Message}";
+                                LogToText.WriteToLog(commitFailure);
+                                return;
+                            }
+                        }
+                        ef.SaveChanges();
+                    }
+                    break;
+                case "SO_COGS":
+                    var lId = 1;
+                    ef.Database.ExecuteSqlCommand("Delete [CostOfGoodsSold]");
                     ef.Database.ExecuteSqlCommand(
-                        "Delete from SaleLedger where [Type] like '%OpenCRM%' and ImportType like '%OpenCRM Sales Order%'");
-                    foreach (DataRow dr in tbl.Rows) {
-                        var salesLedger = new SaleLedger {
+                        @"Delete from Purchase_SaleLedger.dbo.SaleLedger where [Type] = 'OpenCRM' and ImportType = 'OpenCRM Sales Order'");
+
+                    foreach (DataRow dr in tbl.Rows)
+                    {
+                        var cog = new CostOfGoodsSold()
+                        {
+                            CogsCompanyName = dr[1].ToString(),
+                            CogsSiteName = dr[2].ToString(),
+                            CogsGPCode = dr[3].ToString(),
+                            CogsDueDate = DateTime.Parse(dr[4].ToString().Trim()),
+                            CogsGPCategory = dr[5].ToString(),
+                            CogsDescription = dr[6].ToString(),
+                            CogsItemQuantity = decimal.Parse(dr[7].ToString()),
+                            CogsItemListPrice = decimal.Parse(dr[8].ToString()),
+                            CogsSalesOrderId = int.Parse(dr[13].ToString()),
+                            CogsItemBuyPrice = decimal.Parse(dr[24].ToString()),
+                            // ReSharper disable once PossibleInvalidOperationException - Never evaulates to null
+                            CogsStatus = (int)ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus, dr[22].ToString().Trim()),
+                            CogsLedgerId = lId
+                        };
+                        var sLedger = new SaleLedger()
+                        {
                             Date = DateTime.Parse(dr[0].ToString()),
+                            CustRef = dr[4].ToString(),
                             CustName = dr[1].ToString(),
                             SiteName = dr[2].ToString(),
-                            CustRef = dr[3].ToString(),
                             DueDate = DateTime.Parse(dr[4].ToString()),
                             Category = dr[5].ToString(),
                             ItemDescription = dr[6].ToString(),
@@ -87,214 +198,57 @@ namespace Jonas_Sage_Importer {
                             Gross = decimal.Parse(dr[10].ToString()),
                             Profit = decimal.Parse(dr[11].ToString()),
                             Type = "OpenCRM",
-                            Currency = dr[12].ToString(),
+                            Currency = "£",
                             CustOrderNo = dr[13].ToString(),
                             ImportType = "OpenCRM Sales Order",
-                            MiniPack = (short?)(dr[14] != null ? ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.MiniPack, dr[14].ToString()) : null),
-                            SiteSurveyDate = dr[15]?.ToString(),
-                            BacklogComments = dr[16]?.ToString(),
-                            Deposit = dr[17]?.ToString(),
-                            AssignedTo = dr[18]?.ToString(),
-                            MegJobNo = dr[19]?.ToString(),
-                            DirectDebit = dr[20] != null ? short.Parse(ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.DirectDebit, dr[20].ToString()).ToString()) : (short?)null,
-                            Spare1 = dr[21] != null ? ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.TillType, dr[21].ToString()).ToString() : null,
-                            Spare2 = dr[22] != null ? ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus, dr[22].ToString()).ToString() : null
+                            SaleLedgerLedgerId = lId,
+                            MiniPack = (short?)ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.MiniPack, dr[14].ToString()),
+                            SiteSurveyDate = dr[15].ToString(),
+                            BacklogComments = dr[16].ToString(),
+                            Deposit = dr[17].ToString(),
+                            AssignedTo = dr[18].ToString(),
+                            MegJobNo = dr[19].ToString(),
+                            DirectDebit = (short?)ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.DirectDebit, dr[20].ToString()),
+                            Spare1 = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.TillType, dr[21].ToString()).ToString(),
+                            Spare2 = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus, dr[22].ToString()).ToString()
                         };
-                        ef.SaleLedgers.Add(salesLedger);
-                        #region old
-
-                        //using (SqlConnection sqconn = new SqlConnection(ConnectionString)) {
-                        //    using (SqlCommand sqcomm = new SqlCommand(command, sqconn)) {
-                        //        LogToText.WriteToLog(
-                        //            $"{ImpName}: Attempting to import row {tbl.Rows.IndexOf(dr)} to temporary table in the database");
-
-                        //        const int minicol = 14;
-                        //        const int ddcol = 20;
-                        //        const int tillTypeCol = 21;
-                        //        const int adminStatusCol = 22;
-
-                        //        if (tbl.Columns.Count >= 21) {
-                        //            //MiniPack coll from text to int
-                        //            dr[minicol] = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.MiniPack, dr[minicol].ToString().Trim().ToLower());
-                        //            //DirectDebit from text to int
-                        //            dr[ddcol] = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.DirectDebit, dr[ddcol].ToString().Trim().ToLower());
-                        //        }
-
-                        //        //Till Type from text to int
-                        //        if (tbl.Columns.Count >= 22) {
-                        //            dr[tillTypeCol] = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.TillType,
-                        //                dr[tillTypeCol].ToString().Trim().ToLower());
-                        //        }
-                        //        //Admin Status from text to int
-                        //        if (tbl.Columns.Count >= 23) {
-                        //            dr[adminStatusCol] = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus,
-                        //                dr[adminStatusCol].ToString().Trim().ToLower());
-                        //        }
-                        //        //start importing
-                        //        sqcomm.CommandType = CommandType.StoredProcedure;
-                        //        sqcomm.Parameters.AddWithValue("@Date", dr[0]);
-                        //        sqcomm.Parameters.AddWithValue("@CustName", dr[1]);
-                        //        sqcomm.Parameters.AddWithValue("@SiteName", dr[2]);
-                        //        sqcomm.Parameters.AddWithValue("@CustRef", dr[3]);
-                        //        sqcomm.Parameters.AddWithValue("@DueDate", dr[4]);
-                        //        sqcomm.Parameters.AddWithValue("@Category", dr[5]);
-                        //        sqcomm.Parameters.AddWithValue("@ItemDescription", dr[6]);
-                        //        sqcomm.Parameters.AddWithValue("@Qty", dr[7]);
-                        //        sqcomm.Parameters.AddWithValue("@Net", dr[8]);
-                        //        sqcomm.Parameters.AddWithValue("@Tax", dr[9]);
-                        //        sqcomm.Parameters.AddWithValue("@Gross", dr[10]);
-                        //        sqcomm.Parameters.AddWithValue("@Profit", dr[11]);
-                        //        sqcomm.Parameters.AddWithValue("@Currency", dr[12]);
-                        //        sqcomm.Parameters.AddWithValue("@CustOrderNo", dr[13]);
-                        //        if (tbl.Columns.Count >= 21) {
-                        //            comm = "CRM_Grid_ImportOrders_Adv";
-                        //            sqcomm.Parameters.AddWithValue("@MiniPack", dr[14]);
-                        //            sqcomm.Parameters.AddWithValue("@SiteSurveyDate", dr[15]);
-                        //            sqcomm.Parameters.AddWithValue("@BacklogComments", dr[16]);
-                        //            sqcomm.Parameters.AddWithValue("@Deposit", dr[17]);
-                        //            sqcomm.Parameters.AddWithValue("@AssignedTo", dr[18]);
-                        //            sqcomm.Parameters.AddWithValue("@MegJobNo", dr[19]);
-                        //            sqcomm.Parameters.AddWithValue("@DirectDebit", dr[20]);
-                        //        }
-                        //        if (tbl.Columns.Count == 22) {
-                        //            comm = "CRM_Grid_ImportOrders_Adv2";
-                        //            sqcomm.Parameters.AddWithValue("@Spare1", dr[21]);
-                        //        }
-                        //        if (tbl.Columns.Count == 23) {
-                        //            comm = "CRM_Grid_ImportOrders_Adv3";
-                        //            sqcomm.Parameters.AddWithValue("@Spare1", dr[21]); //Till Type
-                        //            sqcomm.Parameters.AddWithValue("@Spare2", dr[22]); //Admin Status
-                        //        }
-
-                        //        sqcomm.CommandText = comm;
-                        //        sqconn.Open();
-                        //        sqcomm.ExecuteNonQuery();
-                        //    }
-                        //}//select * from saleledgerextended where entrytype like '%OpenCRM%' and Importtype like '%OpenCRM Sales Order%' order by Custref
-                        #endregion
+                        ef.SaleLedgers.Add(sLedger);
+                        ef.CostOfGoodsSolds.Add(cog);
+                        lId = lId + 1;
                     }
                     ef.SaveChanges();
-                }
-                break;
-                case "CRM_ImportCogs": {
-                    ef.Database.ExecuteSqlCommand("Delete [CostOfGoodsSold]");
-                    foreach (DataRow row in tbl.Rows) {
-                        try {
-                            row[2] = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus, row[2].ToString().ToUpper()).ToString();
 
-                            var cog = new CostOfGoodsSold() {
-                                CogsCompanyName = row[0].ToString(),
-                                CogsSiteName = row[1].ToString(),
-                                CogsStatus = int.Parse(row[2].ToString()),
-                                CogsGPCode = row[3].ToString(),
-                                CogsDueDate = DateTime.Parse(row[4].ToString()),
-                                CogsGPCategory = row[5].ToString(),
-                                CogsDescription = row[6].ToString(),
-                                CogsSalesOrderId = int.Parse(row[7].ToString()),
-                                CogsItemQuantity = decimal.Parse(row[8].ToString()),
-                                CogsItemListPrice = decimal.Parse(row[9].ToString()),
-                                CogsItemBuyPrice = decimal.Parse(row[10].ToString())
-                            };
-
-
-                            ef.CostOfGoodsSolds.Add(cog);
-                            string commitSuccess = $"{ImpName}: Successfully committed new data to the {DbName} database";
-                            LogToText.WriteToLog(commitSuccess);
-                        }
-                        catch (Exception ex) {
-                            UtilityMethods.ShowMessageBox(
-                                "Error importing Cogs {Environment.NewLine} {Environment.NewLine} {ex.Message}",
-                                "Error Importing COGS");
-                            UtilityMethods.ShowMessageBox($"Error importing Cogs {Environment.NewLine} {Environment.NewLine} {ex.Message}", "Error Importing COGS");
-                            string commitFailure = $"{ImpName}: Error committing data to the database: \n{ex.Message}";
-                            LogToText.WriteToLog(commitFailure);
-                            return;
-                        }
-                    }
-                    ef.SaveChanges();
-                }
-                break;
-                case "SO_COGS":
-                var lId = 1;
-                ef.Database.ExecuteSqlCommand("Delete [CostOfGoodsSold]");
-                ef.Database.ExecuteSqlCommand(
-                    @"Delete from Purchase_SaleLedger.dbo.SaleLedger where [Type] = 'OpenCRM' and ImportType = 'OpenCRM Sales Order'");
-
-                foreach (DataRow dr in tbl.Rows) {
-                    var cog = new CostOfGoodsSold() {
-                        CogsCompanyName = dr[1].ToString(),
-                        CogsSiteName = dr[2].ToString(),
-                        CogsGPCode = dr[3].ToString(),
-                        CogsDueDate = DateTime.Parse(dr[4].ToString().Trim()),
-                        CogsGPCategory = dr[5].ToString(),
-                        CogsDescription = dr[6].ToString(),
-                        CogsItemQuantity = decimal.Parse(dr[7].ToString()),
-                        CogsItemListPrice = decimal.Parse(dr[8].ToString()),
-                        CogsSalesOrderId = int.Parse(dr[13].ToString()),
-                        CogsItemBuyPrice = decimal.Parse(dr[24].ToString()),
-                        // ReSharper disable once PossibleInvalidOperationException - Never evaulates to null
-                        CogsStatus = (int)ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus, dr[22].ToString().Trim()),
-                        CogsLedgerId = lId
-                    };
-                    var sLedger = new SaleLedger() {
-                        Date = DateTime.Parse(dr[0].ToString()),
-                        CustRef = dr[4].ToString(),
-                        CustName = dr[1].ToString(),
-                        SiteName = dr[2].ToString(),
-                        DueDate = DateTime.Parse(dr[4].ToString()),
-                        Category = dr[5].ToString(),
-                        ItemDescription = dr[6].ToString(),
-                        Qty = decimal.Parse(dr[7].ToString()),
-                        Net = decimal.Parse(dr[8].ToString()),
-                        Tax = decimal.Parse(dr[9].ToString()),
-                        Gross = decimal.Parse(dr[10].ToString()),
-                        Profit = decimal.Parse(dr[11].ToString()),
-                        Type = "OpenCRM",
-                        Currency = "£",
-                        CustOrderNo = dr[13].ToString(),
-                        ImportType = "OpenCRM Sales Order",
-                        SaleLedgerLedgerId = lId,
-                        MiniPack = (short?)ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.MiniPack, dr[14].ToString()),
-                        SiteSurveyDate = dr[15].ToString(),
-                        BacklogComments = dr[16].ToString(),
-                        Deposit = dr[17].ToString(),
-                        AssignedTo = dr[18].ToString(),
-                        MegJobNo = dr[19].ToString(),
-                        DirectDebit = (short?)ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.DirectDebit, dr[20].ToString()),
-                        Spare1 = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.TillType, dr[21].ToString()).ToString(),
-                        Spare2 = ConvertImportTextToInt(JonasImporterEnums.ConvertColumns.AdminStatus, dr[22].ToString()).ToString()
-                    };
-                    ef.SaleLedgers.Add(sLedger);
-                    ef.CostOfGoodsSolds.Add(cog);
-                    lId = lId + 1;
-                }
-                ef.SaveChanges();
-
-                break;
+                    break;
                 default:
-                using (SqlConnection sqconnother = new SqlConnection(ConnectionString)) {
-                    using (SqlCommand sqcomm = new SqlCommand(comm, sqconnother)) {
-                        sqcomm.Connection = sqconnother;
-                        sqcomm.CommandType = CommandType.StoredProcedure;
-                        sqcomm.Parameters.AddWithValue("@tblLedger", tbl);
-                        sqcomm.CommandText = command;
-                        sqconnother.Open();
-                        //statusStripBar.Text = "Attempting to import to temporary table.";
-                        sqcomm.ExecuteNonQuery();
+                    using (SqlConnection sqconnother = new SqlConnection(ConnectionString))
+                    {
+                        using (SqlCommand sqcomm = new SqlCommand(comm, sqconnother))
+                        {
+                            sqcomm.Connection = sqconnother;
+                            sqcomm.CommandType = CommandType.StoredProcedure;
+                            sqcomm.Parameters.AddWithValue("@tblLedger", tbl);
+                            sqcomm.CommandText = command;
+                            sqconnother.Open();
+                            //statusStripBar.Text = "Attempting to import to temporary table.";
+                            sqcomm.ExecuteNonQuery();
+                        }
+                        string tempSuccess =
+                            $"{ImpName}: Successfully imported to temporary table in the {DbName} database";
+                        LogToText.WriteToLog(tempSuccess);
                     }
-                    string tempSuccess =
-                        $"{ImpName}: Successfully imported to temporary table in the {DbName} database";
-                    LogToText.WriteToLog(tempSuccess);
-                }
-                break;
+                    break;
             }
             //return returnMessage;
         }
 
-        public static void CommitImport(string command, string impName) {
-            try {
-                using (SqlConnection sqconn = new SqlConnection(ConnectionString)) {
-                    using (SqlCommand sqcomm = new SqlCommand(command, sqconn)) {
+        public static void CommitImport(string command, string impName)
+        {
+            try
+            {
+                using (SqlConnection sqconn = new SqlConnection(ConnectionString))
+                {
+                    using (SqlCommand sqcomm = new SqlCommand(command, sqconn))
+                    {
                         LogToText.WriteToLog($"{impName}: Attempting to commit new data to database.");
                         sqcomm.Connection = sqconn;
                         sqcomm.CommandType = CommandType.StoredProcedure;
@@ -306,170 +260,177 @@ namespace Jonas_Sage_Importer {
                 string commitSuccess = $"{impName}: Successfully committed new data to the {DbName} database";
                 LogToText.WriteToLog(commitSuccess);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 string commitFailure = $"{impName}: Error committing data to the database: \n{ex.Message}";
                 LogToText.WriteToLog(commitFailure);
                 UtilityMethods.ShowMessageBox(commitFailure, "Failed");
             }
         }
 
-        private static int? ConvertImportTextToInt(JonasImporterEnums.ConvertColumns convertColumns, string input) {
+        private static int? ConvertImportTextToInt(JonasImporterEnums.ConvertColumns convertColumns, string input)
+        {
             int? output = null;
 
-            switch (convertColumns) {
+            switch (convertColumns)
+            {
                 #region MiniPack and DirectDebit (14 & 20)
                 case JonasImporterEnums.ConvertColumns.MiniPack:
                 case JonasImporterEnums.ConvertColumns.DirectDebit:
-                input = input.Trim().ToLower().Replace(" ", "");
+                    input = input.Trim().ToLower().Replace(" ", "");
 
-                //MiniPack or DirectDebit Columns
-                switch (input) {
-                    case "-":
-                    case "0":
-                    case ".":
-                    case "n/a":
-                    output = 0;
+                    //MiniPack or DirectDebit Columns
+                    switch (input)
+                    {
+                        case "-":
+                        case "0":
+                        case ".":
+                        case "n/a":
+                            output = 0;
+                            break;
+                        case "pending":
+                        case "1":
+                            output = 1;
+                            break;
+                        case "chasing":
+                        case "2":
+                            output = 2;
+                            break;
+                        case "yes":
+                        case "3":
+                            output = 3;
+                            break;
+                        case "no":
+                        case "4":
+                            output = 4;
+                            break;
+                        default:
+                            output = -1;
+                            break;
+                    }
                     break;
-                    case "pending":
-                    case "1":
-                    output = 1;
-                    break;
-                    case "chasing":
-                    case "2":
-                    output = 2;
-                    break;
-                    case "yes":
-                    case "3":
-                    output = 3;
-                    break;
-                    case "no":
-                    case "4":
-                    output = 4;
-                    break;
-                    default:
-                    output = -1;
-                    break;
-                }
-                break;
                 #endregion
                 #region TillType
                 case JonasImporterEnums.ConvertColumns.TillType:
-                switch (input) {
-                    case "quantum":
-                    case "0":
-                    output = 0;
+                    switch (input)
+                    {
+                        case "quantum":
+                        case "0":
+                            output = 0;
+                            break;
+                        case "pixel":
+                        case "1":
+                            output = 1;
+                            break;
+                        case "absolute":
+                        case "2":
+                            output = 2;
+                            break;
+                        case "fashionmaster":
+                        case "3":
+                            output = 3;
+                            break;
+                        default:
+                            output = -1;
+                            break;
+                    }
                     break;
-                    case "pixel":
-                    case "1":
-                    output = 1;
-                    break;
-                    case "absolute":
-                    case "2":
-                    output = 2;
-                    break;
-                    case "fashionmaster":
-                    case "3":
-                    output = 3;
-                    break;
-                    default:
-                    output = -1;
-                    break;
-                }
-                break;
                 #endregion
                 #region Status
                 case JonasImporterEnums.ConvertColumns.Status:
-                switch (input) {
-                    case "created":
-                    output = 1;
+                    switch (input)
+                    {
+                        case "created":
+                            output = 1;
+                            break;
+                        case "approved":
+                            output = 2;
+                            break;
+                        case "sent":
+                            output = 3;
+                            break;
+                        case "esigned":
+                            output = 4;
+                            break;
+                        case "cancelled":
+                            output = 5;
+                            break;
+                        case "pendingcancelled":
+                            output = 6;
+                            break;
+                        case "pendinginvoice":
+                            output = 7;
+                            break;
+                        case "completed":
+                            output = 8;
+                            break;
+                        case "installed":
+                            output = 9;
+                            break;
+                        case "sage":
+                            output = 10;
+                            break;
+                        case "stuck":
+                            output = 11;
+                            break;
+                        case "invoiced":
+                            output = 12;
+                            break;
+                        case "recurring":
+                            output = 13;
+                            break;
+                        default:
+                            output = -1;
+                            break;
+                    }
                     break;
-                    case "approved":
-                    output = 2;
-                    break;
-                    case "sent":
-                    output = 3;
-                    break;
-                    case "esigned":
-                    output = 4;
-                    break;
-                    case "cancelled":
-                    output = 5;
-                    break;
-                    case "pendingcancelled":
-                    output = 6;
-                    break;
-                    case "pendinginvoice":
-                    output = 7;
-                    break;
-                    case "completed":
-                    output = 8;
-                    break;
-                    case "installed":
-                    output = 9;
-                    break;
-                    case "sage":
-                    output = 10;
-                    break;
-                    case "stuck":
-                    output = 11;
-                    break;
-                    case "invoiced":
-                    output = 12;
-                    break;
-                    case "recurring":
-                    output = 13;
-                    break;
-                    default:
-                    output = -1;
-                    break;
-                }
-                break;
                 #endregion
                 #region Admin Status (22)
                 case JonasImporterEnums.ConvertColumns.AdminStatus:
-                switch (input) {
-                    case "created":
-                    case "0":
-                    output = 0;
+                    switch (input)
+                    {
+                        case "created":
+                        case "0":
+                            output = 0;
+                            break;
+                        case "pending":
+                        case "1":
+                            output = 1;
+                            break;
+                        case "approved":
+                        case "2":
+                            output = 2;
+                            break;
+                        case "pendingcancelled":
+                        case "pendingcancel":
+                        case "pendingcancellation":
+                        case "3":
+                            output = 3;
+                            break;
+                        case "pendinginvoice":
+                        case "pendinginvoiced":
+                        case "4":
+                            output = 4;
+                            break;
+                        case "invoiced":
+                        case "5":
+                            output = 5;
+                            break;
+                        case "pendingapproved":
+                        case "pendingapproval":
+                        case "6":
+                            output = 6;
+                            break;
+                        case "stuck":
+                        case "7":
+                            output = 7;
+                            break;
+                        default:
+                            output = -1;
+                            break;
+                    }
                     break;
-                    case "pending":
-                    case "1":
-                    output = 1;
-                    break;
-                    case "approved":
-                    case "2":
-                    output = 2;
-                    break;
-                    case "pendingcancelled":
-                    case "pendingcancel":
-                    case "pendingcancellation":
-                    case "3":
-                    output = 3;
-                    break;
-                    case "pendinginvoice":
-                    case "pendinginvoiced":
-                    case "4":
-                    output = 4;
-                    break;
-                    case "invoiced":
-                    case "5":
-                    output = 5;
-                    break;
-                    case "pendingapproved":
-                    case "pendingapproval":
-                    case "6":
-                    output = 6;
-                    break;
-                    case "stuck":
-                    case "7":
-                    output = 7;
-                    break;
-                    default:
-                    output = -1;
-                    break;
-                }
-                break;
-                #endregion
+                    #endregion
             }
             return output;
         }
@@ -477,16 +438,21 @@ namespace Jonas_Sage_Importer {
 
 
 
-        public static void DeletePreviousOrders(string ImpName) {
+        public static void DeletePreviousOrders(string ImpName)
+        {
             var dialogResult = UtilityMethods.ShowMessageBox(
                 "Would you like to remove all previously entered sales orders?", "Sales Orders", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult != DialogResult.Yes) {
+            if (dialogResult != DialogResult.Yes)
+            {
                 LogToText.WriteToLog($"{ImpName}: Previously entered sales orders were not deleted from the database.");
                 return;
             }
-            try {
-                using (SqlConnection sqconn = new SqlConnection(ConnectionString)) {
-                    using (SqlCommand sqcomm = new SqlCommand("Sage_DeletePreviousOrders", sqconn)) {
+            try
+            {
+                using (SqlConnection sqconn = new SqlConnection(ConnectionString))
+                {
+                    using (SqlCommand sqcomm = new SqlCommand("Sage_DeletePreviousOrders", sqconn))
+                    {
                         LogToText.WriteToLog($"{ImpName}: Deleting Previous Sales Orders");
                         sqcomm.Connection = sqconn;
                         sqcomm.CommandType = CommandType.StoredProcedure;
@@ -498,52 +464,62 @@ namespace Jonas_Sage_Importer {
                 string deleteSuccess = $"{ImpName}: Deleted previous orders from the {DbName} database.";
                 LogToText.WriteToLog(deleteSuccess);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 string deleteFailure = $"{ImpName}: Error deleting previous orders from database: \n {ex.Message}";
                 LogToText.WriteToLog(deleteFailure);
                 UtilityMethods.ShowMessageBox(deleteFailure, "Failed");
             }
         }
 
-        public static void DeleteHistoricalCheck(RadDropDownList sourceComboBox, RadDropDownList typeComboBox, bool removeNewer, DateTime removeNewerDt) {
-            if (sourceComboBox.SelectedIndex == 1) {
-                if (removeNewer) {
+        public static void DeleteHistoricalCheck(RadDropDownList sourceComboBox, RadDropDownList typeComboBox, bool removeNewer, DateTime removeNewerDt)
+        {
+            if (sourceComboBox.SelectedIndex == 1)
+            {
+                if (removeNewer)
+                {
                     DialogResult dialogResult =
                          UtilityMethods.ShowMessageBox(
                             $"Are you sure you would like to delete {typeComboBox.SelectedText} newer than {removeNewerDt} (inclusive)?\n\nYou will not be able to recover this information.",
                             "Confirm Delete?",
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Question);
-                    if (dialogResult != DialogResult.Yes) {
+                    if (dialogResult != DialogResult.Yes)
+                    {
                     }
-                    else {
+                    else
+                    {
                         DeleteHistoricalLedger(typeComboBox.SelectedIndex, removeNewerDt, sourceComboBox.Text);
                     }
                 }
             }
         }
 
-        public static void DeleteHistoricalLedger(int commandType, DateTime removeDateTime, string ImpName) {
+        public static void DeleteHistoricalLedger(int commandType, DateTime removeDateTime, string ImpName)
+        {
             var command = string.Empty;
             var tableName = string.Empty;
 
-            switch (commandType) {
+            switch (commandType)
+            {
                 case 0:
-                tableName = "SaleLedger";
-                command = $"Delete from {tableName} where Date >= @removeDateTime and ([Type] = 'Invoice' or [Type] = 'Return') and ImportType = 'Great Plains'";
-                break;
+                    tableName = "SaleLedger";
+                    command = $"Delete from {tableName} where Date >= @removeDateTime and ([Type] = 'Invoice' or [Type] = 'Return') and ImportType = 'Great Plains'";
+                    break;
                 case 1:
-                tableName = "PostedInvoices";
-                command = $"Delete from {tableName} where TrxDate >= @removeDateTime";
-                break;
+                    tableName = "PostedInvoices";
+                    command = $"Delete from {tableName} where TrxDate >= @removeDateTime";
+                    break;
                 case 2:
-                tableName = "OutstandingInvoices";
-                command = $"Delete from {tableName} where Date >= @removeDateTime";
-                break;
+                    tableName = "OutstandingInvoices";
+                    command = $"Delete from {tableName} where Date >= @removeDateTime";
+                    break;
             }
 
-            using (SqlConnection sqconn = new SqlConnection(ConnectionString)) {
-                using (SqlCommand sqcomm = new SqlCommand(command, sqconn)) {
+            using (SqlConnection sqconn = new SqlConnection(ConnectionString))
+            {
+                using (SqlCommand sqcomm = new SqlCommand(command, sqconn))
+                {
                     LogToText.WriteToLog($"{ImpName}: Attempting to delete {tableName} newer than {removeDateTime}.");
                     sqcomm.Connection = sqconn;
                     sqcomm.CommandType = CommandType.Text;

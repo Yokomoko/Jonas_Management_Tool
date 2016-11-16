@@ -1,3 +1,89 @@
 16/11/2016 11:40:10 	 Logging information to the log table.
 16/11/2016 11:40:25 	 Failed to write to log in the database
 A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 11:59:06 	 Logging information to the log table.
+16/11/2016 11:59:06 	 Successfully logged information to the log table.
+16/11/2016 11:59:52 	 Logging information to the log table.
+16/11/2016 11:59:52 	 Successfully logged information to the log table.
+16/11/2016 12:06:50 	 OpenCRM: Attempting to commit new data to database.
+16/11/2016 12:07:17 	 OpenCRM: Error committing data to the database: 
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:07:21 	 Logging information to the log table.
+16/11/2016 12:07:21 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:08:14 	 OpenCRM: Attempting to commit new data to database.
+16/11/2016 12:08:14 	 OpenCRM: Successfully committed new data to the Purchase_SaleLedger database
+16/11/2016 12:08:19 	 Logging information to the log table.
+16/11/2016 12:08:19 	 Successfully logged information to the log table.
+16/11/2016 12:10:07 	 OpenCRM: Attempting to commit new data to database.
+16/11/2016 12:10:07 	 OpenCRM: Successfully committed new data to the Purchase_SaleLedger database
+16/11/2016 12:10:09 	 Logging information to the log table.
+16/11/2016 12:10:09 	 Successfully logged information to the log table.
+16/11/2016 12:10:26 	 OpenCRM: Attempting to commit new data to database.
+16/11/2016 12:10:26 	 OpenCRM: Successfully committed new data to the Purchase_SaleLedger database
+16/11/2016 12:10:30 	 Logging information to the log table.
+16/11/2016 12:10:30 	 Successfully logged information to the log table.
+16/11/2016 12:12:26 	 Logging information to the log table.
+16/11/2016 12:12:41 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:12:59 	 Testing connection - Data Source=.;Initial Catalog=Purchase_SaleLedger;Integrated Security=False;Persist Security Info=False;User ID=Sage;Password=SageImport
+16/11/2016 12:12:59 	 Connection OK with the connection string - 'Data Source=.;Initial Catalog=Purchase_SaleLedger;Integrated Security=False;Persist Security Info=False;User ID=Sage;Password=SageImport'
+16/11/2016 12:13:04 	 Connection String Updated. dbLocation = . dbName = Purchase_SaleLedger userName = Sage password = EAAAAGoWyGgR9JSI4ajlvZ8KoGTbmR6xR7vypT7B9usDiEuD
+16/11/2016 12:14:08 	 Logging information to the log table.
+16/11/2016 12:14:08 	 Successfully logged information to the log table.
+16/11/2016 12:22:04 	 Logging information to the log table.
+16/11/2016 12:22:31 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:32:54 	 Testing connection - Data Source=.;Initial Catalog=Purchase_SaleLedger;Integrated Security=False;Persist Security Info=False;User ID=Sage;Password=SageImport
+16/11/2016 12:32:54 	 Connection OK with the connection string - 'Data Source=.;Initial Catalog=Purchase_SaleLedger;Integrated Security=False;Persist Security Info=False;User ID=Sage;Password=SageImport'
+16/11/2016 12:32:58 	 Connection String Updated. dbLocation = . dbName = Purchase_SaleLedger userName = Sage password = EAAAAA/ZoBLKr6vKPPJQp7eSVGV2HEPUh0GgAl3/WE21fped
+16/11/2016 12:33:03 	 Logging information to the log table.
+16/11/2016 12:33:03 	 Successfully logged information to the log table.
+16/11/2016 12:33:03 	 Logging information to the log table.
+16/11/2016 12:33:03 	 Successfully logged information to the log table.
+16/11/2016 12:34:10 	 Logging information to the log table.
+16/11/2016 12:34:10 	 Successfully logged information to the log table.
+16/11/2016 12:35:24 	 Logging information to the log table.
+16/11/2016 12:35:51 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:36:32 	 Logging information to the log table.
+16/11/2016 12:36:59 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:41:07 	 Testing connection - Data Source=.;Initial Catalog=Purchase_SaleLedger;Integrated Security=False;Persist Security Info=False;User ID=Sage;Password=SageImport
+16/11/2016 12:41:07 	 Connection OK with the connection string - 'Data Source=.;Initial Catalog=Purchase_SaleLedger;Integrated Security=False;Persist Security Info=False;User ID=Sage;Password=SageImport'
+16/11/2016 12:41:11 	 Connection String Updated. dbLocation = . dbName = Purchase_SaleLedger userName = Sage password = EAAAANHk9CwdCwKp+YwpU5OicgxERzGzCv5LkgBl0KxZ5Vcy
+16/11/2016 12:41:28 	 Logging information to the log table.
+16/11/2016 12:41:28 	 Successfully logged information to the log table.
+16/11/2016 12:41:28 	 Logging information to the log table.
+16/11/2016 12:41:28 	 Successfully logged information to the log table.
+16/11/2016 12:42:39 	 Testing connection - Data Source=.;Initial Catalog=Purchase_SaleLedger;Integrated Security=False;Persist Security Info=False;User ID=Sage;Password=SageImport
+16/11/2016 12:42:39 	 Connection OK with the connection string - 'Data Source=.;Initial Catalog=Purchase_SaleLedger;Integrated Security=False;Persist Security Info=False;User ID=Sage;Password=SageImport'
+16/11/2016 12:42:43 	 Connection String Updated. dbLocation = . dbName = Purchase_SaleLedger userName = Sage password = EAAAAN58s5tBr+E8mGLL3UUSShV00UlWPs489RwGyZfPjSH2
+16/11/2016 12:42:50 	 Logging information to the log table.
+16/11/2016 12:42:50 	 Successfully logged information to the log table.
+16/11/2016 12:42:50 	 Logging information to the log table.
+16/11/2016 12:42:50 	 Successfully logged information to the log table.
+16/11/2016 12:43:26 	 Logging information to the log table.
+16/11/2016 12:43:26 	 Successfully logged information to the log table.
+16/11/2016 12:43:26 	 Logging information to the log table.
+16/11/2016 12:43:26 	 Successfully logged information to the log table.
+16/11/2016 12:46:16 	 Logging information to the log table.
+16/11/2016 12:46:43 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:46:43 	 Logging information to the log table.
+16/11/2016 12:46:43 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:47:15 	 Logging information to the log table.
+16/11/2016 12:48:23 	 Logging information to the log table.
+16/11/2016 12:49:03 	 Logging information to the log table.
+16/11/2016 12:49:18 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:49:18 	 Logging information to the log table.
+16/11/2016 12:49:18 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 12:50:07 	 Logging information to the log table.
+16/11/2016 12:50:34 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+16/11/2016 13:05:43 	 Logging information to the log table.
+16/11/2016 13:06:17 	 Failed to write to log in the database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
